@@ -1,3 +1,6 @@
 [submodule "GlobalMLBuildingFootprints"]
 	path = GlobalMLBuildingFootprints
 	url = https://github.com/microsoft/GlobalMLBuildingFootprints.git
+[submodule "ultralytics"]
+	path = ultralytics
+	url = https://github.com/ultralytics/ultralytics.git
