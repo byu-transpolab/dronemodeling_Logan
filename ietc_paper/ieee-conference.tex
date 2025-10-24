@@ -315,7 +315,7 @@
 \usepackage[unicode=true]{hyperref}
 
 \hypersetup{
-            pdftitle={IEEE Conference Template},
+            pdftitle={Calssifing Buildings Based from Drone Aerial Imagery},
             pdfkeywords={template, demo},
             pdfborder={0 0 0},
             breaklinks=true}
@@ -400,7 +400,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{IEEE Conference Template}
+\title{Calssifing Buildings Based from Drone Aerial Imagery}
 
 % author names and affiliations
 % use a multiple column layout for up to three different
@@ -421,40 +421,26 @@
 
 
 %% ---- one column per author, classic/default IEEETrans ----
-\IEEEauthorblockN{Michael Shell}
-\IEEEauthorblockA{Georgia Institute of Technology\\
-School of Electrical and Computer Engineering\\
-Atlanta, Georgia 30332--0250
-\\ece@datech.edu
-}
-
-\and
-\IEEEauthorblockN{Homer Simpson}
-\IEEEauthorblockA{Twentieth Century Fox\\
-Springfield, USA
-\\homer@thesimpsons.com
+\IEEEauthorblockN{Connor Williams}
+\IEEEauthorblockA{Brigham Young University\\
+Department of Civil and Construction Engineering\\
+Provo, Utah 8460
 %%
 }
 
 \and
-\IEEEauthorblockN{Montgomery Scott}
-\IEEEauthorblockA{Starfleet Academy\\
-San Francisco, California 96678-2391
+\IEEEauthorblockN{Gregory Macfarland}
+\IEEEauthorblockA{Brigham Young University\\
+Department of Civil and Construction Engineering\\
+Provo, Utah 8460
 %%
 }
 
 \and
-\IEEEauthorblockN{Eldon Tyrell}
-\IEEEauthorblockA{Tyrell Inc.\\
-123 Replicant Street, Los Angeles, USA 90210--4321
-\\eldon@starfleet-academy.star
-%%
-}
-\and
-\IEEEauthorblockN{Roy Batty}
-\IEEEauthorblockA{Tyrell Inc.\\
-123 Replicant Street, Los Angeles, USA 90210--4321
-\\roy@replicant.offworld
+\IEEEauthorblockN{Kaylen Turley}
+\IEEEauthorblockA{Brigham Young University\\
+Department of Civil and Construction Engineering\\
+Provo, Utah 8460
 %%
 }
 
@@ -532,14 +518,33 @@ template; demo
 \section{Introduction}\label{introduction}
 
 Travel forecasting models are based heavily on data provided by
-government statistical agencies, such as the US Census Bureau, the
+government statistical agencies, such as the US Census Bureau and the
 Bureau of Labor Statistics. In countries where statistical agencies are
 not as reliable, travel forecasting models are generally not developed
-or have data gaps. This demo file is intended to serve as a ``starter
-file'\,' for IEEE conference papers produced under \LaTeX~using
-IEEEtran.cls version 1.8b and later. I wish you the best of success.
+or have data gaps. The data needed for modeling includes household
+statistics such as humber of adults, income level, etc.
 
-\subsection{Subsection Heading Here}\label{subsection-heading-here}
+With the rise of commercially availible and affordable aerial drones,
+the ability to capture remote sensing data such as high quality aerial
+imagery has become signifigantly easier. This leads to the question
+``can remote sensing data be used to develop land use data to supplement
+or replace data from statistical agencies?''
+
+This paper presents a model that recongizes and categorizes building
+types based off remote sensing data and estimates household statistics
+for a general area.
+
+\subsection{Related Literature}\label{related-literature}
+
+\section{Methodolgy}\label{methodolgy}
+
+Subsection text here.
+
+\section{Results}\label{results}
+
+Subsection text here.
+
+\section{Discussion}\label{discussion}
 
 Subsection text here.
 
@@ -558,7 +563,8 @@ The authors would like to thank\ldots{}
 
 \section{Bibliography styles}\label{bibliography-styles}
 
-Here are two sample references: \textcite{Feynman1963118,Dirac1953888}.
+Here are two sample references:
+\autocite{barrington2017osm,Dirac1953888}.
 
 \newpage
 

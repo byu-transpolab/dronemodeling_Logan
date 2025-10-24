@@ -1,0 +1,33 @@
+{
+  "categories": [
+    {
+      "id": 0,
+      "name": "Car"
+    },
+    {
+      "id": 1,
+      "name": "Driveways"
+    },
+    {
+      "id": 2,
+      "name": "Parking Lot"
+    },
+    {
+      "id": 3,
+      "name": "Sidewalks"
+    },
+    {
+      "id": 4,
+      "name": "Trees"
+    },
+    {
+      "id": 5,
+      "name": "Utility Device"
+    }
+  ],
+  "info": {
+    "year": 2025,
+    "version": "1.0",
+    "contributor": "Label Studio"
+  }
+}

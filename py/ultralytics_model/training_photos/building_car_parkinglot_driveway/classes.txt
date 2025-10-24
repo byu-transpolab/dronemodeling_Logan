@@ -1,0 +1,6 @@
+Car
+Driveways
+Parking Lot
+Sidewalks
+Trees
+Utility Device
