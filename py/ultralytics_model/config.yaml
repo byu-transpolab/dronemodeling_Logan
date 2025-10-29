@@ -1,0 +1,13 @@
+path: /Users/willicon/Desktop/building_category_seed30 #absolute path to file with images and labels
+train: images #Train Images (relative to path)
+val: images # Validation images (relative to path)
+
+#clases (Include all classes given in classes.txt file, in the order given there. )
+names:
+  0: Apartment
+  1: Church
+  2: Commercial
+  3: Residential
+  4: School
+ 
+

@@ -81,7 +81,40 @@ With the rise of commercially availible and affordable aerial drones, the abilit
 
 This paper presents a model that recongizes and categorizes building types based off remote sensing data and estimates household statistics for a general area. 
 
-## Related Literature
+# Related Literature
+[@allaw_population_2020]
+- Uses RGB images, road length and desnity, and distance from populations to estimate populations in rural areas. Density of Roads is correlated to population.
+
+[@chang_novel_2020]
+-Night time light from vehicles to predict car travel between cities on highways
+
+[@fibaek_multi-sensor_2021]
+- Used deep learning to estimate population characteristics and location of human made structures. Area, volume, and inhabitant number was estimated from AI model trained on GeoDenmark, lidar data, and population data. 
+
+[@hall_use_2021]
+- Discusses ethical and safety concerns when using drone data. Public data can slide into private data if specific people can be identified. 
+
+[@irujo_open_2023]
+- Opensource hardware and software for drone use. 
+
+[@kamarajugedda_assessing_2017]
+- Night time Light data is strongly correlated with social economic varibles such as population, GDP and electric power consumption. 
+
+
+[@lehnert_proxying_2023]
+- Developing proxy economic activity from daytime imagery for periods without the data. And AI model was developed to assist in teh analysis.
+
+[@nurkarim_building_2023]
+-Using AI model YOLO, object detection deep learning was used to extract building footprints. 
+
+[@sharma_building_2023]
+- Extracting building footprints from point cloud data. Building were classified before extracting the footprints. 
+
+[@ye_enhancing_2024]
+- Inventoried residential structures based off microsoft building footprint data, lidar, and point of interest data. When from census level data to annomynized individual house holds. 
+
+[@zhang_landscape_2020]
+-remote sensing data to classify land use in China. Estimated landscape patterns and building functions, divided vegitation, water, and hard surfaces, categorized the buildings. 
 
 # Methodolgy
 
