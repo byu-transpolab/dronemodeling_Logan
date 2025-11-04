@@ -1,6 +1,7 @@
-path: /Users/willicon/Desktop/building_category_seed30 #absolute path to file with images and labels
-train: images #Train Images (relative to path)
-val: images # Validation images (relative to path)
+path: /Users/willicon/Desktop/training #absolute path to file with images and labels
+train: building_category_seed30/images #Train Images (relative to path)
+val: building_category_seed30/images
+#building_seed50_2025_10_30_083646/images # Validation images (relative to path)
 
 #clases (Include all classes given in classes.txt file, in the order given there. )
 names:

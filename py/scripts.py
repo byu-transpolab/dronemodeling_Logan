@@ -8,14 +8,14 @@ import tempfile
 import folium
 
 import webbrowser
-from libpysal.weights import Queen
-from spopt.region import MaxPHeuristic
 from sklearn.preprocessing import MinMaxScaler
 from kneed import KneeLocator
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.colors as colors
+from pathlib import Path
+import random
 
 def view_geojson(geojson_path):
     # Load the GeoJSON with GeoPandas
@@ -127,7 +127,7 @@ def pull_building_footprint (area_coordinates,output_folder_path,name):
   combined_gdf.to_file(f"{output_folder_path}/{name}.geojson", driver='GeoJSON')
 
 
-
+'''
 def Spatially_constrained_clustering(geojson_file):
 
     gdf = gpd.read_file(geojson_file)
@@ -144,7 +144,7 @@ def Spatially_constrained_clustering(geojson_file):
 
     gdf['cluster'] = model.labels_
     gdf.plot(column='cluster', categorical=True, legend=True)
-
+'''
 
 def k_value_elbow_method(X_scaled, plot=True, k_min=1, k_max=20):
     K = range(k_min, k_max + 1)
@@ -203,21 +203,20 @@ def k_mean_prepare_area_perimeter_scaled(geojson_file):
 
     return (gdf, X_scaled)
 
-def k_mean_analysis(gdf, X_scaled, k_value, view):
+def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None):
     kmeans = KMeans(n_clusters=k_value, random_state=42, n_init="auto")
     gdf["cluster"] = kmeans.fit_predict(X_scaled)
 
-    #Shows building custers while maintaining thier locations
+    # ---- VIEW OPTIONS ----
     if view == 1:
-        print("Ploting building relative to their location")
+        print("Plotting buildings relative to their location...")
         fig, ax = plt.subplots(figsize=(10, 8))
         gdf.plot(column="cluster", categorical=True, legend=True, ax=ax)
         ax.set_title("K-Means Clustering: Area vs Perimeter")
         plt.show()
 
-    #Shows clusters on normalized plot
     elif view == 2:
-        print("Ploting clusters on normalized graph")
+        print("Plotting clusters on normalized graph...")
         plt.figure(figsize=(10,7))
         scatter = plt.scatter(
             X_scaled[:, 0],  # normalized area
@@ -226,23 +225,44 @@ def k_mean_analysis(gdf, X_scaled, k_value, view):
             cmap="tab10",
             alpha=0.7
         )
-        plt.xlabel("Area (m²)")
-        plt.ylabel("Perimeter (m)")
-        plt.title("K-Means Clustering of Buildings by Area vs Perimeter")
+        plt.xlabel("Normalized Area")
+        plt.ylabel("Normalized Perimeter")
+        plt.title("K-Means Clustering of Buildings (Area vs Perimeter)")
         plt.colorbar(scatter, label="Cluster")
         plt.grid(True)
         plt.show()
-    elif view ==3:
-        print("No plot. Returning geojson_file with cluster information ")
 
-    return gdf    
+    elif view == 3:
+        print("No plot. Generating GeoJSON with cluster information...")
+
+        # ---- SAVE CLUSTERED GEOJSON ----
+        if output_folder:
+            os.makedirs(output_folder, exist_ok=True)
+            output_path = os.path.join(output_folder, "logan_kmeans_cluster.geojson") # !!!!Update this so that the name reflects the geojson file used.!!!!
+        else:
+            base, ext = os.path.splitext(gdf.__geo_interface__["name"] if hasattr(gdf, "__geo_interface__") else "output")
+            output_path = base + "_clustered.geojson"
+
+        gdf.to_file(output_path, driver="GeoJSON")
+        print(f"Clustered GeoJSON saved to: {os.path.abspath(output_path)}")
+
+    return gdf
+
+def view_geojson_with_clusters(gdf, geojson_path, bb_folder=None, output_html=None, zoom_start=14):
+    """
+    Create a Folium HTML map with cluster polygons and optional bounding boxes.
+
+    Args:
+        gdf (GeoDataFrame): GeoDataFrame with cluster polygons
+        geojson_path (str or Path): Original GeoJSON path (for naming HTML file)
+        bb_folder (str or Path, optional): Folder containing bounding box .txt files
+        output_html (str, optional): Output HTML file path. If None, automatically derived from geojson_path
+        zoom_start (int): Initial zoom for the map
+    """
 
 
-def view_geojson_with_clusters(gdf, geojson_path):
-    print("Creating html map with cluster data")
-
-    # --- Ensure we're in a projected CRS before computing centroids ---
-    gdf_proj = gdf.to_crs(epsg=3857)  # Projected (meters)
+    # --- Ensure CRS for centroid computation ---
+    gdf_proj = gdf.to_crs(epsg=3857)
     centroid = gdf_proj.geometry.centroid.to_crs(epsg=4326)
     center = [centroid.y.mean(), centroid.x.mean()]
 
@@ -250,11 +270,10 @@ def view_geojson_with_clusters(gdf, geojson_path):
     gdf = gdf.to_crs(epsg=4326)
 
     # --- Create Folium map ---
-    m = folium.Map(location=center, zoom_start=14, tiles="cartodbpositron")
+    m = folium.Map(location=center, zoom_start=zoom_start, tiles="cartodbpositron")
 
-    # --- Create color mapping for clusters ---
-    #n_clusters = gdf["cluster"].nunique()
-    cmap = matplotlib.colormaps.get_cmap("tab10")  # for Matplotlib >= 3.7
+    # --- Add cluster polygons ---
+    cmap = matplotlib.colormaps.get_cmap("tab10")
     norm = colors.Normalize(vmin=gdf["cluster"].min(), vmax=gdf["cluster"].max())
 
     def style_function(feature):
@@ -268,7 +287,6 @@ def view_geojson_with_clusters(gdf, geojson_path):
             "fillOpacity": 0.6,
         }
 
-    # --- Add polygons to map ---
     folium.GeoJson(
         data=gdf.to_json(),
         name="Building Clusters",
@@ -276,33 +294,132 @@ def view_geojson_with_clusters(gdf, geojson_path):
         tooltip=folium.GeoJsonTooltip(fields=["cluster"]),
     ).add_to(m)
 
+    # --- Add bounding boxes from txt files ---
+    if bb_folder is not None:
+        bb_folder = Path(bb_folder)
+        txt_files = list(bb_folder.glob("*.txt"))
+        if txt_files:
+            random.seed(42)  # consistent colors
+            for txt_file in txt_files:
+                with open(txt_file, "r") as f:
+                    line = f.readline().strip()
+                    try:
+                        west, south, east, north = map(float, line.split(","))
+                        # Ensure correct order
+                        west, east = min(west, east), max(west, east)
+                        south, north = min(south, north), max(south, north)
+                    except ValueError:
+                        print(f"Skipping invalid file: {txt_file}")
+                        continue
+
+                color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
+                folium.Rectangle(
+                    bounds=[[south, west], [north, east]],
+                    color=color,
+                    fill=False,
+                    weight=3,
+                    popup=txt_file.stem
+                ).add_to(m)
+        else:
+            print(f"No bounding box txt files found in {bb_folder}")
+
     folium.LayerControl().add_to(m)
 
-    # --- Save to HTML ---
-    base, _ = os.path.splitext(geojson_path)
-    output_html = base + "_clusters.html"
+    # --- Determine output HTML path ---
+    if output_html is None:
+        base = Path(geojson_path).stem
+        output_html = str(Path(geojson_path).parent / f"{base}_clusters.html")
+
     m.save(output_html)
-
-    print(f"\nCluster map saved to: {output_html}")
-    full_path = os.path.abspath(output_html)
-
-    return full_path
+    print(f"\nMap saved to: {output_html}")
+    return str(output_html)
 
 #This will run the whole process to create a html file of the kmeans analysis. 
-def run_kmeans_cluster_view(geojson_path,view=3):
+def run_kmeans_cluster_view(geojson_path,bb_folder,view=3):
     gdf, X_scaled = k_mean_prepare_area_perimeter_scaled(geojson_path)
     k_value = k_value_elbow_method(X_scaled,False)
-    gdf = k_mean_analysis(gdf, X_scaled, k_value, view=view)
-    html_path = view_geojson_with_clusters(gdf, geojson_path)
+    gdf = k_mean_analysis(gdf, X_scaled, k_value, view=view, output_folder= "buildingfootprint") #Update so this is not hard coded
+    html_path = view_geojson_with_clusters(gdf, geojson_path,bb_folder)
     return html_path        
 
 
+def add_bboxes_to_existing_map(gdf, bb_folder, output_html):
+    """
+    Adds bounding boxes from .txt files to a Folium map created from a GeoDataFrame.
+    
+    Args:
+        gdf (GeoDataFrame): GeoDataFrame containing clusters
+        bb_folder (str or Path): Folder with bounding box .txt files
+        output_html (str or Path): Path to save the new HTML map
+    """
+    import matplotlib
+    from matplotlib import colors
 
+    # --- Map center from cluster centroids ---
+    gdf_proj = gdf.to_crs(epsg=3857)
+    centroid = gdf_proj.geometry.centroid.to_crs(epsg=4326)
+    center = [centroid.y.mean(), centroid.x.mean()]
+
+    # --- Base Folium map ---
+    m = folium.Map(location=center, zoom_start=14, tiles="cartodbpositron")
+
+    # --- Cluster polygons ---
+    cmap = matplotlib.colormaps.get_cmap("tab10")
+    norm = colors.Normalize(vmin=gdf["cluster"].min(), vmax=gdf["cluster"].max())
+
+    def style_function(feature):
+        cluster_id = feature["properties"]["cluster"]
+        rgba = cmap(norm(cluster_id))
+        color = matplotlib.colors.rgb2hex(rgba)
+        return {
+            "fillColor": color,
+            "color": color,
+            "weight": 1,
+            "fillOpacity": 0.6,
+        }
+
+    folium.GeoJson(
+        data=gdf.to_json(),
+        name="Building Clusters",
+        style_function=style_function,
+        tooltip=folium.GeoJsonTooltip(fields=["cluster"]),
+    ).add_to(m)
+
+    # --- Add bounding boxes ---
+    bb_folder = Path(bb_folder)
+    txt_files = list(bb_folder.glob("*.txt"))
+    if not txt_files:
+        print(f"No .txt files found in {bb_folder}")
+    else:
+        random.seed(42)
+        for txt_file in txt_files:
+            with open(txt_file, "r") as f:
+                line = f.readline().strip()
+                try:
+                    west, south, east, north = map(float, line.split(","))
+                except ValueError:
+                    print(f"Skipping invalid file: {txt_file}")
+                    continue
+
+            color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
+            folium.Rectangle(
+                bounds=[[south, west], [north, east]],
+                color=color,
+                fill=False,
+                weight=3,
+                popup=txt_file.stem
+            ).add_to(m)
+
+    folium.LayerControl().add_to(m)
+    m.save(output_html)
+    print(f"Map with bounding boxes saved to: {output_html}")
+    return output_html
 
 
 #Define Path and name
 output_folder_path = "buildingfootprint"
 outputname = "logan"
+geojson_file = f"{output_folder_path}/{outputname}.geojson"
 
 
 #Define Area of intrerest 
@@ -319,7 +436,6 @@ area_coordinates_logan = [
               [-111.87734176861632,
                 41.809086498918845]
             ]
-
 area_coordinates_roanoke = [
             [
               -80.14070196114528,
@@ -342,11 +458,26 @@ area_coordinates_roanoke = [
               37.366555645142654
             ]
           ]
+#pull_building_footprint(area_coordinates_logan,output_folder_path,outputname)
 
 
-pull_building_footprint(area_coordinates_logan,output_folder_path,outputname)
 
 
-geojson_file = f"{output_folder_path}/{outputname}.geojson"
+'''
+geojson_path = "buildingfootprint/logan.geojson"
+gdf, X_scaled = k_mean_prepare_area_perimeter_scaled(geojson_path)
+k_value = k_value_elbow_method(X_scaled,False)
+gdf_cluster = k_mean_analysis(gdf,X_scaled,k_value, 3, output_folder_path)
+'''
 
-run_kmeans_cluster_view(geojson_file,2)
+
+bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_081855/lat_log_bb"
+
+run_kmeans_cluster_view(geojson_file,bb_folder,3)
+
+
+'''
+bb_folder = "/Users/willicon/Desktop/seed80_2025_10_30_151108/lat_log_bb"
+output_html = "buildingfootprint/logan_clusters.html"
+add_bboxes_to_existing_map(gdf_cluster, bb_folder, output_html)
+'''
