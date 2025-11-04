@@ -335,15 +335,13 @@ def view_geojson_with_clusters(gdf, geojson_path, bb_folder=None, output_html=No
     return str(output_html)
 
 #This will run the whole process to create a html file of the kmeans analysis. 
-def run_kmeans_cluster_view(geojson_path,bb_folder,view=3):
+def run_kmeans_cluster_view(geojson_path,bb_folder=None,view=3):
     gdf, X_scaled = k_mean_prepare_area_perimeter_scaled(geojson_path)
     k_value = k_value_elbow_method(X_scaled,False)
     gdf = k_mean_analysis(gdf, X_scaled, k_value, view=view, output_folder= "buildingfootprint") #Update so this is not hard coded
     html_path = view_geojson_with_clusters(gdf, geojson_path,bb_folder)
     return html_path        
 
-
-def add_bboxes_to_existing_map(gdf, bb_folder, output_html):
     """
     Adds bounding boxes from .txt files to a Folium map created from a GeoDataFrame.
     
@@ -415,7 +413,6 @@ def add_bboxes_to_existing_map(gdf, bb_folder, output_html):
     print(f"Map with bounding boxes saved to: {output_html}")
     return output_html
 
-
 #Define Path and name
 output_folder_path = "buildingfootprint"
 outputname = "logan"
@@ -461,8 +458,6 @@ area_coordinates_roanoke = [
 #pull_building_footprint(area_coordinates_logan,output_folder_path,outputname)
 
 
-
-
 '''
 geojson_path = "buildingfootprint/logan.geojson"
 gdf, X_scaled = k_mean_prepare_area_perimeter_scaled(geojson_path)
@@ -471,13 +466,7 @@ gdf_cluster = k_mean_analysis(gdf,X_scaled,k_value, 3, output_folder_path)
 '''
 
 
-bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_081855/lat_log_bb"
+bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_083702/true_bb"
 
 run_kmeans_cluster_view(geojson_file,bb_folder,3)
 
-
-'''
-bb_folder = "/Users/willicon/Desktop/seed80_2025_10_30_151108/lat_log_bb"
-output_html = "buildingfootprint/logan_clusters.html"
-add_bboxes_to_existing_map(gdf_cluster, bb_folder, output_html)
-'''

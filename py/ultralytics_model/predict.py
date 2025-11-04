@@ -2,7 +2,7 @@ from ultralytics import YOLO
 
 model = YOLO("runs/detect/train/weights/best.pt") # this is the path to the model you want to run from your training
 
-model.predict(source="/Users/willicon/Desktop/training/building_seed50_2025_10_30_083646/building_26_14053.png", # This can be a single image or a file
+model.predict(source="/Users/willicon/Desktop/seed80_2025_11_04_133501", # This can be a single image or a file
             show = False,       # Will open up photo
             save = True,       # Will save results in predict file
             conf = 0.6,        # This will only display detections to this confidence 
