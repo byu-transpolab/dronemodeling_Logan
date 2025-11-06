@@ -1,6 +1,6 @@
 path: /Users/willicon/Desktop/training #absolute path to file with images and labels
-train: building_category_seed30/images #Train Images (relative to path)
-val: building_category_seed30/images
+train: project-5-at-2025-11-05-13-17-74000c7c/images #Train Images (relative to path)
+val: project-5-at-2025-11-05-13-17-74000c7c/images
 #building_seed50_2025_10_30_083646/images # Validation images (relative to path)
 
 #clases (Include all classes given in classes.txt file, in the order given there. )
@@ -10,5 +10,10 @@ names:
   2: Commercial
   3: Residential
   4: School
+
+  #NOTE: MAKE SURE THE CLASSES FROM THE ANNOTATIONS ARE ALWAYS IN THE SAME ORDER. 
+  #if not, you'll be training the model incorreclty. 
+
+
  
 

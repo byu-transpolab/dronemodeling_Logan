@@ -132,10 +132,10 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
     saved = []
     
     # Create folders for bounding boxes
-    requested_bb_dir = out_dir_ts / "requested_bb"
-    true_bb_dir = out_dir_ts / "true_bb"
-    ensure_dir(requested_bb_dir)
-    ensure_dir(true_bb_dir)
+    building_bb_dir = out_dir_ts / "building_bb"
+    image_size_bb_dir = out_dir_ts / "image_size_bb"
+    ensure_dir(building_bb_dir)
+    ensure_dir(image_size_bb_dir)
 
     # inside your loop for each sampled polygon
     for i, row in sampled_3857.iterrows():
@@ -150,7 +150,7 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
             # Convert buffered polygon to WGS84 (lon/lat)
             buffered_wgs = gpd.GeoSeries([buffered], crs=sampled_3857.crs).to_crs(epsg=4326).iloc[0]
 
-            # Get requested bounding box
+            # Get requested (building) bounding box
             minx, miny, maxx, maxy = buffered_wgs.bounds
             pad_x = (maxx - minx) * 0.05
             pad_y = (maxy - miny) * 0.05
@@ -161,8 +161,8 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
             name_fragment = f"{prop_id}"
             filename = Path(out_dir_ts) / f"{name_fragment}.png"
 
-            # Save requested bounding box
-            req_bb_file = requested_bb_dir / f"{name_fragment}.txt"
+            # Save requested (building) bounding box
+            req_bb_file = building_bb_dir / f"{name_fragment}.txt"
             with open(req_bb_file, "w") as f:
                 f.write(f"{west},{south},{east},{north}")
 
@@ -193,9 +193,9 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
             poly_wgs84 = poly_3857.to_crs(epsg=4326).iloc[0]
             true_west, true_south, true_east, true_north = poly_wgs84.bounds
 
-            # Save true bounding box in lat/lon
-            true_bb_file = true_bb_dir / f"{name_fragment}.txt"
-            with open(true_bb_file, "w") as f:
+            # Save true (image sized) bounding box in lat/lon
+            image_size_bb_file = image_size_bb_dir / f"{name_fragment}.txt"
+            with open(image_size_bb_file, "w") as f:
                 f.write(f"{true_west},{true_south},{true_east},{true_north}")
 
             # Convert to RGB and save image
@@ -213,45 +213,45 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
             print(f"[{i}] unexpected error: {exc}. Skipping.")
 
     if crop:
-        crop_images_by_latlon(out_dir_ts,true_bb_dir,requested_bb_dir) 
+        crop_images_by_latlon(out_dir_ts,image_size_bb_dir,building_bb_dir) 
 
     return saved
 
 
-def normalize_latlon_bboxes(true_bb_dir, requested_bb_dir, output_dir=None):
+def normalize_latlon_bboxes(image_size_bb_dir, building_bb_dir, output_dir=None):
     """
-    Normalize requested bounding boxes relative to true bounding boxes.
+    Normalize requested(building) bounding boxes relative to true bounding boxes.
     Each bbox is in lat/lon format: west,south,east,north.
-    Output values are normalized (0–1) relative to the true bbox.
+    Output values are normalized (0–1) relative to the true imaged sized bbox.
     """
 
-    true_bb_dir = Path(true_bb_dir)
-    requested_bb_dir = Path(requested_bb_dir)
-    output_dir = Path(output_dir) if output_dir else requested_bb_dir.parent / "normalized_bb"
+    image_size_bb_dir = Path(image_size_bb_dir)
+    building_bb_dir = Path(building_bb_dir)
+    output_dir = Path(output_dir) if output_dir else building_bb_dir.parent / "normalized_bb"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     count_written = 0
 
-    for req_file in requested_bb_dir.glob("*.txt"):
+    for req_file in building_bb_dir.glob("*.txt"):
         name = req_file.name
-        true_file = true_bb_dir / name
+        image_size_file = image_size_bb_dir / name
 
-        if not true_file.exists():
+        if not image_size_file.exists():
             print(f"Skipping {name} — no matching file in true_bb folder.")
             continue
 
         try:
-            # Read requested bbox
+            # Read requested (building) bbox
             with open(req_file) as f:
                 west_r, south_r, east_r, north_r = map(float, f.read().strip().split(","))
 
             # Read true bbox
-            with open(true_file) as f:
+            with open(image_size_file) as f:
                 west_t, south_t, east_t, north_t = map(float, f.read().strip().split(","))
 
             # Avoid division by zero
             if east_t == west_t or north_t == south_t:
-                print(f"Invalid true bbox for {name}, skipping.")
+                print(f"Invalid imaged sized bbox for {name}, skipping.")
                 continue
 
             # Normalize relative to true bounding box
@@ -277,7 +277,7 @@ def normalize_latlon_bboxes(true_bb_dir, requested_bb_dir, output_dir=None):
 geojson_path = "/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan_kmeans_cluster.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
 out_dir = "/Users/willicon/Desktop"
 
-'''
+
 #Zoom 19 is closest zoom we can get
 #The seed tells what bulding to sample. Remebering the seed will allow it to be reproduced. 
 sample_and_save(geojson_path, 
@@ -285,12 +285,54 @@ sample_and_save(geojson_path,
                 n=100, 
                 buffer_ft=50, 
                 zoom=19, 
-                seed=70,
+                seed=20,
+                crop = True)
+                #,clusters=[1,2,3]) # Clusters are given as list
+
+sample_and_save(geojson_path, 
+                out_dir, 
+                n=100, 
+                buffer_ft=50, 
+                zoom=19, 
+                seed=30,
+                crop = True)
+                #,clusters=[1,2,3]) # Clusters are given as list
+
+
+sample_and_save(geojson_path, 
+                out_dir, 
+                n=100, 
+                buffer_ft=50, 
+                zoom=19, 
+                seed=40,
+                crop = True)
+                #,clusters=[1,2,3]) # Clusters are given as list
+
+
+
+sample_and_save(geojson_path, 
+                out_dir, 
+                n=100, 
+                buffer_ft=50, 
+                zoom=19, 
+                seed=15,
                 crop = True
                 ,clusters=[1,2,3]) # Clusters are given as list
+
+
+sample_and_save(geojson_path, 
+                out_dir, 
+                n=100, 
+                buffer_ft=50, 
+                zoom=19, 
+                seed=35,
+                crop = True
+                ,clusters=[1,2,3]) # Clusters are given as list
+
+
 '''
+image_size_bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_133501"
+building_bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_133501/requested_bb"
 
-true_bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_133501"
-requested_bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_133501/requested_bb"
-
-normalize_latlon_bboxes(true_bb_folder, requested_bb_folder)
+normalize_latlon_bboxes(image_size_bb_folder, building_bb_folder)
+'''
