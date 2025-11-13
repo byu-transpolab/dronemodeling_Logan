@@ -65,7 +65,7 @@ def view_geojson(geojson_path):
 
 
 # This script will pull the building footprint data from the microsoft building footprint data set.
-def pull_building_footprint (area_coordinates,output_folder_path,name):
+def pull_building_footprints (area_coordinates,output_folder_path,name):
     #Define Area of Intrest
   
   aoi_geom = {
@@ -455,7 +455,7 @@ area_coordinates_roanoke = [
               37.366555645142654
             ]
           ]
-#pull_building_footprint(area_coordinates_logan,output_folder_path,outputname)
+#pull_building_footprints(area_coordinates_logan,output_folder_path,outputname)
 
 
 '''

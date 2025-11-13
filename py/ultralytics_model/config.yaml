@@ -1,6 +1,6 @@
-path: /Users/willicon/Desktop/training #absolute path to file with images and labels
-train: project-5-at-2025-11-05-13-17-74000c7c/images #Train Images (relative to path)
-val: project-5-at-2025-11-05-13-17-74000c7c/images
+path: /home/willicon/training/data #/Users/willicon/Desktop/data #absolute path to file with images and labels
+train: Train/buliding_seed70_big_buildings/images #Train Images (relative to path)
+val: Train/buliding_seed70_big_buildings/images
 #building_seed50_2025_10_30_083646/images # Validation images (relative to path)
 
 #clases (Include all classes given in classes.txt file, in the order given there. )
