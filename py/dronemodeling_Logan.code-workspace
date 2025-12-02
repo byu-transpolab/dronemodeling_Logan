@@ -1,9 +1,11 @@
 {
 	"folders": [
 		{
+			"name": "dronemodeling_Logan",
 			"path": ".."
 		},
 		{
+			"name": "Supercomputer_runs",
 			"path": "../../Supercomputer_runs"
 		}
 	],

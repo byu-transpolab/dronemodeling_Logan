@@ -127,25 +127,6 @@ def pull_building_footprints (area_coordinates,output_folder_path,name):
   combined_gdf.to_file(f"{output_folder_path}/{name}.geojson", driver='GeoJSON')
 
 
-'''
-def Spatially_constrained_clustering(geojson_file):
-
-    gdf = gpd.read_file(geojson_file)
-
-    # Spatial weights (adjacency)
-    w = Queen.from_dataframe(gdf)
-
-    # Attribute for clustering (e.g., population)
-    attrs = gdf[['population']].values
-
-    # Max-p clustering
-    model = MaxPHeuristic(gdf, w, attrs, threshold=1000, top_n=5)
-    model.solve()
-
-    gdf['cluster'] = model.labels_
-    gdf.plot(column='cluster', categorical=True, legend=True)
-'''
-
 def k_value_elbow_method(X_scaled, plot=True, k_min=1, k_max=20):
     K = range(k_min, k_max + 1)
     inertia = []
@@ -203,9 +184,20 @@ def k_mean_prepare_area_perimeter_scaled(geojson_file):
 
     return (gdf, X_scaled)
 
+
 def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None):
     kmeans = KMeans(n_clusters=k_value, random_state=42, n_init="auto")
     gdf["cluster"] = kmeans.fit_predict(X_scaled)
+    """
+    Runs a k-mean analysis based off the calculated k_value
+
+    arg
+    view :  1 - Plots buldinging clusters
+            2 - Normalizes plot for 1
+            3 - No plot.
+
+
+    """
 
     # ---- VIEW OPTIONS ----
     if view == 1:
@@ -238,7 +230,7 @@ def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None):
         # ---- SAVE CLUSTERED GEOJSON ----
         if output_folder:
             os.makedirs(output_folder, exist_ok=True)
-            output_path = os.path.join(output_folder, "logan_kmeans_cluster.geojson") # !!!!Update this so that the name reflects the geojson file used.!!!!
+            output_path = os.path.join(output_folder, "stgeorge_kmeans_cluster.geojson") # !!!!Update this so that the name reflects the geojson file used.!!!!
         else:
             base, ext = os.path.splitext(gdf.__geo_interface__["name"] if hasattr(gdf, "__geo_interface__") else "output")
             output_path = base + "_clustered.geojson"
@@ -342,80 +334,10 @@ def run_kmeans_cluster_view(geojson_path,bb_folder=None,view=3):
     html_path = view_geojson_with_clusters(gdf, geojson_path,bb_folder)
     return html_path        
 
-    """
-    Adds bounding boxes from .txt files to a Folium map created from a GeoDataFrame.
-    
-    Args:
-        gdf (GeoDataFrame): GeoDataFrame containing clusters
-        bb_folder (str or Path): Folder with bounding box .txt files
-        output_html (str or Path): Path to save the new HTML map
-    """
-    import matplotlib
-    from matplotlib import colors
-
-    # --- Map center from cluster centroids ---
-    gdf_proj = gdf.to_crs(epsg=3857)
-    centroid = gdf_proj.geometry.centroid.to_crs(epsg=4326)
-    center = [centroid.y.mean(), centroid.x.mean()]
-
-    # --- Base Folium map ---
-    m = folium.Map(location=center, zoom_start=14, tiles="cartodbpositron")
-
-    # --- Cluster polygons ---
-    cmap = matplotlib.colormaps.get_cmap("tab10")
-    norm = colors.Normalize(vmin=gdf["cluster"].min(), vmax=gdf["cluster"].max())
-
-    def style_function(feature):
-        cluster_id = feature["properties"]["cluster"]
-        rgba = cmap(norm(cluster_id))
-        color = matplotlib.colors.rgb2hex(rgba)
-        return {
-            "fillColor": color,
-            "color": color,
-            "weight": 1,
-            "fillOpacity": 0.6,
-        }
-
-    folium.GeoJson(
-        data=gdf.to_json(),
-        name="Building Clusters",
-        style_function=style_function,
-        tooltip=folium.GeoJsonTooltip(fields=["cluster"]),
-    ).add_to(m)
-
-    # --- Add bounding boxes ---
-    bb_folder = Path(bb_folder)
-    txt_files = list(bb_folder.glob("*.txt"))
-    if not txt_files:
-        print(f"No .txt files found in {bb_folder}")
-    else:
-        random.seed(42)
-        for txt_file in txt_files:
-            with open(txt_file, "r") as f:
-                line = f.readline().strip()
-                try:
-                    west, south, east, north = map(float, line.split(","))
-                except ValueError:
-                    print(f"Skipping invalid file: {txt_file}")
-                    continue
-
-            color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
-            folium.Rectangle(
-                bounds=[[south, west], [north, east]],
-                color=color,
-                fill=False,
-                weight=3,
-                popup=txt_file.stem
-            ).add_to(m)
-
-    folium.LayerControl().add_to(m)
-    m.save(output_html)
-    print(f"Map with bounding boxes saved to: {output_html}")
-    return output_html
 
 #Define Path and name
 output_folder_path = "buildingfootprint"
-outputname = "logan"
+outputname = "st_george"
 geojson_file = f"{output_folder_path}/{outputname}.geojson"
 
 
@@ -455,18 +377,43 @@ area_coordinates_roanoke = [
               37.366555645142654
             ]
           ]
-#pull_building_footprints(area_coordinates_logan,output_folder_path,outputname)
+
+area_coordinates_stgeorge = [
+            [
+              -113.64055573943601,
+              37.14283846882094
+            ],
+            [
+              -113.64055573943601,
+              37.03817212606114
+            ],
+            [
+              -113.48596415527209,
+              37.03817212606114
+            ],
+            [
+              -113.48596415527209,
+              37.14283846882094
+            ],
+            [
+              -113.64055573943601,
+              37.14283846882094
+            ]
+          ]
+
+pull_building_footprints(area_coordinates_stgeorge,output_folder_path,outputname)
 
 
 '''
-geojson_path = "buildingfootprint/logan.geojson"
+geojson_path = "buildingfootprint/st_george.geojson"
 gdf, X_scaled = k_mean_prepare_area_perimeter_scaled(geojson_path)
 k_value = k_value_elbow_method(X_scaled,False)
 gdf_cluster = k_mean_analysis(gdf,X_scaled,k_value, 3, output_folder_path)
+
 '''
 
 
-bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_083702/true_bb"
+bb_folder = None #"/Users/willicon/Desktop/seed80_2025_11_04_083702/true_bb"
 
-run_kmeans_cluster_view(geojson_file,bb_folder,3)
+run_kmeans_cluster_view(geojson_file,bb_folder,1)
 

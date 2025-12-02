@@ -79,14 +79,16 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
     - n: How many images to create.
     - buffer_ft: Buffer zone around building. 
     - seed: What random collection is used. Same seed give the same images
-    - zoom=19: How close to the building the image will be. 19 will give 
+    - zoom=19: How close to the building the image will be. 19 will give the closest zoom
     - crop = True: Crop the images to only include the building with the building 
     - clusters=None
     """
+
+    location =Path(geojson_path).name
     
     # Create timestamped subfolder
     timestamp = datetime.now().strftime("%Y_%m_%d_%H%M%S")
-    subfolder_name = f"Buildings_seed{seed}_{timestamp}"
+    subfolder_name = f"Buildings_seed{seed}_{timestamp}_{location}"
     if clusters:
         cluster_str = "_".join(map(str, clusters))
         subfolder_name = f"{subfolder_name}_clusters_{cluster_str}"
@@ -274,7 +276,7 @@ def normalize_latlon_bboxes(image_size_bb_dir, building_bb_dir, output_dir=None)
     print(f"\nFinished! {count_written} normalized bbox files written to: {output_dir}")
 
 
-geojson_path = "/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan_kmeans_cluster.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
+geojson_path = "/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/stgeorge_kmeans_cluster.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
 out_dir = "/Users/willicon/Desktop"
 
 
@@ -285,10 +287,11 @@ sample_and_save(geojson_path,
                 n=100, 
                 buffer_ft=50, 
                 zoom=19, 
-                seed=20,
+                seed=25,
                 crop = True)
                 #,clusters=[1,2,3]) # Clusters are given as list
 
+'''
 sample_and_save(geojson_path, 
                 out_dir, 
                 n=100, 
@@ -329,7 +332,7 @@ sample_and_save(geojson_path,
                 crop = True
                 ,clusters=[1,2,3]) # Clusters are given as list
 
-
+'''
 '''
 image_size_bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_133501"
 building_bb_folder = "/Users/willicon/Desktop/seed80_2025_11_04_133501/requested_bb"
