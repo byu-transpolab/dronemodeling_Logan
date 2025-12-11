@@ -7,6 +7,7 @@ import os
 import tempfile
 import folium
 
+from geopy.geocoders import Nominatim
 import webbrowser
 from sklearn.preprocessing import MinMaxScaler
 from kneed import KneeLocator
@@ -62,7 +63,32 @@ def view_geojson(geojson_path):
     webbrowser.open(f"file://{full_path}", new=2)
     print(f"file://{full_path}")
 
+def get_city_border_coordinates(city_name):
+    print(f"Fetching boundary data for: {city_name}...")
+    geolocator = Nominatim(user_agent="my_building_analysis_app")
+    
+    # Request the geometry ('geojson') to get the full shape
+    location = geolocator.geocode(city_name, geometry='geojson')
+    
+    if not location:
+        raise ValueError(f"City '{city_name}' not found.")
 
+    geojson = location.raw.get('geojson')
+    
+    if not geojson or 'coordinates' not in geojson:
+        raise ValueError("No boundary data found for this location.")
+
+    geo_type = geojson.get('type')
+    coords = geojson.get('coordinates')
+    
+    # Return the outer list of coordinates [ [lon, lat], [lon, lat]... ]
+    if geo_type == 'Polygon':
+        return coords[0]
+    elif geo_type == 'MultiPolygon':
+        # For MultiPolygons, we take the first polygon (usually the main city area)
+        return coords[0][0]
+    else:
+        raise ValueError(f"Geometry type {geo_type} not supported.")
 
 # This script will pull the building footprint data from the microsoft building footprint data set.
 def pull_building_footprints (area_coordinates,output_folder_path,name):
@@ -334,74 +360,31 @@ def run_kmeans_cluster_view(geojson_path,bb_folder=None,view=3):
     html_path = view_geojson_with_clusters(gdf, geojson_path,bb_folder)
     return html_path        
 
+# --- MAIN EXECUTION ---
 
-#Define Path and name
+# 1. Define Output settings
 output_folder_path = "buildingfootprint"
-outputname = "st_george"
+target_city = "Ogden, Utah"  # give in "city, state" formate
+
+# Clean up the city name for the filename (e.g., "St. George, Utah" -> "st_george_utah")
+outputname = target_city.lower().replace(" ", "_").replace(".", "").replace(",", "")
 geojson_file = f"{output_folder_path}/{outputname}.geojson"
 
+# 2. Get Dynamic Coordinates
+try:
+    # Get the complex polygon for the city
+    city_polygon = get_city_border_coordinates(target_city)
+    
+    # 3. Pull Data using those coordinates
+    # Your existing function will now download tiles for the bounding box
+    # BUT it will filter buildings to only those inside this complex polygon.
+    pull_building_footprints(city_polygon, output_folder_path, outputname)
+    
+    # 4. Run Analysis
+    run_kmeans_cluster_view(geojson_file, bb_folder=None, view=3)
 
-#Define Area of intrerest 
-# Geometry copied from https://geojson.io ----Current Coordinates are for Logan, Utah
-area_coordinates_logan = [
-              [-111.87734176861632,
-                41.809086498918845],
-              [-111.87734176861632,
-                41.66579543007279],
-              [-111.7753058035783,
-                41.66579543007279],
-              [-111.7753058035783,
-                41.809086498918845],
-              [-111.87734176861632,
-                41.809086498918845]
-            ]
-area_coordinates_roanoke = [
-            [
-              -80.14070196114528,
-              37.366555645142654
-            ],
-            [
-              -80.14070196114528,
-              37.19513563929465
-            ],
-            [
-              -79.80639472292154,
-              37.19513563929465
-            ],
-            [
-              -79.80639472292154,
-              37.366555645142654
-            ],
-            [
-              -80.14070196114528,
-              37.366555645142654
-            ]
-          ]
-
-area_coordinates_stgeorge = [
-            [
-              -113.64055573943601,
-              37.14283846882094
-            ],
-            [
-              -113.64055573943601,
-              37.03817212606114
-            ],
-            [
-              -113.48596415527209,
-              37.03817212606114
-            ],
-            [
-              -113.48596415527209,
-              37.14283846882094
-            ],
-            [
-              -113.64055573943601,
-              37.14283846882094
-            ]
-          ]
-
-pull_building_footprints(area_coordinates_stgeorge,output_folder_path,outputname)
+except Exception as e:
+    print(f"An error occurred: {e}")
 
 
 '''
@@ -413,7 +396,7 @@ gdf_cluster = k_mean_analysis(gdf,X_scaled,k_value, 3, output_folder_path)
 '''
 
 
-bb_folder = None #"/Users/willicon/Desktop/seed80_2025_11_04_083702/true_bb"
+#bb_folder = None #"/Users/willicon/Desktop/seed80_2025_11_04_083702/true_bb"
 
-run_kmeans_cluster_view(geojson_file,bb_folder,1)
+#run_kmeans_cluster_view(geojson_file,bb_folder,1)
 
