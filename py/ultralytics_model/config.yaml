@@ -13,7 +13,3 @@ names:
 
   #NOTE: MAKE SURE THE CLASSES FROM THE ANNOTATIONS ARE ALWAYS IN THE SAME ORDER. 
   #if not, you'll be training the model incorreclty. 
-
-
- 
-

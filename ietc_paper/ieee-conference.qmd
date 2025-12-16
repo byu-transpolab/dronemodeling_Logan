@@ -1,5 +1,5 @@
 ---
-title: Calssifing Buildings Based from Drone Aerial Imagery
+title: Building Classification From Aerial Imagery
 format:
   ieee-conference-pdf:
     keep-tex: true
@@ -20,7 +20,7 @@ affiliation:
      mark: 2
      email: gregmacfarlane@byu.edu
    - name: Kaylen Turley
-     mark: 3
+     mark: 4
      email: kaylentu@byu.edu
   
   ## Put authors in a given order, with multiline possibility (used with `wide: true` if `authors` above unset)
@@ -46,23 +46,23 @@ affiliation:
   institution:
     - name: Brigham Young University
       department: Department of Civil and Construction Engineering
-      location: Provo, Utah 8460
+      location: Provo, Utah 84604
       email: 
       mark: 1
       author:
         - name: Connor Williams
     - name: Brigham Young University
       department: Department of Civil and Construction Engineering
-      location: Provo, Utah 8460
+      location: Provo, Utah 84604
       email: 
       mark: 2
       author:
-        - name: Gregory Macfarland
+        - name: Gregory Macfarlane
     - name: Brigham Young University
       department: Department of Civil and Construction Engineering
-      location: Provo, Utah 8460
+      location: Provo, Utah 84604
       email: 
-      mark: 3
+      mark: 4
       author:
         - name: Kaylen Turley
 abstract: |
@@ -71,62 +71,121 @@ keywords: [template, demo]
 bibliography: bibliography.bib
 colorlinks: false
 numbersections: true
+header-includes:
+  - \newcommand{\pandocbounded}[1]{#1}
 ---
 
 # Introduction
 
-Travel forecasting models are based heavily on data provided by government statistical agencies, such as the US Census Bureau and the Bureau of Labor Statistics. In countries where statistical agencies are not as reliable, travel forecasting models are generally not developed or have data gaps. The data needed for modeling includes household statistics such as humber of adults, income level, etc.
+Travel forecasting models are based heavily on data provided by government statistical agencies, such as the US Census Bureau and the Bureau of Labor Statistics. These agencies provide the land use data needed to construct these models, giving statistics such as household number, median household income, etc. for census areas. In countries where statistical agencies are not as reliable, travel forecasting models are generally not developed or have data gaps. In countries where they are availible, these models are highly reliant on the public release of such statistical data, which leads to problems if such survies are delayed or canceled. 
 
-With the rise of commercially availible and affordable aerial drones, the ability to capture remote sensing data such as high quality aerial imagery has become signifigantly easier. This leads to the question "can remote sensing data be used to develop land use data to supplement or replace data from statistical agencies? "
+Recent research has sought to find other ways to collect land use characterists 
 
-This paper presents a model that recongizes and categorizes building types based off remote sensing data and estimates household statistics for a general area. 
+Talk about research using satelites and other publicly availible data sets. What data is currenlty being collected and analyized?
 
-# Related Literature
-[@allaw_population_2020]
-- Uses RGB images, road length and desnity, and distance from populations to estimate populations in rural areas. Density of Roads is correlated to population.
-
+Remote Sensing Data (From Satelites)
+[@kamarajugedda_assessing_2017]
+- Night time Light data is strongly correlated with social economic varibles such as population, GDP and electric power consumption. 
 [@chang_novel_2020]
 -Night time light from vehicles to predict car travel between cities on highways
 
-[@fibaek_multi-sensor_2021]
-- Used deep learning to estimate population characteristics and location of human made structures. Area, volume, and inhabitant number was estimated from AI model trained on GeoDenmark, lidar data, and population data. 
-
-[@hall_use_2021]
-- Discusses ethical and safety concerns when using drone data. Public data can slide into private data if specific people can be identified. 
-
-[@irujo_open_2023]
-- Opensource hardware and software for drone use. 
-
-[@kamarajugedda_assessing_2017]
-- Night time Light data is strongly correlated with social economic varibles such as population, GDP and electric power consumption. 
-
-
+Economic activity
 [@lehnert_proxying_2023]
 - Developing proxy economic activity from daytime imagery for periods without the data. And AI model was developed to assist in teh analysis.
 
+
+Estimate populations
+[@allaw_population_2020]
+- Uses RGB images (From satelites?), road length and desnity, and distance from populations to estimate populations in rural areas. Density of Roads is correlated to population.
+[@fibaek_multi-sensor_2021]
+- Used deep learning to estimate population characteristics and location of human made structures. Area, volume, and inhabitant number was estimated from AI model trained on GeoDenmark, lidar data, and population data. 
+
+
+
+Talk about drone use in collecting remote sensing data. 
+With the rise of commercially availible and affordable aerial drones, the ability to capture remote sensing data such as high quality aerial imagery has become signifigantly easier. 
+
+Developing opensource software for drone use
+[@irujo_open_2023]
+- Opensource hardware and software for drone use. 
+
+Building Footprints
 [@nurkarim_building_2023]
 -Using AI model YOLO, object detection deep learning was used to extract building footprints. 
-
 [@sharma_building_2023]
 - Extracting building footprints from point cloud data. Building were classified before extracting the footprints. 
-
 [@ye_enhancing_2024]
-- Inventoried residential structures based off microsoft building footprint data, lidar, and point of interest data. When from census level data to annomynized individual house holds. 
+- Inventoried residential structures based off microsoft building footprint data, LiDAR, and point of interest data. When from census level data to annomynized individual house holds. 
 
+Land use
 [@zhang_landscape_2020]
 -remote sensing data to classify land use in China. Estimated landscape patterns and building functions, divided vegitation, water, and hard surfaces, categorized the buildings. 
 
+
+This leads to the question "can remote sensing data be used to develop land use data to supplement or replace data from statistical agencies?"
+In this paper the process , and the results of the trained model will be compared to other cities in Utah. 
+
+
+This paper presents a model that recongizes and categorizes building types based off remote sensing data and estimates household statistics for a general area. 
+
+
+
+
 # Methodolgy
 
-Subsection text here.
+## Data Collection
+The city of Logan, Utah was chosen for analysis. Building footprints for Logan were obtained from the Microsoft Building Footprint public dataset. This dataset allowed for easy access to building footprint data
 
-# Results
+k-mean analysis was run on building footprints to comparing building footprint area vs perimiter. 
 
-Subsection text here.
+![Logan building clusters](images_figures/building_footprints_logan.png){#fig-logan-b-f width=100% fig-align="center"} <!-- fig-env="figure* (This will place the figure across both pages-->
 
-# Discussion
+As seen in @fig-logan-b-f
 
-Subsection text here.
+
+
+Extraction of imagery associated with footprint
+
+Mannual labeling of imagery into 5 building categories: Appartments, Residential, Commercial, Church, and School.
+
+## Model Training
+
+Training the Ultraylitics You Only Look Once (YOLO) model based off labeled images
+
+Image sets with clusters that included larger building sizes were specifically chosen to make sure the model would be trained on these less common building types. 
+
+## Model Validation
+
+Using trained model to predicit building types in Logan Utah
+
+Using the model to predict building types in other cities in utah based off the city's income level and house age
+
+
+# Results and Discussion
+
+Confusion matrix for Logan - Training and Validation
+
+
+::: {#fig-confusion-matrix-logan layout-ncol=2 fig-env="figure*"}
+
+![Logan confusion matrix](../runs/detect/logan_validation/confusion_matrix.png){#fig-logan_cm width=100%}
+
+![Logan confusion Matrix normalized](../runs/detect/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+
+Model confusion matrixes for Logan, Utah.
+:::
+
+
+
+
+
+Confusion matrix for other analysis cities. What is the results? Was there a difference between how the model did between the cities? Was age of the house a big factor? Was income? Is there something else? 
+
+Will it be easier to develop a model to be used at different cities, or a process for people to develop thier own models?
+
+Talk about how this data is still subject to many of the problems the survey data still is. 
+However, much of this research is supseptible to similar probelems as transporation models. Satalitght remote sensing data is not consistent around the world, 
+
 
 ### Subsubsection Heading Here
 
@@ -228,20 +287,28 @@ footnotes above bottom floats. This can be corrected via the
 \fnbelowfloat command of the stfloats package. -->
 ```
 
-# Conclusion
+# Conclusion and Future Research
 
 The conclusion goes here.
+
+As discussed by Hall et al., there are potential ethical problems with such data collection. It strattles the line between public and private information. This will need to be considered as further reserach is done into this area as to stay on the right side of the law.[@hall_use_2021] 
+
+
+What does the future research look like?
+
+Training models to detect other things such as cars, swing sets, patios, etc.
+
+Creating the process to predict household types based off the collected data
+
+Incorperating drone aerial imagery and extracing building footprints from that. 
+
+Research into other remote sensing data and how it could be incorperated. 
+
 
 <!-- conference papers do not normally have an appendix -->
 
 # Acknowledgment {#acknowledgment}
 
 The authors would like to thank...
-
-# Bibliography styles
-
-Here are two sample references: [@barrington2017osm; @Dirac1953888].
-
-\newpage
 
 # References {#references .numbered}

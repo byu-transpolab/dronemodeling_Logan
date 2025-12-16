@@ -315,7 +315,7 @@
 \usepackage[unicode=true]{hyperref}
 
 \hypersetup{
-            pdftitle={Calssifing Buildings Based from Drone Aerial Imagery},
+            pdftitle={Building Classification From Aerial Imagery},
             pdfkeywords={template, demo},
             pdfborder={0 0 0},
             breaklinks=true}
@@ -345,6 +345,7 @@
 
 
 
+\newcommand{\pandocbounded}[1]{#1}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -400,7 +401,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Calssifing Buildings Based from Drone Aerial Imagery}
+\title{Building Classification From Aerial Imagery}
 
 % author names and affiliations
 % use a multiple column layout for up to three different
@@ -424,15 +425,15 @@
 \IEEEauthorblockN{Connor Williams}
 \IEEEauthorblockA{Brigham Young University\\
 Department of Civil and Construction Engineering\\
-Provo, Utah 8460
+Provo, Utah 84604
 %%
 }
 
 \and
-\IEEEauthorblockN{Gregory Macfarland}
+\IEEEauthorblockN{Gregory Macfarlane}
 \IEEEauthorblockA{Brigham Young University\\
 Department of Civil and Construction Engineering\\
-Provo, Utah 8460
+Provo, Utah 84604
 %%
 }
 
@@ -440,7 +441,7 @@ Provo, Utah 8460
 \IEEEauthorblockN{Kaylen Turley}
 \IEEEauthorblockA{Brigham Young University\\
 Department of Civil and Construction Engineering\\
-Provo, Utah 8460
+Provo, Utah 84604
 %%
 }
 
@@ -519,96 +520,189 @@ template; demo
 
 Travel forecasting models are based heavily on data provided by
 government statistical agencies, such as the US Census Bureau and the
-Bureau of Labor Statistics. In countries where statistical agencies are
-not as reliable, travel forecasting models are generally not developed
-or have data gaps. The data needed for modeling includes household
-statistics such as humber of adults, income level, etc.
+Bureau of Labor Statistics. These agencies provide the land use data
+needed to construct these models, giving statistics such as household
+number, median household income, etc. for census areas. In countries
+where statistical agencies are not as reliable, travel forecasting
+models are generally not developed or have data gaps. In countries where
+they are availible, these models are highly reliant on the public
+release of such statistical data, which leads to problems if such
+survies are delayed or canceled.
 
-With the rise of commercially availible and affordable aerial drones,
-the ability to capture remote sensing data such as high quality aerial
-imagery has become signifigantly easier. This leads to the question
-``can remote sensing data be used to develop land use data to supplement
-or replace data from statistical agencies?''
+Recent research has sought to find other ways to collect land use
+characterists
+
+Talk about research using satelites and other publicly availible data
+sets. What data is currenlty being collected and analyized?
+
+Remote Sensing Data (From Satelites)
+\autocite{kamarajugedda_assessing_2017} - Night time Light data is
+strongly correlated with social economic varibles such as population,
+GDP and electric power consumption. \autocite{chang_novel_2020} -Night
+time light from vehicles to predict car travel between cities on
+highways
+
+Economic activity \autocite{lehnert_proxying_2023} - Developing proxy
+economic activity from daytime imagery for periods without the data. And
+AI model was developed to assist in teh analysis.
+
+Estimate populations \autocite{allaw_population_2020} - Uses RGB images
+(From satelites?), road length and desnity, and distance from
+populations to estimate populations in rural areas. Density of Roads is
+correlated to population. \autocite{fibaek_multi-sensor_2021} - Used
+deep learning to estimate population characteristics and location of
+human made structures. Area, volume, and inhabitant number was estimated
+from AI model trained on GeoDenmark, lidar data, and population data.
+
+Talk about drone use in collecting remote sensing data. With the rise of
+commercially availible and affordable aerial drones, the ability to
+capture remote sensing data such as high quality aerial imagery has
+become signifigantly easier.
+
+Developing opensource software for drone use \autocite{irujo_open_2023}
+- Opensource hardware and software for drone use.
+
+Building Footprints \autocite{nurkarim_building_2023} -Using AI model
+YOLO, object detection deep learning was used to extract building
+footprints. \autocite{sharma_building_2023} - Extracting building
+footprints from point cloud data. Building were classified before
+extracting the footprints. \autocite{ye_enhancing_2024} - Inventoried
+residential structures based off microsoft building footprint data,
+LiDAR, and point of interest data. When from census level data to
+annomynized individual house holds.
+
+Land use \autocite{zhang_landscape_2020} -remote sensing data to
+classify land use in China. Estimated landscape patterns and building
+functions, divided vegitation, water, and hard surfaces, categorized the
+buildings.
+
+This leads to the question ``can remote sensing data be used to develop
+land use data to supplement or replace data from statistical agencies?''
+In this paper the process , and the results of the trained model will be
+compared to other cities in Utah.
 
 This paper presents a model that recongizes and categorizes building
 types based off remote sensing data and estimates household statistics
 for a general area.
 
-\section{Related Literature}\label{related-literature}
-
-\autocite{allaw_population_2020} - Uses RGB images, road length and
-desnity, and distance from populations to estimate populations in rural
-areas. Density of Roads is correlated to population.
-
-\autocite{chang_novel_2020} -Night time light from vehicles to predict
-car travel between cities on highways
-
-\autocite{fibaek_multi-sensor_2021} - Used deep learning to estimate
-population characteristics and location of human made structures. Area,
-volume, and inhabitant number was estimated from AI model trained on
-GeoDenmark, lidar data, and population data.
-
-\autocite{hall_use_2021} - Discusses ethical and safety concerns when
-using drone data. Public data can slide into private data if specific
-people can be identified.
-
-\autocite{irujo_open_2023} - Opensource hardware and software for drone
-use.
-
-\autocite{kamarajugedda_assessing_2017} - Night time Light data is
-strongly correlated with social economic varibles such as population,
-GDP and electric power consumption.
-
-\autocite{lehnert_proxying_2023} - Developing proxy economic activity
-from daytime imagery for periods without the data. And AI model was
-developed to assist in teh analysis.
-
-\autocite{nurkarim_building_2023} -Using AI model YOLO, object detection
-deep learning was used to extract building footprints.
-
-\autocite{sharma_building_2023} - Extracting building footprints from
-point cloud data. Building were classified before extracting the
-footprints.
-
-\autocite{ye_enhancing_2024} - Inventoried residential structures based
-off microsoft building footprint data, lidar, and point of interest
-data. When from census level data to annomynized individual house holds.
-
-\autocite{zhang_landscape_2020} -remote sensing data to classify land
-use in China. Estimated landscape patterns and building functions,
-divided vegitation, water, and hard surfaces, categorized the buildings.
-
 \section{Methodolgy}\label{methodolgy}
 
-Subsection text here.
+\subsection{Data Collection}\label{data-collection}
 
-\section{Results}\label{results}
+The city of Logan, Utah was chosen for analysis. Building footprints for
+Logan were obtained from the Microsoft Building Footprint public
+dataset. This dataset allowed for easy access to building footprint data
 
-Subsection text here.
+k-mean analysis was run on building footprints to comparing building
+footprint area vs perimiter.
 
-\section{Discussion}\label{discussion}
+\begin{center}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images_figures/building_footprints_logan.png}
+\end{center}
 
-Subsection text here.
+As seen in \textbf{?@fig-logan-b-f}
+
+Extraction of imagery associated with footprint
+
+Mannual labeling of imagery into 5 building categories: Appartments,
+Residential, Commercial, Church, and School.
+
+\subsection{Model Training}\label{model-training}
+
+Training the Ultraylitics You Only Look Once (YOLO) model based off
+labeled images
+
+Image sets with clusters that included larger building sizes were
+specifically chosen to make sure the model would be trained on these
+less common building types.
+
+\subsection{Model Validation}\label{model-validation}
+
+Using trained model to predicit building types in Logan Utah
+
+Using the model to predict building types in other cities in utah based
+off the city's income level and house age
+
+\section{Results and Discussion}\label{results-and-discussion}
+
+Confusion matrix for Logan - Training and Validation
+
+\begin{figure*}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/logan_validation/confusion_matrix.png}
+
+}
+
+\subcaption{\label{fig-logan_cm}Logan confusion matrix}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/logan_validation/confusion_matrix_normalized.png}
+
+}
+
+\subcaption{\label{fig-logan_cm_n}Logan confusion Matrix normalized}
+
+\end{minipage}%
+
+\caption{\label{fig-confusion-matrix-logan}Model confusion matrixes for
+Logan, Utah.}
+
+\end{figure*}%
+
+Confusion matrix for other analysis cities. What is the results? Was
+there a difference between how the model did between the cities? Was age
+of the house a big factor? Was income? Is there something else?
+
+Will it be easier to develop a model to be used at different cities, or
+a process for people to develop thier own models?
+
+Talk about how this data is still subject to many of the problems the
+survey data still is. However, much of this research is supseptible to
+similar probelems as transporation models. Satalitght remote sensing
+data is not consistent around the world,
 
 \subsubsection{Subsubsection Heading
 Here}\label{subsubsection-heading-here}
 
 Subsubsection text here.
 
-\section{Conclusion}\label{conclusion}
+\section{Conclusion and Future
+Research}\label{conclusion-and-future-research}
 
 The conclusion goes here.
+
+As discussed by Hall et al., there are potential ethical problems with
+such data collection. It strattles the line between public and private
+information. This will need to be considered as further reserach is done
+into this area as to stay on the right side of the
+law.\autocite{hall_use_2021}
+
+What does the future research look like?
+
+Training models to detect other things such as cars, swing sets, patios,
+etc.
+
+Creating the process to predict household types based off the collected
+data
+
+Incorperating drone aerial imagery and extracing building footprints
+from that.
+
+Research into other remote sensing data and how it could be
+incorperated.
 
 \section{Acknowledgment}\label{acknowledgment}
 
 The authors would like to thank\ldots{}
-
-\section{Bibliography styles}\label{bibliography-styles}
-
-Here are two sample references:
-\autocite{barrington2017osm,Dirac1953888}.
-
-\newpage
 
 \printbibliography[title=References]
 
