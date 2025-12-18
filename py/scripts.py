@@ -195,7 +195,7 @@ def k_mean_prepare_area_perimeter_scaled(geojson_file):
     gdf = gpd.read_file(geojson_file)
 
     # Project to a CRS (meters)
-    gdf = gdf.to_crs(epsg=3857)  # local UTM zone?
+    gdf = gdf.to_crs(epsg=3857)  # local UTM zone? This is currenlty hard coded to Utah area. This will need to be adjusted for other cities. 
 
     #Define area and perimeter
     gdf["area"] = gdf.geometry.area
@@ -312,7 +312,7 @@ def view_geojson_with_clusters(gdf, geojson_path, bb_folder=None, output_html=No
         tooltip=folium.GeoJsonTooltip(fields=["cluster"]),
     ).add_to(m)
 
-    # --- Add bounding boxes from txt files ---
+    # --- Add bounding boxes from txt files, if given ---
     if bb_folder is not None:
         bb_folder = Path(bb_folder)
         txt_files = list(bb_folder.glob("*.txt"))
@@ -352,19 +352,35 @@ def view_geojson_with_clusters(gdf, geojson_path, bb_folder=None, output_html=No
     print(f"\nMap saved to: {output_html}")
     return str(output_html)
 
-#This will run the whole process to create a html file of the kmeans analysis. 
 def run_kmeans_cluster_view(geojson_path,bb_folder=None,view=3):
+    """
+    This will run the whole process to create a html file of the kmeans analysis. 
+    
+    Args:
+        geojson_path: (str): path to geojson with building footprint data 
+        bb_folder: (str, optional): Adds bounding boxes given in long/lat to HTML file. Used to verify building area capture pictures.
+        output_html (str, optional): Output HTML file path. If None, automatically derived from geojson_path
+        zoom_start (int): Initial zoom for the HTML map
+    """
     gdf, X_scaled = k_mean_prepare_area_perimeter_scaled(geojson_path)
     k_value = k_value_elbow_method(X_scaled,False)
     gdf = k_mean_analysis(gdf, X_scaled, k_value, view=view, output_folder= "buildingfootprint") #Update so this is not hard coded
     html_path = view_geojson_with_clusters(gdf, geojson_path,bb_folder)
     return html_path        
 
-# --- MAIN EXECUTION ---
+
+
+
+#### Main Execution ####
+
+
 
 # 1. Define Output settings
 output_folder_path = "buildingfootprint"
-target_city = "Ogden, Utah"  # give in "city, state" formate
+target_city = "Logan, Utah"  # give in "city, state" formate
+view = 2 #1. Plots building clusters. 
+         #2: Normilized plot
+         #3: No plot created
 
 # Clean up the city name for the filename (e.g., "St. George, Utah" -> "st_george_utah")
 outputname = target_city.lower().replace(" ", "_").replace(".", "").replace(",", "")
@@ -381,7 +397,7 @@ try:
     pull_building_footprints(city_polygon, output_folder_path, outputname)
     
     # 4. Run Analysis
-    run_kmeans_cluster_view(geojson_file, bb_folder=None, view=3)
+    run_kmeans_cluster_view(geojson_file, bb_folder=None, view=view)
 
 except Exception as e:
     print(f"An error occurred: {e}")
@@ -394,9 +410,3 @@ k_value = k_value_elbow_method(X_scaled,False)
 gdf_cluster = k_mean_analysis(gdf,X_scaled,k_value, 3, output_folder_path)
 
 '''
-
-
-#bb_folder = None #"/Users/willicon/Desktop/seed80_2025_11_04_083702/true_bb"
-
-#run_kmeans_cluster_view(geojson_file,bb_folder,1)
-
