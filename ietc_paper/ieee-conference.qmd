@@ -134,23 +134,36 @@ This paper presents a model that recongizes and categorizes building types based
 # Methodolgy
 
 ## Data Collection
-The city of Logan, Utah was chosen for analysis. Building footprints for Logan were obtained from the Microsoft Building Footprint public dataset. This dataset allowed for easy access to building footprint data
+The city of Logan, Utah was chosen for analysis. Building footprints for Logan were obtained from the Microsoft Building Footprint public dataset. This dataset allowed for easy access to building footprint data for this inital study.
 
-k-mean analysis was run on building footprints to comparing building footprint area vs perimiter. 
+The latitude and longitude of the city boundries was taken.
+All building footprints in the city boundary were extracted from the Microsoft Building Footprint dataset and saved as a geojson file. 
+K-mean analysis was run to seperate different sizes of buildings. 
+Optimal K value was found using the elbow method. For Logan the number is five.
+K-mean analysis was run comparing the building footprint areas to their perimiters.
+As seen in @fig-logan-clusters-map-plot...
 
-![Logan building clusters](images_figures/building_footprints_logan.png){#fig-logan-b-f width=100% fig-align="center"} <!-- fig-env="figure* (This will place the figure across both pages-->
+<!-- Split this up and not have it go across the page??? -->
+:::{#fig-logan-clusters-map-plot layout-ncol=2 fig-env="figure*"}
 
-As seen in @fig-logan-b-f
+![Building clusters](images_figures/building_footprints_logan.png){#fig-logan-b-f width=100%} <!-- fig-env="figure* (This will place the figure across both pages-->
+
+![Area vs parameter plot](images_figures/Logan_Building_Cluster_plot_Normilized.png){#fig-logan-bcp-n width=100%}
+
+K-mean analysis for Logan, Utah
+
+:::
+
+Using the building foorprint location and "contextily", 600 randomly chosen aerial images were taken from the internet and croped to focus on a single building. 200 of the images were from clusters that included only larger buildings to help balance building types in the dataset. 
 
 
-
-Extraction of imagery associated with footprint
-
-Mannual labeling of imagery into 5 building categories: Appartments, Residential, Commercial, Church, and School.
+Using open source tool Label Studio, the images were mannually annotated. Every building in each picture was labeld into five building categories: Appartments, Residential, Commercial, Church, and School.
 
 ## Model Training
 
 Training the Ultraylitics You Only Look Once (YOLO) model based off labeled images
+
+Images were split, 80% used in training and 20% in validation.
 
 Image sets with clusters that included larger building sizes were specifically chosen to make sure the model would be trained on these less common building types. 
 
@@ -158,12 +171,15 @@ Image sets with clusters that included larger building sizes were specifically c
 
 Using trained model to predicit building types in Logan Utah
 
-Using the model to predict building types in other cities in utah based off the city's income level and house age
+Choosing cities in Utah using the American Community Survey data. Based off median income level and age of homes. 
+
+Using the model to predict building types in other cities in utah based.
 
 
 # Results and Discussion
 
 Confusion matrix for Logan - Training and Validation
+As seen in @fig-confusion-matrix-logan...
 
 
 ::: {#fig-confusion-matrix-logan layout-ncol=2 fig-env="figure*"}
@@ -172,11 +188,11 @@ Confusion matrix for Logan - Training and Validation
 
 ![Logan confusion Matrix normalized](../runs/detect/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
 
-Model confusion matrixes for Logan, Utah.
+YOLO confusion matrixes for Logan, Utah.
 :::
 
-
-
+The model could identify accurently most building in Logan. 
+It struggled with schools and churches. This is likely due to the very low number of images of both building types provided during training. 
 
 
 Confusion matrix for other analysis cities. What is the results? Was there a difference between how the model did between the cities? Was age of the house a big factor? Was income? Is there something else? 

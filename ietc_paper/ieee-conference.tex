@@ -592,25 +592,54 @@ for a general area.
 The city of Logan, Utah was chosen for analysis. Building footprints for
 Logan were obtained from the Microsoft Building Footprint public
 dataset. This dataset allowed for easy access to building footprint data
+for this inital study.
 
-k-mean analysis was run on building footprints to comparing building
-footprint area vs perimiter.
+The latitude and longitude of the city boundries was taken. All building
+footprints in the city boundary were extracted from the Microsoft
+Building Footprint dataset and saved as a geojson file. K-mean analysis
+was run to seperate different sizes of buildings. Optimal K value was
+found using the elbow method. For Logan the number is five. K-mean
+analysis was run comparing the building footprint areas to their
+perimiters. As seen in Figure~\ref{fig-logan-clusters-map-plot}\ldots{}
 
-\begin{center}
+\begin{figure*}
+
+\begin{minipage}{0.50\linewidth}
 \includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images_figures/building_footprints_logan.png}
-\end{center}
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
 
-As seen in \textbf{?@fig-logan-b-f}
+\centering{
 
-Extraction of imagery associated with footprint
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images_figures/Logan_Building_Cluster_plot_Normilized.png}
 
-Mannual labeling of imagery into 5 building categories: Appartments,
-Residential, Commercial, Church, and School.
+}
+
+\subcaption{\label{fig-logan-bcp-n}Area vs parameter plot}
+
+\end{minipage}%
+
+\caption{\label{fig-logan-clusters-map-plot}K-mean analysis for Logan,
+Utah}
+
+\end{figure*}%
+
+Using the building foorprint location and ``contextily'', 600 randomly
+chosen aerial images were taken from the internet and croped to focus on
+a single building. 200 of the images were from clusters that included
+only larger buildings to help balance building types in the dataset.
+
+Using open source tool Label Studio, the images were mannually
+annotated. Every building in each picture was labeld into five building
+categories: Appartments, Residential, Commercial, Church, and School.
 
 \subsection{Model Training}\label{model-training}
 
 Training the Ultraylitics You Only Look Once (YOLO) model based off
 labeled images
+
+Images were split, 80\% used in training and 20\% in validation.
 
 Image sets with clusters that included larger building sizes were
 specifically chosen to make sure the model would be trained on these
@@ -620,12 +649,15 @@ less common building types.
 
 Using trained model to predicit building types in Logan Utah
 
-Using the model to predict building types in other cities in utah based
-off the city's income level and house age
+Choosing cities in Utah using the American Community Survey data. Based
+off median income level and age of homes.
+
+Using the model to predict building types in other cities in utah based.
 
 \section{Results and Discussion}\label{results-and-discussion}
 
-Confusion matrix for Logan - Training and Validation
+Confusion matrix for Logan - Training and Validation As seen in
+Figure~\ref{fig-confusion-matrix-logan}\ldots{}
 
 \begin{figure*}
 
@@ -653,10 +685,14 @@ Confusion matrix for Logan - Training and Validation
 
 \end{minipage}%
 
-\caption{\label{fig-confusion-matrix-logan}Model confusion matrixes for
+\caption{\label{fig-confusion-matrix-logan}YOLO confusion matrixes for
 Logan, Utah.}
 
 \end{figure*}%
+
+The model could identify accurently most building in Logan. It struggled
+with schools and churches. This is likely due to the very low number of
+images of both building types provided during training.
 
 Confusion matrix for other analysis cities. What is the results? Was
 there a difference between how the model did between the cities? Was age
