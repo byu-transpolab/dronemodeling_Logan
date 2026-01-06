@@ -1,5 +1,5 @@
-train: /Users/willicon/Desktop/training_data_logan/validation/images
-val: /Users/willicon/Desktop/training_data_logan/validation/images
+train: /Users/willicon/Desktop/Saratoga Springs, Utah-selected/images
+val: /Users/willicon/Desktop/Saratoga Springs, Utah-selected/images
 
 # Classes
 names:
