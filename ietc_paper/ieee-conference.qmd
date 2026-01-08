@@ -79,30 +79,19 @@ header-includes:
 
 Travel forecasting models are based heavily on data provided by government statistical agencies, such as the US Census Bureau and the Bureau of Labor Statistics. These agencies provide the land use data needed to construct these models, giving statistics such as household number, median household income, etc. for census areas. In countries where statistical agencies are not as reliable, travel forecasting models are generally not developed or have data gaps. In countries where they are availible, these models are highly reliant on the public release of such statistical data, which leads to problems if such survies are delayed or canceled. 
 
-Recent research has sought to find alternative methods to collect land use characterists. Gathering, analysing, and utilizing remote sensing data from satelites has been a major focus over the last several decades. Satelite aerial imagry has been used to anaylize the volume and desnity man-made sturctures and roads to estiamte area populations, in both urban and rural settings[@allaw_population_2020][@fibaek_multi-sensor_2021]. Day time imagery has also been used to track vehicle movement between major cities as an indication of economic activity [@lehnert_proxying_2023]. It has also been used to classify land use by estimating landscape patterns and building fuctions, dividing different surfaces, and then categorizing building types [@zhang_landscape_2020]. Night time light data has also been shown to be useful as well. One study coorelated city light output with social economic varibles such as population, GDp and electic power conumption [@kamarajugedda_assessing_2017], while another used the light emited from cars at night on highways to predict vehicle travel between cities [@chang_novel_2020]. Other satelite data, such as 
+Recent research has sought to find alternative methods to collect land use characterists. Gathering, analysing, and utilizing remote sensing data from satelites has been a major focus over the last several decades. Satelite aerial imagry has been used to anaylize the volume and desnity man-made sturctures and roads to estiamte area populations, in both urban and rural settings [@allaw_population_2020][@fibaek_multi-sensor_2021]. Day time imagery has also been used to track vehicle movement between major cities as an indication of economic activity [@lehnert_proxying_2023]. It has also been used to classify land use by estimating landscape patterns and building fuctions, dividing different surfaces, and then categorizing building types [@zhang_landscape_2020]. Night time light data has also been shown to be useful as well. One study coorelated city light output with social economic varibles such as population, GDp and electic power conumption [@kamarajugedda_assessing_2017], while another used the light emited from cars at night on highways to predict vehicle travel between cities [@chang_novel_2020]. Satilite imagery has also be used to produce data sets such as the Microsoft Building Footprints data set, which has been used along with LiDAR and point of interest data to inventory residentila structures from census data [@microsoft_globalmlbuildingfootprints_2026][@ye_enhancing_2024].
+
+With the rise of commercially availible and affordable aerial drones, the ability to capture remote sensing data such as high quality aerial imagery has become signifigantly easier. The creation of open source softwares for drone use has also made it more accessible for use in research [@irujo_open_2023].
+
+Though the pratcical uses, economical fessibilty, and ethical concerns of collecting the higher resolution data is still being discussed [@hall_use_2021].
 
 
-Building Footprints
-[@ye_enhancing_2024]
-- Inventoried residential structures based off microsoft building footprint data (satelite), LiDAR (plane), and point of interest data. When from census level data to annomynized individual house holds. 
+More recently, with the advancement of more accessible deep learning models, machine learning has become very prelivent in analysing and classiflying remote sensing data. One of it's primary uses so far has been to analyeze large amounts of data, for such uses of tracking vehile movement between cities [@lehnert_proxying_2023], or predicting population characterists and locations of man-made structures across entire countires. [@fibaek_multi-sensor_2021] Building classification is of particular interest for collecting land use characterists. 
 
+"You Only Look Once" (YOLO) being used to identify buildings and extract building footprints. [@nurkarim_building_2023]
 
-More recently, with the advancement of more easily accessible deep learning models, machine learning has become very prelivent in analysing and classiflying remote sensing data. It 
-[@lehnert_proxying_2023]
-It has even been used to predict population characterists and locations of man-made structures across entire countires. [@fibaek_multi-sensor_2021]
-
-
-[@nurkarim_building_2023]
--Using AI model YOLO, object detection deep learning was used to extract building footprints. 
 [@sharma_building_2023]
 - Extracting building footprints from point cloud data. Building were classified before extracting the footprints. Trains an AI model to classify
- 
-
-With the rise of commercially availible and affordable aerial drones, the ability to capture remote sensing data such as high quality aerial imagery has become signifigantly easier. 
-
-Developing opensource software for drone use
-[@irujo_open_2023]
-- Opensource hardware and software for drone use. 
 
 
 This leads to the question "can remote sensing data be used to develop land use data to supplement or replace data from statistical agencies?"
@@ -118,14 +107,7 @@ This paper presents a model that recongizes and categorizes building types based
 # Methodolgy
 
 ## Data Collection
-The city of Logan, Utah was chosen for analysis. Building footprints for Logan were obtained from the Microsoft Building Footprint public dataset. This dataset allowed for easy access to building footprint data for this inital study.
-
-The latitude and longitude of the city boundries was taken.
-All building footprints in the city boundary were extracted from the Microsoft Building Footprint dataset and saved as a geojson file. 
-K-mean analysis was run to seperate different sizes of buildings. 
-Optimal K value was found using the elbow method. For Logan the number is five.
-K-mean analysis was run comparing the building footprint areas to their perimiters.
-As seen in @fig-logan-clusters-map-plot...
+The city of Logan, Utah was chosen for analysis. Building footprints for Logan were obtained from the Microsoft Building Footprint public dataset. This dataset allowed for easy access to building footprint data for this inital study. All analysis was run using Python 3.12 and various python packages and APIs. 
 
 <!-- Split this up and not have it go across the page??? -->
 :::{#fig-logan-clusters-map-plot layout-ncol=2 fig-env="figure*"}
@@ -138,20 +120,24 @@ K-mean analysis for Logan, Utah
 
 :::
 
-Using the building foorprint location and "contextily", 600 randomly chosen aerial images were taken from the internet and croped to focus on a single building. 200 of the images were from clusters that included only larger buildings to help balance building types in the dataset. 
+With the chosen city the latitude and longitude of the official city boundries was obtained. Using this boundry, all the building footprints in the city were extracted from the Microsoft Building Footprint dataset and saved as a geojson file. The building were then classified using a simple K-mean anaylsis to differentate different sized buildings. To do this, the optimal K-mean was found using the elbow method. Using this K vlaue, a K-mean anaysis was run comparing the areas of the building footprints to their perimeters. @fig-logan-clusters-map-plot shows the distribution of different cluster types, with most of the buildings in Logan being a smaller size. 
 
-
-Using open source tool Label Studio, the images were mannually annotated. Every building in each picture was labeld into five building categories: Appartments, Residential, Commercial, Church, and School.
+Using the building foorprint location and the python Library "Contextily", 600 randomly chosen aerial images of building in Logan were taken from publicly availible satilite imagery and croped to focus on a single building. 200 of the images were from clusters that included only larger buildings to help balance building types in the dataset. 
 
 ## Model Training
 
-Training the Ultraylitics You Only Look Once (YOLO) model based off labeled images
+Ultraylitics' "You Only Look Once" or YOLO model is a open source object detection model that has become very popular within do due it's accuracy and ease of use. The model is trained on images that have been previously annoatated by hand to identify the categories desired for the model to detect. The model trains itself on these images over many iterations until it is able to consistanly recongnize the different categories of objects. The YOLO model is then able to predict these categories other images using bounding boxes and probabilities of correct identification. 
 
-Images were split, 80% used in training and 20% in validation.
+Using the open source tool Label Studio, the images were mannually annotated. Every building in each picture was labeld into five building categories: Appartments, Residential, Commercial, Church, and School.
 
-Image sets with clusters that included larger building sizes were specifically chosen to make sure the model would be trained on these less common building types. 
+The annotated images were split into two categories. 80% of the pictures were used in training the object dection model, while 20% of the images were reserved for validation purposes. Within these image sets clusters that included larger and less common building sizes were specifically included, due to thier relativily lower likelyhood of appearing, to make sure the model would be trained on these less common building types. 
 
-## Model Validation
+The model was run through hundreds of iterations until the model was able to  @fig-run16_results
+
+![Model training results](../ietc_paper/images_figures/training_results_run16.png){#fig-run16_results width=100%}
+
+
+## Model Validation and Comparison
 
 Using trained model to predicit building types in Logan Utah
 
@@ -162,10 +148,6 @@ Using the model to predict building types in other cities in utah based.
 
 # Results and Discussion
 
-Confusion matrix for Logan - Training and Validation
-As seen in @fig-confusion-matrix-logan...
-
-
 ::: {#fig-confusion-matrix-logan layout-ncol=2 fig-env="figure*"}
 
 ![Logan confusion matrix](../runs/detect/logan_validation/confusion_matrix.png){#fig-logan_cm width=100%}
@@ -175,21 +157,39 @@ As seen in @fig-confusion-matrix-logan...
 YOLO confusion matrixes for Logan, Utah.
 :::
 
-The model could identify accurently most building in Logan. 
-It struggled with schools and churches. This is likely due to the very low number of images of both building types provided during training. 
+The Logan trained model was able to accurantly predicit residnetial, commercial, and apartment building types almost 100% of the time, as shown in @fig-confusion-matrix-logan. The desired outcome is to have all the numbers in a diagonal line, which would indicate that the model is predicting the category of a building that is in line with the annotations made. 
+
+The model did underpreform wich schools and churches. This is attributed to the fact that there were very low number of images of both building types provided during model training. 
+
+A important aspect to discuss is the model predicitng different building types where there is no building. This is seen on the far right of each graph, where the background was categorized. This error occurs from two sources. One is the annotation. Building such as backyard sheds were not identified, but the model still picked them up. Or there were times that only a fouth of a building was present in an image, and so was not annotated, but was still recongized by the model at a lower probability level. The other source of error is the quality of the photos used. The satilite images from Contextily were convient and easy to access, but were not high quality. This resulted in the model sometimes interpreting things of solid colors, such as roads and covered parking as a type of building. The second error could be solved using higher quality photos, while the first 
+
 
 
 Confusion matrix for other analysis cities. What is the results? Was there a difference between how the model did between the cities? Was age of the house a big factor? Was income? Is there something else? 
+Neither house age or house median income made a difference in the calssification of houses. 
 
 Will it be easier to develop a model to be used at different cities, or a process for people to develop thier own models?
 
 Talk about how this data is still subject to many of the problems the survey data still is. 
-However, much of this research is supseptible to similar probelems as transporation models. Satalitght remote sensing data is not consistent around the world, 
+However, much of this research is supseptible to similar probelems as transporation models. Satilite remote sensing data is not consistent around the world, 
 
+::: {#fig-confusion-matrix-logan layout-ncol=2 layout-nrow=3 fig-env="figure*"}
 
-### Subsubsection Heading Here
+![Bountiful, Utah](../runs/detect/bountiful_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
 
-Subsubsection text here.
+![Saratoga Springs, Utah](../runs/detect/saratoga_springs_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+
+![Ogden, Utah](../runs/detect/ogden_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
+
+![St. George, Utah](../runs/detect/st_george_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+
+![Price, Utah](../runs/detect/price_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
+
+![Logan Utah](../runs/detect/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+
+Normalized YOLO confusion matrixes
+:::
+
 
 ```{=html}
 <!-- An example of a floating figure using the graphicx package.
