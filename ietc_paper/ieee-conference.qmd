@@ -81,27 +81,13 @@ Travel forecasting models are based heavily on data provided by government stati
 
 Recent research has sought to find alternative methods to collect land use characterists. Gathering, analysing, and utilizing remote sensing data from satelites has been a major focus over the last several decades. Satelite aerial imagry has been used to anaylize the volume and desnity man-made sturctures and roads to estiamte area populations, in both urban and rural settings [@allaw_population_2020][@fibaek_multi-sensor_2021]. Day time imagery has also been used to track vehicle movement between major cities as an indication of economic activity [@lehnert_proxying_2023]. It has also been used to classify land use by estimating landscape patterns and building fuctions, dividing different surfaces, and then categorizing building types [@zhang_landscape_2020]. Night time light data has also been shown to be useful as well. One study coorelated city light output with social economic varibles such as population, GDp and electic power conumption [@kamarajugedda_assessing_2017], while another used the light emited from cars at night on highways to predict vehicle travel between cities [@chang_novel_2020]. Satilite imagery has also be used to produce data sets such as the Microsoft Building Footprints data set, which has been used along with LiDAR and point of interest data to inventory residentila structures from census data [@microsoft_globalmlbuildingfootprints_2026][@ye_enhancing_2024].
 
-With the rise of commercially availible and affordable aerial drones, the ability to capture remote sensing data such as high quality aerial imagery has become signifigantly easier. The creation of open source softwares for drone use has also made it more accessible for use in research [@irujo_open_2023].
+With the rise of commercially availible and affordable aerial drones, the ability to capture remote sensing data such as high quality aerial imagery has become signifigantly easier. The creation of open source softwares for drone use has also made it more accessible for use in research [@irujo_open_2023].Though the pratcical uses, economical fessibilty, and ethical concerns of collecting the higher resolution data is still being discussed [@hall_use_2021].
 
-Though the pratcical uses, economical fessibilty, and ethical concerns of collecting the higher resolution data is still being discussed [@hall_use_2021].
+More recently, with the advancement of more accessible deep learning models, machine learning has become very prelivent in analysing and classiflying remote sensing data. One of it's primary uses so far has been to analyeze large amounts of data, for such uses of tracking vehile movement between cities [@lehnert_proxying_2023], or predicting population characterists and locations of man-made structures across entire countires. [@fibaek_multi-sensor_2021] Building classification is of particular interest for collecting land use characterists. Models such as "You Only Look Once" (YOLO) are being used to identify buildings and extract building footprints [@nurkarim_building_2023][@sharma_building_2023].
 
+Within this currently research the question arises "can remote sensing data be used to develop the land use data currently obtained from statistical agencies?" The devlopment of such a process or method would solve many problems in places without reliable statistidal data as well as suppliment data in other places. 
 
-More recently, with the advancement of more accessible deep learning models, machine learning has become very prelivent in analysing and classiflying remote sensing data. One of it's primary uses so far has been to analyeze large amounts of data, for such uses of tracking vehile movement between cities [@lehnert_proxying_2023], or predicting population characterists and locations of man-made structures across entire countires. [@fibaek_multi-sensor_2021] Building classification is of particular interest for collecting land use characterists. 
-
-"You Only Look Once" (YOLO) being used to identify buildings and extract building footprints. [@nurkarim_building_2023]
-
-[@sharma_building_2023]
-- Extracting building footprints from point cloud data. Building were classified before extracting the footprints. Trains an AI model to classify
-
-
-This leads to the question "can remote sensing data be used to develop land use data to supplement or replace data from statistical agencies?"
-In this paper the process , 
-and the results of the trained model will be compared to other cities in Utah. 
-
-
-This paper presents a model that recongizes and categorizes building types based off remote sensing data and estimates household statistics for a general area. 
-
-
+In this paper the process of collecting building footprints for a city, annotating aerial images of the buildings, and training an YOLO model to classify building types is discusses. At the end it presents research and findings into creating a model that recongizes and categorizes building types based off remote sensing data, and discusses future research into estimating household statistics for a general area. 
 
 
 # Methodolgy
@@ -126,27 +112,13 @@ Using the building foorprint location and the python Library "Contextily", 600 r
 
 ## Model Training
 
-Ultraylitics' "You Only Look Once" or YOLO model is a open source object detection model that has become very popular within do due it's accuracy and ease of use. The model is trained on images that have been previously annoatated by hand to identify the categories desired for the model to detect. The model trains itself on these images over many iterations until it is able to consistanly recongnize the different categories of objects. The YOLO model is then able to predict these categories other images using bounding boxes and probabilities of correct identification. 
+Ultraylitics' "You Only Look Once" or YOLO model is a open source object detection model that has become very popular within do due it's accuracy and ease of use. The model is trained on images that have been previously annoatated, using bounding boxes, to identify the categories desired for the model to detect. The model trains itself on these images over many iterations until it is able to consistanly recongnize the different categories of objects. The YOLO model is then able to predict these categories in other images by bounding them in bounding boxes and displaying the probability of correct identification. 
 
-Using the open source tool Label Studio, the images were mannually annotated. Every building in each picture was labeld into five building categories: Appartments, Residential, Commercial, Church, and School.
+Using the open source tool Label Studio, the collected street map images were mannually annotated. This annotation including creating bounding boxes around the roof of each buliding, using best judgement based off the appearence of the building and surounding buildings and area. The main buildings in each picture was labeld into five building categories: Appartment, Residential, Commercial, Church, and School. This order was consitant across annotations.  These bounding boxes were saved as text files and each one matched up with its corrisponding image. 
 
-The annotated images were split into two categories. 80% of the pictures were used in training the object dection model, while 20% of the images were reserved for validation purposes. Within these image sets clusters that included larger and less common building sizes were specifically included, due to thier relativily lower likelyhood of appearing, to make sure the model would be trained on these less common building types. 
+The annotated data sets were split into two categories. 80% of the images were used in training the object dection model, while 20% of the images were reserved for validation purposes. Within these image sets clusters that included larger and less common building sizes were specifically included, due to thier relativily lower likelyhood of appearing, to make sure the model would be trained on these less common building types. 
 
-The model was run through hundreds of iterations until the model was able to  @fig-run16_results
-
-![Model training results](../ietc_paper/images_figures/training_results_run16.png){#fig-run16_results width=100%}
-
-
-## Model Validation and Comparison
-
-Using trained model to predicit building types in Logan Utah
-
-Choosing cities in Utah using the American Community Survey data. Based off median income level and age of homes. 
-
-Using the model to predict building types in other cities in utah based.
-
-
-# Results and Discussion
+The model was run through hundreds of iterations until the model was able to accuretly and reliably predict building types in Logan Utah. The results of the final validation of the model is shown in @fig-confusion-matrix-logan.
 
 ::: {#fig-confusion-matrix-logan layout-ncol=2 fig-env="figure*"}
 
@@ -157,7 +129,33 @@ Using the model to predict building types in other cities in utah based.
 YOLO confusion matrixes for Logan, Utah.
 :::
 
-The Logan trained model was able to accurantly predicit residnetial, commercial, and apartment building types almost 100% of the time, as shown in @fig-confusion-matrix-logan. The desired outcome is to have all the numbers in a diagonal line, which would indicate that the model is predicting the category of a building that is in line with the annotations made. 
+
+## Model Validation and Comparison
+
+Once the model was trained and validated using the Logan, Utah data set, the model was then tested upon other cities in Utah to assess it's viablity in predicting building categories elsewhere in Utah. Using American Community Survey data, five other test cities were chosen based off the city's median income level, and the median age of the homes. The chosen cities an been seen in @tbl-val-cities.
+
+::: {#tbl-val-cities .content-visible when-format="latex"}
+\begin{table*}
+\centering
+\caption{Chosen Cities Based off Median Income and House Age}
+\label{tbl-val-cities}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lccccc}
+\hline
+House Age & High Income & Middle Income & Low Income  \\
+\hline
+Old Houses   & Bountiful, Utah    & Ogden, Utah        & Price, Utah         \\
+New Houses & Saratoga Springs    & St. George, Utah         & (None)         \\
+\hline
+\end{tabular}
+\end{table*}
+:::
+
+Following the same method as previously described, building footrpint data was collected and analized for each city. 200 aerial images of buildings were randomly chosen and annotated. These annotated data sets were then run through the model using validation only. The results of these runs are given below in @fig-confusion-matrix-val-cities. These results were then analyses to evaluate the ability of the model to predict in other cities, as well as assess if household income or house age were indicating factors. 
+
+
+# Results and Discussion
+The Logan trained YOLO model was able to accurantly predicit residnetial, commercial, and apartment building types almost 100% of the time, as shown in @fig-confusion-matrix-logan. The desired outcome is to have all the numbers in a diagonal line, which would indicate that the model is predicting the category of a building that is in line with the annotations made. 
 
 The model did underpreform wich schools and churches. This is attributed to the fact that there were very low number of images of both building types provided during model training. 
 
@@ -165,15 +163,17 @@ A important aspect to discuss is the model predicitng different building types w
 
 
 
+
 Confusion matrix for other analysis cities. What is the results? Was there a difference between how the model did between the cities? Was age of the house a big factor? Was income? Is there something else? 
 Neither house age or house median income made a difference in the calssification of houses. 
 
-Will it be easier to develop a model to be used at different cities, or a process for people to develop thier own models?
 
-Talk about how this data is still subject to many of the problems the survey data still is. 
-However, much of this research is supseptible to similar probelems as transporation models. Satilite remote sensing data is not consistent around the world, 
+Given the results of the validations, a process to develop a model for different locations would be more useful and viable then to create a universal model used in a wide area. 
 
-::: {#fig-confusion-matrix-logan layout-ncol=2 layout-nrow=3 fig-env="figure*"}
+
+However, much of this research is supseptible to similar probelems as transporation models. Satilite remote sensing data is not consistent around the world, having varying availibiilyt and image quality.
+
+::: {#fig-confusion-matrix-val-cities layout-ncol=2 layout-nrow=3 fig-env="figure*"}
 
 ![Bountiful, Utah](../runs/detect/bountiful_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
 
@@ -189,103 +189,6 @@ However, much of this research is supseptible to similar probelems as transporat
 
 Normalized YOLO confusion matrixes
 :::
-
-
-```{=html}
-<!-- An example of a floating figure using the graphicx package.
-Note that \label must occur AFTER (or within) \caption.
-For figures, \caption should occur after the \includegraphics.
-Note that IEEEtran v1.7 and later has special internal code that
-is designed to preserve the operation of \label within \caption
-even when the captionsoff option is in effect. However, because
-of issues like this, it may be the safest practice to put all your
-\label just after \caption rather than within \caption{}.
-
-Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-option should be used if it is desired that the figures are to be
-displayed while in draft mode.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=2.5in]{myfigure}
-where an .eps filename suffix will be assumed under latex, 
-and a .pdf suffix will be assumed for pdflatex; or what has been declared
-via \DeclareGraphicsExtensions.
-\caption{Simulation results for the network.}
-\label{fig_sim}
-\end{figure}
-
-Note that the IEEE typically puts floats only at the top, even when this
-results in a large percentage of a column being occupied by floats.
-
-
-An example of a double column floating figure using two subfigures.
-(The subfig.sty package must be loaded for this to work.)
-The subfigure \label commands are set within each subfloat command,
-and the \label for the overall figure must come after \caption.
-\hfil is used as a separator to get equal spacing.
-Watch out that the combined width of all the subfigures on a 
-line do not exceed the text width or a line break will occur.
-
-\begin{figure*}[!t]
-\centering
-\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
-\label{fig_first_case}}
-\hfil
-\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
-\label{fig_second_case}}
-\caption{Simulation results for the network.}
-\label{fig_sim}
-\end{figure*}
-
-Note that often IEEE papers with subfigures do not employ subfigure
-captions (using the optional argument to \subfloat[]), but instead will
-reference/describe all of them (a), (b), etc., within the main caption.
-Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
-labels, the optional argument to \subfloat must be present. If a
-subcaption is not desired, just leave its contents blank,
-e.g., \subfloat[].
-
-
-An example of a floating table. Note that, for IEEE style tables, the
-\caption command should come BEFORE the table and, given that table
-captions serve much like titles, are usually capitalized except for words
-such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
-and up, which are usually not capitalized unless they are the first or
-last word of the caption. Table text will default to \footnotesize as
-the IEEE normally uses this smaller font for tables.
-The \label must come after \caption as always.
-
-\begin{table}[!t]
-% increase table row spacing, adjust to taste
-\renewcommand{\arraystretch}{1.3}
-if using array.sty, it might be a good idea to tweak the value of
-\extrarowheight as needed to properly center the text within the cells
-\caption{An Example of a Table}
-\label{table_example}
-\centering
-% Some packages, such as MDW tools, offer better commands for making tables
-% than the plain LaTeX2e tabular which is used here.
-\begin{tabular}{|c||c|}
-\hline
-One & Two\\
-\hline
-Three & Four\\
-\hline
-\end{tabular}
-\end{table}
-
-
-Note that the IEEE does not put floats in the very first column
-- or typically anywhere on the first page for that matter. Also,
-in-text middle ("here") positioning is typically not used, but it
-is allowed and encouraged for Computer Society conferences (but
-not Computer Society journals). Most IEEE journals/conferences use
-top floats exclusively. 
-Note that, LaTeX2e, unlike IEEE journals/conferences, places
-footnotes above bottom floats. This can be corrected via the
-\fnbelowfloat command of the stfloats package. -->
-```
 
 # Conclusion and Future Research
 
@@ -303,9 +206,6 @@ Creating the process to predict household types based off the collected data
 Incorperating drone aerial imagery and extracing building footprints from that. 
 
 Research into other remote sensing data and how it could be incorperated. 
-
-
-<!-- conference papers do not normally have an appendix -->
 
 # Acknowledgment {#acknowledgment}
 
