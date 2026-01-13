@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ieee-conference</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="ieee-conference_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ieee-conference_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="ieee-conference_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="ieee-conference_files/libs/quarto-html/popper.min.js"></script>
+<script src="ieee-conference_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ieee-conference_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ieee-conference_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ieee-conference_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ieee-conference_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ieee-conference_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ieee-conference_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<p>title: Building Classification From Aerial Imagery format: ieee-conference-pdf: keep-tex: true affiliation: ## Author mode : use one only of the following — + author-columnar: true # one column per author (using only institution field) # institution-columnar: true # one column per institution (using only institution field) # wide: true # one column wide author/affiliation fields - (using author or author_multiline and institution for mark)</p>
+<p>## A custom author ordering field that breaks institution grouping (used with <code>wide: true</code>) ## Authors cited in institution field are ignored when this author field exists ## Comment / Uncomment below author:<br>
+- name: Connor Williams mark: 1 email: willicon@byu.edu - name: Gregory Macfarlane mark: 2 email: gregmacfarlane@byu.edu - name: Kaylen Turley mark: 4 email: kaylentu@byu.edu</p>
+<p>## Put authors in a given order, with multiline possibility (used with <code>wide: true</code> if <code>authors</code> above unset) ## Authors cited in institution are ignored if exists ## Comment / Uncomment below #author_multiline: # - line: ## Create a new author line # - name: Michael Shell # mark: 1 # - name: Homer Simpson # mark: 2 # email: homer@thesimsons.com # - name: Roy Batty # mark: 4 # email: roy@replicant.offworld # - line: ## Create a second author line # - name: Montgomery Scott # mark: 3 # - name: Eldon Tyrell # mark: 4</p>
+## Define institution, and also authors used when <code>author-columnar: true</code> or <code>institution-columnar: true</code> institution: - name: Brigham Young University department: Department of Civil and Construction Engineering location: Provo, Utah 84604 email: mark: 1 author: - name: Connor Williams - name: Brigham Young University department: Department of Civil and Construction Engineering location: Provo, Utah 84604 email: mark: 2 author: - name: Gregory Macfarlane - name: Brigham Young University department: Department of Civil and Construction Engineering location: Provo, Utah 84604 email: mark: 4 author: - name: Kaylen Turley abstract: | This document is a template demonstrating the Ieee-conference format. keywords: [template, demo] bibliography: bibliography.bib colorlinks: false numbersections: true header-includes: -
+<hr>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Travel forecasting models are based heavily on data provided by government statistical agencies, such as the US Census Bureau and the Bureau of Labor Statistics. These agencies provide the land use data needed to construct these models, giving statistics such as household number, median household income, etc. for census areas. In countries where statistical agencies are not as reliable, travel forecasting models are generally not developed or have data gaps. In countries where they are available, these models are highly reliant on the public release of such statistical data, which leads to problems if such surveys are delayed or canceled.</p>
+<p>Recent research has sought to find alternative methods to collect land use characteristics. Gathering, analyzing, and utilizing remote sensing data from satellites has been a major focus over the last several decades. Satellite aerial imagery has been used to analyze the volume and density man-made structures and roads to estimate area populations, in both urban and rural settings [<span class="citation" data-cites="allaw_population_2020">@allaw_population_2020</span>]<span class="citation" data-cites="fibaek_multi-sensor_2021">[@fibaek_multi-sensor_2021]</span>. Day time imagery has also been used to track vehicle movement between major cities as an indication of economic activity <span class="citation" data-cites="lehnert_proxying_2023">[@lehnert_proxying_2023]</span>. It has also been used to classify land use by estimating landscape patterns and building functions, dividing different surfaces, and then categorizing building types <span class="citation" data-cites="zhang_landscape_2020">[@zhang_landscape_2020]</span>. Night time light data has also been shown to be useful as well. One study correlated city light output with social economic variables such as population, GDP and eclectic power consumption <span class="citation" data-cites="kamarajugedda_assessing_2017">[@kamarajugedda_assessing_2017]</span>, while another used the light emitted from cars at night on highways to predict vehicle travel between cities <span class="citation" data-cites="chang_novel_2020">[@chang_novel_2020]</span>. Satellite imagery has also be used to produce data sets such as the Microsoft Building Footprints data set, which has been used along with LiDAR and point of interest data to inventory residential structures from census data [<span class="citation" data-cites="microsoft_globalmlbuildingfootprints_2026">@microsoft_globalmlbuildingfootprints_2026</span>]<span class="citation" data-cites="ye_enhancing_2024">[@ye_enhancing_2024]</span>.</p>
+<p>With the rise of commercially available and affordable aerial drones, the ability to capture remote sensing data such as high-quality aerial imagery has become significantly easier. The creation of open-source software’s for drone use has also made it more accessible for use in research <span class="citation" data-cites="irujo_open_2023">[@irujo_open_2023]</span>.Though the practical uses, economical feasibility, and ethical concerns of collecting the higher resolution data is still being discussed <span class="citation" data-cites="hall_use_2021">[@hall_use_2021]</span>.</p>
+<p>More recently, with the advancement of more accessible deep learning models, machine learning has become very prevent in analyzing and classifying remote sensing data. One of its primary uses so far has been to analyze large amounts of data, for such uses of tracking vehicle movement between cities <span class="citation" data-cites="lehnert_proxying_2023">[@lehnert_proxying_2023]</span>, or predicting population characterizes and locations of man-made structures across entire countries. <span class="citation" data-cites="fibaek_multi-sensor_2021">[@fibaek_multi-sensor_2021]</span> Building classification is of particular interest for collecting land use characterizes. Models such as “You Only Look Once” (YOLO) are being used to identify buildings and extract building footprints [<span class="citation" data-cites="nurkarim_building_2023">@nurkarim_building_2023</span>]<span class="citation" data-cites="sharma_building_2023">[@sharma_building_2023]</span>.</p>
+<p>Within this currently research the question arises “can remote sensing data be used to develop the land use data currently obtained from statistical agencies?” The development of such a process or method would solve many problems in places without reliable statistical data as well as supplement data in other places.</p>
+<p>In this paper the process of collecting building footprints for a city, annotating aerial images of the buildings, and training an YOLO model to classify building types is discusses. At the end it presents research and findings into creating a model that recognizes and categorizes building types based off remote sensing data, and discusses future research into estimating household statistics for a general area.</p>
+</section>
+<section id="methodology" class="level1">
+<h1>Methodology</h1>
+<section id="data-collection" class="level2">
+<h2 class="anchored" data-anchor-id="data-collection">Data Collection</h2>
+<p>The city of Logan, Utah was chosen for analysis. Building footprints for Logan were obtained from the Microsoft Building Footprint public dataset. This dataset allowed for easy access to building footprint data for this initial study. All analysis was run using Python 3.12 and various python packages and APIs.</p>
+<!-- Split this up and not have it go across the page??? -->
+<div id="fig-logan-clusters-map-plot" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-logan-clusters-map-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><img src="images_figures/building_footprints_logan.png" id="fig-logan-b-f" class="img-fluid figure-img" style="width:100.0%"> <!-- fig-env="figure* (This will place the figure across both pages--></p>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-logan-clusters-map-plot" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan-bcp-n" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan-bcp-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images_figures/Logan_Building_Cluster_plot_Normilized.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-logan-clusters-map-plot">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan-bcp-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Area vs parameter plot
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logan-clusters-map-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: K-mean analysis for Logan, Utah
+</figcaption>
+</figure>
+</div>
+<p>With the chosen city the latitude and longitude of the official city boundaries was obtained. Using this boundary, all the building footprints in the city were extracted from the Microsoft Building Footprint dataset and saved as a geojson file. The building were then classified using a simple K-mean analysis to differentiate different sized buildings. To do this, the optimal K-mean was found using the elbow method. Using this K value, a K-mean analysis was run comparing the areas of the building footprints to their perimeters. <a href="#fig-logan-clusters-map-plot" class="quarto-xref">Figure&nbsp;1</a> shows the distribution of different cluster types, with most of the buildings in Logan being a smaller size.</p>
+<p>Using the building footprint location and the python Library “Contextily”, 600 randomly chosen aerial images of building in Logan were taken from publicly available satellite imagery and cropped to focus on a single building. 200 of the images were from clusters that included only larger buildings to help balance building types in the dataset.</p>
+</section>
+<section id="model-training" class="level2">
+<h2 class="anchored" data-anchor-id="model-training">Model Training</h2>
+<p>Ultraylitics’ “You Only Look Once” or YOLO model is a open source object detection model that has become very popular within do due it’s accuracy and ease of use. The model is trained on images that have been previously annotated, using bounding boxes, to identify the categories desired for the model to detect. The model trains itself on these images over many iterations until it is able to consistently recognize the different categories of objects. The YOLO model is then able to predict these categories in other images by bounding them in bounding boxes and displaying the probability of correct identification.</p>
+<p>Using the open source tool Label Studio, the collected street map images were manually annotated. This annotation including creating bounding boxes around the roof of each building, using best judgement based off the appearance of the building and surrounding buildings and area. The main buildings in each picture was labeled into five building categories: Apartment, Residential, Commercial, Church, and School. This order was constant across annotations. These bounding boxes were saved as text files and each one matched up with its corresponding image.</p>
+<p>The annotated data sets were split into two categories. 80% of the images were used in training the object detection model, while 20% of the images were reserved for validation purposes. Within these image sets clusters that included larger and less common building sizes were specifically included, due to their relatively lower likelihood of appearing, to make sure the model would be trained on these less common building types.</p>
+<p>The model was run through hundreds of iterations until the model was able to accurately and reliably predict building types in Logan Utah. The model was then validated on images it had never seen to help prevent the model from “memorizing” the images. The results of the validation of the model are shown in <a href="#fig-confusion-matrix-logan" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<div id="fig-confusion-matrix-logan" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-confusion-matrix-logan-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-confusion-matrix-logan" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan_cm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan_cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../runs/detect/logan_validation/confusion_matrix.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-confusion-matrix-logan">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan_cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Logan confusion matrix
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-confusion-matrix-logan" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan_cm_n" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan_cm_n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../runs/detect/logan_validation/confusion_matrix_normalized.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-confusion-matrix-logan">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan_cm_n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Logan confusion Matrix normalized
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-confusion-matrix-logan-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: YOLO confusion matrixes for Logan, Utah.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="model-validation-and-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="model-validation-and-comparison">Model Validation and Comparison</h2>
+<p>Once the model was trained and validated using the Logan, Utah data set, the model was then tested upon other cities in Utah to assess its viability in predicting building categories elsewhere in Utah. Using American Community Survey data, five other test cities were chosen based off the city’s median income level, and the median age of the homes. The chosen cities can been seen in <a href="#tbl-val-cities" class="quarto-xref">Table&nbsp;1</a>.</p>
+<p>Following the same method as previously described, building footprint data was collected and analyzed for each city. 200 aerial images of buildings were randomly chosen and annotated. These annotated data sets were then run through the model using validation only. The results of these runs are given below in <a href="#fig-confusion-matrix-val-cities" class="quarto-xref">Figure&nbsp;3</a>. These results were then analyses to evaluate the ability of the model to predict in other cities, as well as assess if household income or house age were indicating factors.</p>
+</section>
+</section>
+<section id="results-and-discussion" class="level1">
+<h1>Results and Discussion</h1>
+<section id="logan-utah-results" class="level2">
+<h2 class="anchored" data-anchor-id="logan-utah-results">Logan, Utah Results</h2>
+<p>The results of the Logan trained YOLO model are shown in <a href="#fig-confusion-matrix-logan" class="quarto-xref">Figure&nbsp;2</a>. The desired output of the model is to have all the numbers in a diagonal line, which would indicate that the model is predicting the category of a building that is in line with the annotations made. The model was able to accurately predict residential, commercial, and apartment building types almost 100% of the time. It did underperform with schools and churches. This is attributed to the fact that there were very low number of images of both building types provided during model training. Future training would seek out more images of these buildings or possibly find another way to identify them due to their rare occurrence.</p>
+<p>A important aspect to discuss is the model predicting different building types where there is no building. This is seen on the far right of each graph, where the background was categorized. This error occurs from two sources. One is the annotation. Building such as backyard sheds were not identified, but the model still picked them up. Or there were times that only a fourth of a building was present in an image, and so was not annotated, but was still recognized by the model at a lower probability level. The other source of error is the quality of the photos used. The satellite images from Contextily were convenient and easy to access, but were not high quality. This resulted in the model sometimes interpreting things of solid colors, such as roads and covered parking, as a type of building. The second error could be solved using higher quality photos, while the first stricter guidelines on annotation for consistency. However, in practice, error one may be less relevant if only the primary building in each image matters to be identified.</p>
+</section>
+<section id="other-utah-cities-results" class="level2">
+<h2 class="anchored" data-anchor-id="other-utah-cities-results">Other Utah Cities Results</h2>
+<p>When the Logan model was applied to other cities in Utah, it had mixed results, as seen in <a href="#fig-confusion-matrix-val-cities" class="quarto-xref">Figure&nbsp;3</a>. In all cities, the model struggled to correctly identify the different building types. It misidentified residential building at least half of the time in most cities, with the other building types having even worse results. While it seemed to do better in Saratoga Springs with residential buildings, its accuracy with other building types is still far to low to be useful.</p>
+<p>The model also struggled with simply recognizing budlings at all. Each city had a significant number of buildings that were predicated as background. When the building images were individually checked, some had trees or other shadows partially covering the roof which could help explain this behavior. Yet, many of the Logan building images has similar characteristics. The image quality taken from Contextily could have played a role, yet images from both Logan and all other cities seemed to be of similar quality. So, it is uncertain whether higher quality images would have an effect on the model’s accuracy in other cities.</p>
+<p>While it was theorized that median income or house age would play a significant factor in the model’s ability to recognize different building types, this does not see to be the case. The model preformed the same in every city it was not trained on. Neither house age or house median income made a difference in classification. Relative proximity and similarity of culture also did not seem to be factors as well.</p>
+<p>Given the results of the validations, a process to develop a model for different locations would be more useful and viable then to create a universal model used in a wide area. It appears that building styles and types are unique enough between cities that a single unified model, at least one mostly dependent on identifying budling roofs, is not feasible. However, as will be discussed more in the future research section, adding other variables to the classification, such as the presence of sidewalks, swing sets, etc. could allow for a more general model to be developed.</p>
+<div id="fig-confusion-matrix-val-cities" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-confusion-matrix-val-cities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-confusion-matrix-val-cities" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan_cm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan_cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../runs/detect/bountiful_validation/confusion_matrix_normalized.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-confusion-matrix-val-cities">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan_cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Bountiful, Utah
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-confusion-matrix-val-cities" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan_cm_n" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan_cm_n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../runs/detect/saratoga_springs_validation/confusion_matrix_normalized.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-confusion-matrix-val-cities">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan_cm_n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Saratoga Springs, Utah
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-confusion-matrix-val-cities" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan_cm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan_cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../runs/detect/ogden_validation/confusion_matrix_normalized.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-confusion-matrix-val-cities">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan_cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Ogden, Utah
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-confusion-matrix-val-cities" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan_cm_n" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan_cm_n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../runs/detect/st_george_validation/confusion_matrix_normalized.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-confusion-matrix-val-cities">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan_cm_n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) St.&nbsp;George, Utah
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-confusion-matrix-val-cities" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan_cm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan_cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../runs/detect/price_validation/confusion_matrix_normalized.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-confusion-matrix-val-cities">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan_cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(e) Price, Utah
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-confusion-matrix-val-cities" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-logan_cm_n" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-logan_cm_n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../runs/detect/logan_validation/confusion_matrix_normalized.png" class="img-fluid figure-img" style="width:100.0%" data-ref-parent="fig-confusion-matrix-val-cities">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-logan_cm_n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(f) Logan Utah
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-confusion-matrix-val-cities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Normalized YOLO confusion matrixes
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="conclusion-and-future-research" class="level1">
+<h1>Conclusion and Future Research</h1>
+<p>This paper presented the results of using a deep learning model to classify building types from aerial imagery. Building footprints in Logan, Utah were used to identify buildings, images of individual buildings were used to trained a YOLO model, and that model was then tested on predicating building categories from other cities in Utah in which it was not trained on.</p>
+<p>Currently, this research is suspectable to many of the same problems as transportation models. Satellite and aerial imagery is not consistent around the world, having varying availability and image quality. It also may be outdated, especially in fast developing areas. The use of commercial drones could solve many of these problems, but they also come with their own. It would take some time to collect a whole city’s worth of imagery, and also be dependent on the weather. There are also potential ethical problems with such data collection. It straddles the line between public and private information. This will need to be considered as further research is done into this area as to stay on the right side of the law <span class="citation" data-cites="hall_use_2021">[@hall_use_2021]</span>.</p>
+<p>Concerning future research, this study is only in the beginning stages of development, with many potential future directions. As discussed, the model or another model could be trained to detect other objects that could be used to developed socioeconomic data, such as cars, swing sets, patios, amount of foliage or green space around house, etc. Predicted building type would become just one variable in a larger model that. Also as discussed, aerial imagery from drones could also be used acquire higher quality imagery which could improve the training and accuracy of future models. This imagery could also be used to extract building footprints. The Microsoft Building footprint data set is expansive, but not exhaustive. And it also features many notable errors in building footprint identification.</p>
+<p>As discussed, aerial imagery from drones</p>
+<p>What does the future research look like?</p>
+<p>Training models to detect other things such as cars, swing sets, patios, etc.</p>
+<p>Creating the process to predict household types based off the collected data</p>
+<p>Incorporating drone aerial imagery and extracting building footprints from that.</p>
+<p>Research into other remote sensing data and how it could be incorporated.</p>
+</section>
+<section id="acknowledgment" class="level1">
+<h1>Acknowledgment</h1>
+<p>The authors would like to thank…</p>
+</section>
+<section id="references" class="level1 numbered">
+<h1 class="numbered">References</h1>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
