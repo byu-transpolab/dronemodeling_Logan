@@ -583,7 +583,7 @@ classifying remote sensing data. One of its primary uses so far has been
 to analyze large amounts of data, for such uses of tracking vehicle
 movement between cities \autocite{lehnert_proxying_2023}, or predicting
 population characterizes and locations of man-made structures across
-entire countries. \autocite{fibaek_multi-sensor_2021} Building
+entire countries \autocite{fibaek_multi-sensor_2021}. Building
 classification is of particular interest for collecting land use
 characterizes. Models such as ``You Only Look Once'' (YOLO) are being
 used to identify buildings and extract building footprints
@@ -795,15 +795,16 @@ indicating factors.
 
 The results of the Logan trained YOLO model are shown in
 Figure~\ref{fig-confusion-matrix-logan}. The desired output of the model
-is to have all the numbers in a diagonal line, which would indicate that
-the model is predicting the category of a building that is in line with
-the annotations made. The model was able to accurately predict
-residential, commercial, and apartment building types almost 100\% of
-the time. It did underperform with schools and churches. This is
-attributed to the fact that there were very low number of images of both
-building types provided during model training. Future training would
-seek out more images of these buildings or possibly find another way to
-identify them due to their rare occurrence.
+was to have all the numbers in a diagonal line, which would indicate
+that the model is predicting the category of a building that is in line
+with the annotations made.\\
+The model was able to accurately predict residential, commercial, and
+apartment building types almost 100\% of the time. It did underperform
+with schools and churches. This is likely attributed to the fact that
+there were very low number of images of both building types provided
+during model training. Future training would seek out more images of
+these buildings or possibly find another way to identify them due to
+their rare occurrence.
 
 \begin{figure*}
 
@@ -884,21 +885,24 @@ confusion matrixes}
 
 \end{figure*}%
 
-A important aspect to discuss is the model predicting different building
-types where there is no building. This is seen on the far right of each
-graph, where the background was categorized. This error occurs from two
-sources. One is the annotation. Building such as backyard sheds were not
-identified, but the model still picked them up. Or there were times that
-only a fourth of a building was present in an image, and so was not
-annotated, but was still recognized by the model at a lower probability
-level. The other source of error is the quality of the photos used. The
-satellite images from Contextily were convenient and easy to access, but
-were not high quality. This resulted in the model sometimes interpreting
-things of solid colors, such as roads and covered parking, as a type of
-building. The second error could be solved using higher quality photos,
-while the first stricter guidelines on annotation for consistency.
-However, in practice, error one may be less relevant if only the primary
-building in each image matters to be identified.
+A important aspect to discuss is the issue with the model predicting
+different building types where there is no building. This is seen on the
+far right of each graph, where the background is given as the true
+value, but had predictions in every category. This error occurs from two
+sources. The first is due to the annotation. Building such as backyard
+sheds were not consitantly identified and annotated, but the model still
+picked them up and registed them. Ther were also times that only a
+fourth of a building was present in an image, and was deemed to be
+insufficiant to recongnize the buildingwas not annotated, but was still
+recognized by the model at a lower probability level. The other source
+of error is the quality of the photos used. The satellite images from
+Contextily were convenient and easy to access, but were not high
+quality. This resulted in the model sometimes interpreting things of
+solid colors, such as roads and covered parking, as a type of building.
+The second error could be solved using higher quality photos, while the
+first stricter guidelines on annotation for consistency. However, in
+practice, error one may be less relevant if only the primary building in
+each image matters to be identified.
 
 \subsection{Other Utah Cities Results}\label{other-utah-cities-results}
 
