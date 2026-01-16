@@ -84,11 +84,11 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
     - clusters=None
     """
 
-    location =Path(geojson_path).name
+    location =Path(geojson_path).stem
     
     # Create timestamped subfolder
     timestamp = datetime.now().strftime("%Y_%m_%d_%H%M%S")
-    subfolder_name = f"Buildings_seed{seed}_{timestamp}_{location}"
+    subfolder_name = f"{location}_seed{seed}_{timestamp}"
     if clusters:
         cluster_str = "_".join(map(str, clusters))
         subfolder_name = f"{subfolder_name}_clusters_{cluster_str}"
@@ -106,6 +106,8 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
     gdf = gpd.read_file(geojson_path)
     gdf = gdf[gdf.geometry.notnull() & gdf.geometry.type.isin(["Polygon", "MultiPolygon"])].copy()
     gdf = gdf.reset_index(drop=True)
+
+    print(f"Max ID in local file: {gdf['id'].max()}")
 
     if gdf.empty:
         raise ValueError("No valid polygon geometries found in the GeoJSON.")
@@ -217,32 +219,27 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
     if crop:
         crop_images_by_latlon(out_dir_ts,image_size_bb_dir,building_bb_dir) 
 
-    return saved
+    # Return the list of files and allows the pipeline to continue to step two
+    return saved, out_dir_ts
 
 
-geojson_path = "/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/bountiful_utah.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
-out_dir = "/Users/willicon/Desktop"
+#------------#
+# Execution
+#------------#
+if __name__ == "__main__":
+
+    geojson_path = "/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/Logan_utah.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
+    out_dir = "/Users/willicon/Desktop"
 
 
-#Zoom 19 is closest zoom we can get
-#The seed tells what bulding to sample. Remebering the seed will allow it to be reproduced. 
-sample_and_save(geojson_path, 
-                out_dir, 
-                n=100, 
-                buffer_ft=50, 
-                zoom=19, 
-                seed=8,
-                crop = True)
-                #,clusters=[1,2,3]) # Clusters are given as list
-
-
-sample_and_save(geojson_path, 
-                out_dir, 
-                n=100, 
-                buffer_ft=50, 
-                zoom=19, 
-                seed=25,
-                crop = True)
-                #,clusters=[1,2,3]) # Clusters are given as list
-
+    #Zoom 19 is closest zoom we can get
+    #The seed tells what bulding to sample. Remebering the seed will allow it to be reproduced. 
+    sample_and_save(geojson_path, 
+                    out_dir, 
+                    n=12, 
+                    buffer_ft=50, 
+                    zoom=19, 
+                    seed=50,
+                    crop = True)
+                    #,clusters=[1,2,3]) # Clusters are given as list
 

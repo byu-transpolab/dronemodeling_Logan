@@ -144,7 +144,9 @@ def pull_building_footprints (area_coordinates,output_folder_path,name):
       for fn in tmp_fns:
           gdf = gpd.read_file(fn)  # Read each file into a GeoDataFrame
           gdf = gdf[gdf.geometry.within(aoi_shape)]  # Filter geometries within the AOI
-          gdf['id'] = range(idx, idx + len(gdf))  # Update 'id' based on idx
+          
+          gdf['id'] = range(idx, idx + len(gdf))  
+          
           idx += len(gdf)
           combined_gdf = pd.concat([combined_gdf,gdf],ignore_index=True)
 
@@ -211,7 +213,8 @@ def k_mean_prepare_area_perimeter_scaled(geojson_file):
     return (gdf, X_scaled)
 
 
-def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None):
+# --- UPDATED FUNCTION ---
+def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None, filename_prefix="output"):
     kmeans = KMeans(n_clusters=k_value, random_state=42, n_init="auto")
     gdf["cluster"] = kmeans.fit_predict(X_scaled)
     """
@@ -221,8 +224,8 @@ def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None):
     view :  1 - Plots buldinging clusters
             2 - Normalizes plot for 1
             3 - No plot.
-
-
+    output_folder: folder to save output
+    filename_prefix: string to use for the output filename
     """
 
     # ---- VIEW OPTIONS ----
@@ -256,7 +259,8 @@ def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None):
         # ---- SAVE CLUSTERED GEOJSON ----
         if output_folder:
             os.makedirs(output_folder, exist_ok=True)
-            output_path = os.path.join(output_folder, "stgeorge_kmeans_cluster.geojson") # !!!!Update this so that the name reflects the geojson file used.!!!!
+            # UPDATED: Uses the dynamic filename_prefix passed to the function
+            output_path = os.path.join(output_folder, f"{filename_prefix}_kmeans_cluster.geojson")
         else:
             base, ext = os.path.splitext(gdf.__geo_interface__["name"] if hasattr(gdf, "__geo_interface__") else "output")
             output_path = base + "_clustered.geojson"
@@ -352,28 +356,42 @@ def view_geojson_with_clusters(gdf, geojson_path, bb_folder=None, output_html=No
     print(f"\nMap saved to: {output_html}")
     return str(output_html)
 
-def run_kmeans_cluster_view(geojson_path,bb_folder=None,view=3):
+# --- UPDATED FUNCTION ---
+def run_kmeans_cluster_view(geojson_path, bb_folder=None, view=3):
     """
     This will run the whole process to create a html file of the kmeans analysis. 
     
     Args:
         geojson_path: (str): path to geojson with building footprint data 
-        bb_folder: (str, optional): Adds bounding boxes given in long/lat to HTML file. Used to verify building area capture pictures.
-        output_html (str, optional): Output HTML file path. If None, automatically derived from geojson_path
-        zoom_start (int): Initial zoom for the HTML map
+        bb_folder: (str, optional): Adds bounding boxes given in long/lat to HTML file.
+        view: View mode (1, 2, or 3)
     """
+    # 1. Prepare data
     gdf, X_scaled = k_mean_prepare_area_perimeter_scaled(geojson_path)
-    k_value = k_value_elbow_method(X_scaled,False)
-    gdf = k_mean_analysis(gdf, X_scaled, k_value, view=view, output_folder= "buildingfootprint") #Update so this is not hard coded
-    html_path = view_geojson_with_clusters(gdf, geojson_path,bb_folder)
+    
+    # 2. Get optimal K
+    k_value = k_value_elbow_method(X_scaled, plot=False)
+    
+    # 3. Get proper filename from the path (e.g., "logan_utah")
+    file_name_clean = os.path.splitext(os.path.basename(geojson_path))[0]
+    output_folder = os.path.dirname(geojson_path)
+    
+    # 4. Run Analysis with dynamic name
+    gdf = k_mean_analysis(
+        gdf, 
+        X_scaled, 
+        k_value, 
+        view=view, 
+        output_folder=output_folder, 
+        filename_prefix=file_name_clean
+    )
+    
+    # 5. Generate Map
+    html_path = view_geojson_with_clusters(gdf, geojson_path, bb_folder)
     return html_path        
 
 
-
-
 #### Main Execution ####
-
-
 
 # 1. Define Output settings
 output_folder_path = "buildingfootprint"
@@ -401,12 +419,3 @@ try:
 
 except Exception as e:
     print(f"An error occurred: {e}")
-
-
-'''
-geojson_path = "buildingfootprint/st_george.geojson"
-gdf, X_scaled = k_mean_prepare_area_perimeter_scaled(geojson_path)
-k_value = k_value_elbow_method(X_scaled,False)
-gdf_cluster = k_mean_analysis(gdf,X_scaled,k_value, 3, output_folder_path)
-
-'''
