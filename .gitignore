@@ -11,3 +11,4 @@
 *.toc
 *.bcf
 runs/detect/**/*.txt
+ietc_paper/.DS_Store
