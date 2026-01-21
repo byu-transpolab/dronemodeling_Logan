@@ -24,13 +24,13 @@ affiliation:
       email: gregmacfarlane@byu.edu, willicon@byu.edu, kaylentu@byu.edu
 
 abstract: |
-  Travel forecasting models rely heavily on land use data from government agencies, which can be inconsistent or unavailable in many regions. This study investigates the viability of aerial imagery and deep learning models as a first step to develop a method to obtain this statistical data. 
+  Travel forecasting models rely heavily on land use data from government agencies, which can be inconsistent or unavailable in many regions. In this paper we investigate the viability of using aerial imagery and machine learning models as a first step to develop a method to obtain this statistical data. 
 
-  Using Logan, Utah as a primary case study, the Microsoft Building Footprints dataset and aerial imagery was used to train a "You Only Look Once" (YOLO) model to classify building types, including residential, commercial, and apartment buildings. 
-  The model demonstrated high accuracy in identifying building types in the training city. 
-  However, when validated against five other Utah cities selected for diversity of median income and housing ages, the model showed limited transferability, which suggests that differences between house architecture necessitates local training. 
+  Using Logan, Utah as a primary case study, we used the Microsoft Building Footprints dataset and aerial imagery to train a "You Only Look Once" (YOLO) model to classify building types, including residential, commercial, and apartment buildings. 
+  We found that the model demonstrated high accuracy in identifying building types in the training city. 
+  However, when validated against five other Utah cities selected for diversity of median income and housing ages, the model showed limited transferability, which suggests that differences between house architecture could necessitate local training. 
 
-  This paper analyzes these performance discrepancies and discusses future potential research such as integrating additional environmental indicators and using high-resolution drone imagery to create more robust models for estimating household statistics and land use data. 
+  We analyzed these performance discrepancies and discuss future potential research such as integrating additional environmental indicators and using high-resolution drone imagery to create more robust models for estimating household statistics and land use data. 
 
 keywords: [aerial imagery, deep learning, AI, transportation, land use data]
 bibliography: bibliography.bib
@@ -42,55 +42,54 @@ header-includes:
 ---
 
 # Introduction
-
 Travel forecasting models rely on land use data as a primary input; these data include the number of persons and households living in a given area, as well as other information relevant to travel behavior including the availability of motor vehicles, the income of the residents, and the presence of workers, students, and non-workers.
 In many contexts, these data are assembled from government statistical agencies; in the United States common sources include the US Census Bureau and the Bureau of Labor Statistics. 
-In countries where statistical agencies are reliable, travel forecasting models are generally not developed or have data gaps. 
+In countries where statistical agencies are not reliable, travel forecasting models are generally not developed or have data gaps. 
 In countries where the data are available, these models are highly reliant on the consistent and public release of the data.
 
 Recent research has sought to find alternative methods to collect land use characteristics. 
 Satellite aerial imagery has been used to analyze the volume and density man-made structures and roads to estimate area populations, in both urban and rural settings [@allaw_population_2020][@fibaek_multi-sensor_2021]. 
 Day time imagery has also been used to track vehicle movement between major cities as an indication of economic activity [@lehnert_proxying_2023]. 
-Such imagery has also been used to classify land use by estimating landscape patterns and building functions, dividing different surfaces, and then categorizing building types [@zhang_landscape_2020]. 
+Such imagery has also been used to classify land use by estimating landscape patterns and building functions, identifying different surfaces, and then categorizing building types [@zhang_landscape_2020]. 
 Night time light data has also been shown to be useful as well. 
 One study correlated city light output with social economic variables such as population, GDP and eclectic power consumption [@kamarajugedda_assessing_2017], while another used the light emitted from cars at night on highways to predict vehicle travel between cities [@chang_novel_2020]. 
-Satellite imagery has also be used to produce data sets such as the Microsoft Building Footprints data set, which has been used along with LiDAR and point of interest data to inventory residential structures from census data [@microsoft_globalmlbuildingfootprints_2026][@ye_enhancing_2024]. 
+Satellite imagery has also been used to produce data sets such as the Microsoft Building Footprints data set, which has been used along with LiDAR and point of interest data to inventory residential structures from census data [@microsoft_globalmlbuildingfootprints_2026][@ye_enhancing_2024]. 
 Unfortunately, processes and methods reliant on satellite data are also susceptible to the availability of said data, which like statistical data may not be available across the world or could have its public access revoked. 
 
 With the rise of commercially available and affordable aerial drones, the ability to capture remote sensing data such as high-quality aerial imagery has become significantly easier. 
-Over the past several decades this has led to high-resolution and accurate products that has benefited many fields [@colomina_unmanned_2014]. 
-Drones have also seen greater application within the scientific sector [@watts_unmanned_2012]. 
-The creation of open-source software for drone use has also increased its accessibility [@irujo_open_2023]. 
-Another advantage of aerial drones vis a vis satellite imagery is the ability to capture images from multiple angles, which can be used to create a more complete picture of a given area [@berrettLargeScaleRealityModeling2021].
-While not being as reliant on the public release of data, the practicality of and economic feasibility of wide spread use of drones is still being discussed, with ethical concerns of collecting higher resolution data still part of an ongoing discussion [@hall_use_2021]. 
+Over the past several decades this availibilty of data has led to high-resolution and accurate products that has benefited many fields [@colomina_unmanned_2014]. 
+One such field is the scientific sector, where drones have seen many applications [@watts_unmanned_2012]. 
+Another advantage of aerial drones vis-à-vis satellite imagery is the ability to capture images from multiple angles, which can be used to create a more complete picture of a given area [@berrettLargeScaleRealityModeling2021].
+Both of these applications have been aided by the creation of open-source software for planning drone flights and analysing the collected data [@irujo_open_2023]. 
+This wide adoption of drones is not without its own problems. 
+While not being as reliant on the public release of data is satalite data, concerns over the wide spread use of drones in data collection is a debated topic. One of the biggest of these are the ethical concerns of collecting higher resolution data and its interaction with privacy laws [@hall_use_2021]. 
 
 More recent advances in machine learning have led to more applications of remote sensing data, including tracking vehicle movement between cities [@lehnert_proxying_2023], or predicting population characterizes and locations of man-made structures across entire countries [@fibaek_multi-sensor_2021]. 
-Models such as "You Only Look Once" (YOLO) are being used to identify buildings and extract building footprints [@nurkarim_building_2023][@sharma_building_2023], a particularly useful application for travel forecasting model inputs. 
-It is expected that as data sets continue to grow larger the use of deep learning models for analysis will become more and more relevant and practical, along with their potential to help solve a multitude of issues facing communities. 
+Models such as Ultralytics' "You Only Look Once" (YOLO) model [@Jocher_Ultralytics_YOLO_2023] are being used to identify buildings and extract building footprints [@nurkarim_building_2023][@sharma_building_2023], a particularly useful application for travel forecasting model inputs. 
+It is expected that as travel forcast and other data sets continue to grow larger the use of machine learning models for analysis will become more and more relevant and practical.
 
 Within the context of this background and research the question arises as to whether and to what extent remote sensing data can be used to develop land use independent from statistical agencies.
 The development of a process or method that could synthesize such data would solve many problems in places without reliable statistical data as well as supplement data in other places. 
 
 In this paper we present initial efforts to determine building type from building footprint data and aerial images of buildings. We do this by training a deep learning model on labeled data from Logan, Utah. 
 We then apply this model to other cities in Utah to assess its viability in predicting building categories outside of the training data. The paper closes by discussing limitations and associated future research.
-
 # Methodology
 
 ## Data Collection
-The city of Logan, Utah was chosen for initial analysis. 
-Logan was chosen for its size and variability of building ages and types. 
-Building footprints for Logan were obtained from the Microsoft Building Footprint public dataset. 
-This dataset allowed for easy access to building footprint data for this initial study. 
-
 ![K-mean analysis for Logan, Utah](images_figures/building_footprints_logan.png){#fig-logan-clusters-map-plot width=100%}
+We chose the city of Logan, Utah for the initial analysis due to it being smaller and having a variety of building ages and types. 
 
 With the chosen city the latitude and longitude of the official city boundaries was obtained. 
 Using this boundary, all the building footprints in the city were extracted from the Microsoft Building Footprint dataset and saved.
+
+This dataset allowed for easy access to building footprint data for this initial study. 
+
 The buildings were then classified using a simple K-mean analysis to differentiate different sized buildings. 
+
 To do this, the optimal K-mean was found using the elbow method. Using this K value, a K-mean analysis was run comparing the areas of the building footprints to their perimeters. 
 @fig-logan-clusters-map-plot shows the distribution of different cluster types, with most of the buildings in Logan being a smaller size. 
 
-Using the building footprint location and the python Library "Contextily", 600 randomly chosen aerial images of building in Logan were taken from publicly available satellite imagery and cropped to focus on a single building. 
+Using the building footprint location and the python Library "Contextily"[@contextily_software], 600 randomly chosen aerial images of building in Logan were taken from publicly available satellite imagery and cropped to focus on a single building. 
 200 of the images were from clusters that included only larger buildings to help vary building types in the dataset. 
 
 ## Model Training
@@ -106,14 +105,14 @@ Using the building footprint location and the python Library "Contextily", 600 r
 YOLO confusion matrixes for Logan, Utah.
 :::
 
-Ultraylitics' "You Only Look Once" or YOLO model is an open-source object detection model that has become very popular within the research community due it's accuracy and ease of use. 
+Ultraylitics' "You Only Look Once" or YOLO model is an open-source object detection model that has become very popular within the research community due it's accuracy and ease of use. [@Jocher_Ultralytics_YOLO_2023]
 The model is trained on images that have been manually annotated with bounding boxes, to identify the categories desired for the model to detect. 
 The model trains itself on these images over hundreds of iterations until it can consistently recognize the different categories of objects. 
 The model validates itself on other specified annotated images to ensure accuracy. 
 The YOLO model is then able to predict these categories in nonannotated images by bounding them in bounding boxes and displaying the probability of correct identification. 
 An example of a YOLO model prediction in Logan, Utah is shown in @fig-YOLO-example.
 
-Using the open-source tool Label Studio, the collected street map images were manually annotated. 
+Using the open-source tool Label Studio [@Label_Studio], the collected street map images were manually annotated. 
 This annotation including creating bounding boxes around the roof of each building to categorize the building. 
 The main buildings in each picture were labeled into five building categories: Apartment, Residential, Commercial, Church, and School. 
 This order was constant across annotations. 
