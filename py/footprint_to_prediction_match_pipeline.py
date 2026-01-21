@@ -117,7 +117,7 @@ if __name__ == "__main__":
         # Parameters
         "sample_size": 1200,   # Number of images taken of building footprints
         "buffer_ft": 50,
-        "seed": 50,   # Determines random seed to produce images
+        "seed": 87,   # Determines random seed to produce images
         "zoom": 19,
         "crop_images": True,
         "save_image": False,  #Saves predictions images. Only needed for visual verification. 
