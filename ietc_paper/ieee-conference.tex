@@ -530,35 +530,34 @@ aerial imagery; deep learning; AI; transportation; land use data
 
 \section{Introduction}\label{introduction}
 
-Travel forecasting models are based heavily on data provided by
-government statistical agencies, such as the US Census Bureau and the
-Bureau of Labor Statistics. These agencies provide the land use data
-needed to construct these models, giving statistics such as household
-number, median household income, etc. for census areas. In countries
-where statistical agencies are not as reliable, travel forecasting
-models are generally not developed or have data gaps. In countries where
-they are available, these models are highly reliant on the public
-release of such statistical data, which leads to problems if such
-surveys are delayed or canceled.
+Travel forecasting models rely on land use data as a primary input;
+these data include the number of persons and households living in a
+given area, as well as other information relevant to travel behavior
+including the availability of motor vehicles, the income of the
+residents, and the presence of workers, students, and non-workers. In
+many contexts, these data are assembled from government statistical
+agencies; in the United States common sources include the US Census
+Bureau and the Bureau of Labor Statistics. In countries where
+statistical agencies are reliable, travel forecasting models are
+generally not developed or have data gaps. In countries where the data
+are available, these models are highly reliant on the consistent and
+public release of the data.
 
 Recent research has sought to find alternative methods to collect land
-use characteristics. Gathering, analyzing, and utilizing remote sensing
-data from satellites has been a major focus over the last several
-decades, due to its ease of access to the public. Satellite aerial
-imagery has been used to analyze the volume and density man-made
-structures and roads to estimate area populations, in both urban and
-rural settings
+use characteristics. Satellite aerial imagery has been used to analyze
+the volume and density man-made structures and roads to estimate area
+populations, in both urban and rural settings
 {[}\textcite{allaw_population_2020}{]}\autocite{fibaek_multi-sensor_2021}.
 Day time imagery has also been used to track vehicle movement between
 major cities as an indication of economic activity
-\autocite{lehnert_proxying_2023}. It has also been used to classify land
-use by estimating landscape patterns and building functions, dividing
-different surfaces, and then categorizing building types
-\autocite{zhang_landscape_2020}. Night time light data has also been
-shown to be useful as well. One study correlated city light output with
-social economic variables such as population, GDP and eclectic power
-consumption \autocite{kamarajugedda_assessing_2017}, while another used
-the light emitted from cars at night on highways to predict vehicle
+\autocite{lehnert_proxying_2023}. Such imagery has also been used to
+classify land use by estimating landscape patterns and building
+functions, dividing different surfaces, and then categorizing building
+types \autocite{zhang_landscape_2020}. Night time light data has also
+been shown to be useful as well. One study correlated city light output
+with social economic variables such as population, GDP and eclectic
+power consumption \autocite{kamarajugedda_assessing_2017}, while another
+used the light emitted from cars at night on highways to predict vehicle
 travel between cities \autocite{chang_novel_2020}. Satellite imagery has
 also be used to produce data sets such as the Microsoft Building
 Footprints data set, which has been used along with LiDAR and point of
@@ -575,55 +574,54 @@ imagery has become significantly easier. Over the past several decades
 this has led to high-resolution and accurate products that has benefited
 many fields \autocite{colomina_unmanned_2014}. Drones have also seen
 greater application within the scientific sector
-\autocite{watts_unmanned_2012}. The creation of open-source software's
-for drone use has also increased its accessibility
-\autocite{irujo_open_2023}. While not being as reliant on the public
-release of data, the practicality of and economic feasibility of wide
-spread use of drones is still being discussed, with ethical concerns of
-collecting higher resolution data still part of an ongoing discussion
-\autocite{hall_use_2021}.
+\autocite{watts_unmanned_2012}. The creation of open-source software for
+drone use has also increased its accessibility
+\autocite{irujo_open_2023}. Another advantage of aerial drones vis a vis
+satellite imagery is the ability to capture images from multiple angles,
+which can be used to create a more complete picture of a given area
+\autocite{berrettLargeScaleRealityModeling2021}. While not being as
+reliant on the public release of data, the practicality of and economic
+feasibility of wide spread use of drones is still being discussed, with
+ethical concerns of collecting higher resolution data still part of an
+ongoing discussion \autocite{hall_use_2021}.
 
-More recently, with the advancement of more accessible deep learning
-models, machine learning has become very prevent in analyzing and
-classifying remote sensing data. One of its primary uses so far has been
-to analyze large amounts of data, for such uses of tracking vehicle
-movement between cities \autocite{lehnert_proxying_2023}, or predicting
-population characterizes and locations of man-made structures across
-entire countries \autocite{fibaek_multi-sensor_2021}. Building
-classification is of particular interest for collecting land use
-characterizes. Models such as ``You Only Look Once'' (YOLO) are being
-used to identify buildings and extract building footprints
-{[}\textcite{nurkarim_building_2023}{]}\autocite{sharma_building_2023}.
+More recent advances in machine learning have led to more applications
+of remote sensing data, including tracking vehicle movement between
+cities \autocite{lehnert_proxying_2023}, or predicting population
+characterizes and locations of man-made structures across entire
+countries \autocite{fibaek_multi-sensor_2021}. Models such as ``You Only
+Look Once'' (YOLO) are being used to identify buildings and extract
+building footprints
+{[}\textcite{nurkarim_building_2023}{]}\autocite{sharma_building_2023},
+a particularly useful application for travel forecasting model inputs.
 It is expected that as data sets continue to grow larger the use of deep
 learning models for analysis will become more and more relevant and
 practical, along with their potential to help solve a multitude of
 issues facing communities.
 
 Within the context of this background and research the question arises
-``can remote sensing data be used to develop land use data currently
-obtained from statistical agencies?'' The development of a process or
-method that could synthesize such data would solve many problems in
-places without reliable statistical data as well as supplement data in
-other places. With widely available deep learning models and aerial
-imagery, this process has become feasible to develop.
+as to whether and to what extent remote sensing data can be used to
+develop land use independent from statistical agencies. The development
+of a process or method that could synthesize such data would solve many
+problems in places without reliable statistical data as well as
+supplement data in other places.
 
-In this paper the process of collecting building footprints for a city,
-annotating aerial images of buildings, and training a YOLO model to
-classify building types is discusses. At the end it presents research
-and findings into creating a model that recognizes and categorizes
-building types based off remote sensing data, and discusses future
-research into estimating household statistics for a general area.
+In this paper we present initial efforts to determine building type from
+building footprint data and aerial images of buildings. We do this by
+training a deep learning model on labeled data from Logan, Utah. We then
+apply this model to other cities in Utah to assess its viability in
+predicting building categories outside of the training data. The paper
+closes by discussing limitations and associated future research.
 
 \section{Methodology}\label{methodology}
 
 \subsection{Data Collection}\label{data-collection}
 
 The city of Logan, Utah was chosen for initial analysis. Logan was
-chosen for its size and variability of buildings ages and types.
-Building footprints for Logan were obtained from the Microsoft Building
-Footprint public dataset. This dataset allowed for easy access to
-building footprint data for this initial study. All analysis was run
-using Python 3.12 and various python packages and APIs.
+chosen for its size and variability of building ages and types. Building
+footprints for Logan were obtained from the Microsoft Building Footprint
+public dataset. This dataset allowed for easy access to building
+footprint data for this initial study.
 
 \begin{figure}
 
