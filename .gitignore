@@ -11,3 +11,6 @@
 *.toc
 *.bcf
 runs/detect/**/*.txt
+ietc_paper/.DS_Store
+ietc_paper/ieee-conference.quarto_ipynb
+ietc_paper/ieee-conference.html
