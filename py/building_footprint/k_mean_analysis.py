@@ -90,6 +90,19 @@ def get_city_border_coordinates(city_name):
     else:
         raise ValueError(f"Geometry type {geo_type} not supported.")
 
+def get_custom_box_coordinates(west, south, east, north):
+    """
+    Creates a rectangular polygon from bounding box coordinates.
+    Returns a list of [lon, lat] points closing the loop.
+    """
+    print(f"Using custom bounding box: {west}, {south}, {east}, {north}")
+    return [
+        [west, south],  # Bottom-Left
+        [east, south],  # Bottom-Right
+        [east, north],  # Top-Right
+        [west, north],  # Top-Left
+        [west, south]   # Close the loop
+    ]
 # This script will pull the building footprint data from the microsoft building footprint data set.
 def pull_building_footprints (area_coordinates,output_folder_path,name):
     #Define Area of Intrest
@@ -391,31 +404,92 @@ def run_kmeans_cluster_view(geojson_path, bb_folder=None, view=3):
     return html_path        
 
 
+
 #### Main Execution ####
 
-# 1. Define Output settings
+# 1. Configuration
 output_folder_path = "buildingfootprint"
-target_city = "Logan, Utah"  # give in "city, state" formate
-view = 2 #1. Plots building clusters. 
-         #2: Normilized plot
-         #3: No plot created
+target_city = "Orem_windsor" #Replace with city, or a custom name is using a custom polygon
+view = 2 
 
-# Clean up the city name for the filename (e.g., "St. George, Utah" -> "st_george_utah")
-outputname = target_city.lower().replace(" ", "_").replace(".", "").replace(",", "")
+# --- NEW: Custom Polygon Configuration ---
+use_custom_polygon = True 
+
+# Define your polygon vertices: [Longitude, Latitude]
+# IMPORTANT: 
+# 1. Order is [Lon, Lat] (x, y)
+# 2. You must close the loop (Last point must equal First point)
+# Use geojson.io polygon tool
+custom_coords = [
+    
+            [
+              -111.70742609172643,
+              40.32615668841149
+            ],
+            [
+              -111.70121021565895,
+              40.31235004725315
+            ],
+            [
+              -111.66192558139439,
+              40.31251473149072
+            ],
+            [
+              -111.65966488503555,
+              40.31385714452563
+            ],
+            [
+              -111.65591480819654,
+              40.3132328227901
+            ],
+            [
+              -111.65552151141253,
+              40.3150464158405
+            ],
+            [
+              -111.65819367364952,
+              40.31748795077647
+            ],
+            [
+              -111.66711711811013,
+              40.31874605032391
+            ],
+            [
+              -111.67749725220057,
+              40.32506073473394
+            ],
+            [
+              -111.68119647969236,
+              40.32632369809886
+            ],
+            [
+              -111.70742609172643,
+              40.32615668841149
+            ]
+]
+
+
+# Clean up filename
+outputname = target_city.lower().replace(" ", "_")
 geojson_file = f"{output_folder_path}/{outputname}.geojson"
 
-# 2. Get Dynamic Coordinates
+# 2. Get Coordinates
 try:
-    # Get the complex polygon for the city
-    city_polygon = get_city_border_coordinates(target_city)
+    if use_custom_polygon:
+        # Pass the custom list directly
+        area_polygon = custom_coords
+    else:
+        # Standard City Lookup
+        area_polygon = get_city_border_coordinates("Logan, Utah")
     
-    # 3. Pull Data using those coordinates
-    # Your existing function will now download tiles for the bounding box
-    # BUT it will filter buildings to only those inside this complex polygon.
-    pull_building_footprints(city_polygon, output_folder_path, outputname)
+    # 3. Pull Data 
+    # This function accepts the list of lists format natively
+    pull_building_footprints(area_polygon, output_folder_path, outputname)
     
     # 4. Run Analysis
     run_kmeans_cluster_view(geojson_file, bb_folder=None, view=view)
 
 except Exception as e:
     print(f"An error occurred: {e}")
+    import traceback
+    traceback.print_exc()
