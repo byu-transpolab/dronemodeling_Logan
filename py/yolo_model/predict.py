@@ -5,7 +5,6 @@ import os
 def run_yolo_prediction(model_path, source_path, project_name, conf_threshold=None, save_csv=True, save_image=True):
     """
     Runs YOLO prediction. 
-    Added 'save_image' parameter to control visual output.
     """
     # Load the model
     model = YOLO(os.path.abspath(model_path)) 
@@ -15,7 +14,7 @@ def run_yolo_prediction(model_path, source_path, project_name, conf_threshold=No
         "source": source_path,
         "name": project_name,
         "show": False,
-        "save": save_image,      # <--- CHANGED: Now uses the function argument
+        "save": save_image,      
         "line_width": 1,
         "save_crop": False,
         "save_txt": True,        # We usually need this for Step 3 (matching), so keep True
@@ -91,13 +90,13 @@ def run_yolo_prediction(model_path, source_path, project_name, conf_threshold=No
     return csv_output_path, labels_dir
 
 # ---------------------------------------------------------
-# STANDALONE EXECUTION BLOCK
+# EXECUTION
 # ---------------------------------------------------------
 if __name__ == "__main__":
-    # --- YOUR ORIGINAL CONFIGURATION ---
+    # --- CONFIGURATION ---
     MODEL_PATH = "/Users/willicon/Desktop/dronemodeling_Logan/train16/weights/best.pt" 
-    SOURCE_PATH = "/Users/willicon/Desktop/Buildings_seed50_2026_01_16_090930_Logan_utah.geojson" 
-    PROJECT_NAME = "logan_seed50_1200"
+    SOURCE_PATH = "/Users/willicon/Desktop/provo_sharon_riverbottoms_seed15/images" 
+    PROJECT_NAME = "provo_sharon_riverbottoms"
     SAVE_CSV = True 
     
     # Run the function using the hard-coded values above
@@ -106,5 +105,5 @@ if __name__ == "__main__":
         source_path=SOURCE_PATH, 
         project_name=PROJECT_NAME,
         save_csv=SAVE_CSV,
-        save_image=True # Default to True when running manually
+        save_image= False # Default to True when running manually
     )
