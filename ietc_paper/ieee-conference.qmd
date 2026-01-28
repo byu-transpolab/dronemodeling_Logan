@@ -96,9 +96,10 @@ This was done to help vary the building types that the YOLO model would be train
 
 ::: {#fig-confusion-matrix-logan layout-ncol=2 fig-env="figure*"}
 
-![Confusion matrix](../runs/detect/logan_validation/confusion_matrix.png){#fig-logan_cm width=100%}
+![Confusion matrix](../runs/detect/other_utah/logan_validation/confusion_matrix.png){#fig-logan_cm width=100%}
 
-![Normalized confusion matrix](../runs/detect/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+
+![Normalized confusion matrix](../runs/detect/other_utah/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
 
 YOLO confusion matrixes for Logan, Utah.
 :::
@@ -173,17 +174,17 @@ Since there is relatively few number of this building type, our future reserach 
 
 ::: {#fig-confusion-matrix-val-cities layout-ncol=2 layout-nrow=3 fig-env="figure*"}
 
-![Bountiful, Utah](../runs/detect/bountiful_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
+![Bountiful, Utah](../runs/detect/other_utah/bountiful_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
 
-![Saratoga Springs, Utah](../runs/detect/saratoga_springs_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+![Saratoga Springs, Utah](../runs/detect/other_utah/saratoga_springs_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
 
-![Ogden, Utah](../runs/detect/ogden_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
+![Ogden, Utah](../runs/detect/other_utah/ogden_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
 
-![St. George, Utah](../runs/detect/st_george_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+![St. George, Utah](../runs/detect/other_utah/st_george_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
 
-![Price, Utah](../runs/detect/price_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
+![Price, Utah](../runs/detect/other_utah/price_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
 
-![Logan Utah](../runs/detect/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+![Logan Utah](../runs/detect/other_utah/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
 
 Normalized YOLO confusion matrixes
 :::
