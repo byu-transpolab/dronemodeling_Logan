@@ -15,6 +15,6 @@ else:
 #train the model
 results = model.train(              #Determined by new_model
                      data= "training/ultralytics_model/config.yaml" #'/Users/willicon/Desktop/dronemodeling_Logan/py/ultralytics_model/config.yaml'  #Configuation file with training and validation images desginated, as well as the classes
-                    ,epochs =70
+                    ,epochs =500
                     ,device =[-1,-1]) #,device="mps")                             #How many times the training will run. 
 #The [-1,-1] should train the model on the two most idel GPUs?

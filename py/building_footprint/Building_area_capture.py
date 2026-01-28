@@ -228,7 +228,7 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
 #------------#
 if __name__ == "__main__":
 
-    geojson_path = "/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/provo_edgemont_rock_canyon.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
+    geojson_path = "/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/provo_orem_area/vinyard.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
     out_dir = "/Users/willicon/Desktop"
 
 

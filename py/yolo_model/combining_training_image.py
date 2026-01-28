@@ -10,7 +10,7 @@ import random
 # ------------------------------
 
 # Path to the "train" folder where building_seed folders live
-train_root = "/Users/willicon/Desktop/data/Train"
+train_root = "/Users/willicon/Desktop/Annotated Photos Provo Orem Area"
 
 # Output location on Desktop
 base_output = "/Users/willicon/Desktop"
@@ -35,7 +35,7 @@ for root in [training_root, validation_root]:
 
 seed_folders = sorted([
     f for f in os.listdir(train_root)
-    if os.path.isdir(os.path.join(train_root, f)) and "building_seed" in f
+    if os.path.isdir(os.path.join(train_root, f)) and not f.startswith('.')
 ])
 
 if not seed_folders:
