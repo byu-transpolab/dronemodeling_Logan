@@ -225,8 +225,6 @@ def k_mean_prepare_area_perimeter_scaled(geojson_file):
 
     return (gdf, X_scaled)
 
-
-# --- UPDATED FUNCTION ---
 def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None, filename_prefix="output"):
     kmeans = KMeans(n_clusters=k_value, random_state=42, n_init="auto")
     gdf["cluster"] = kmeans.fit_predict(X_scaled)
@@ -269,18 +267,17 @@ def k_mean_analysis(gdf, X_scaled, k_value, view, output_folder=None, filename_p
     elif view == 3:
         print("No plot. Generating GeoJSON with cluster information...")
 
-        # ---- SAVE CLUSTERED GEOJSON ----
-        if output_folder:
-            os.makedirs(output_folder, exist_ok=True)
-            # UPDATED: Uses the dynamic filename_prefix passed to the function
-            output_path = os.path.join(output_folder, f"{filename_prefix}_kmeans_cluster.geojson")
-        else:
-            base, ext = os.path.splitext(gdf.__geo_interface__["name"] if hasattr(gdf, "__geo_interface__") else "output")
-            output_path = base + "_clustered.geojson"
+    if output_folder:
+          os.makedirs(output_folder, exist_ok=True)
+          # UPDATED: Uses the dynamic filename_prefix passed to the function
+          output_path = os.path.join(output_folder, f"{filename_prefix}_kmeans_cluster.geojson")
+    else:
+          base, ext = os.path.splitext(gdf.__geo_interface__["name"] if hasattr(gdf, "__geo_interface__") else "output")
+          output_path = base + "_clustered.geojson"
 
-        gdf.to_file(output_path, driver="GeoJSON")
-        print(f"Clustered GeoJSON saved to: {os.path.abspath(output_path)}")
-
+    gdf.to_file(output_path, driver="GeoJSON")
+    print(f"Clustered GeoJSON saved to: {os.path.abspath(output_path)}")  
+        
     return gdf
 
 def view_geojson_with_clusters(gdf, geojson_path, bb_folder=None, output_html=None, zoom_start=14):
@@ -369,7 +366,6 @@ def view_geojson_with_clusters(gdf, geojson_path, bb_folder=None, output_html=No
     print(f"\nMap saved to: {output_html}")
     return str(output_html)
 
-# --- UPDATED FUNCTION ---
 def run_kmeans_cluster_view(geojson_path, bb_folder=None, view=3):
     """
     This will run the whole process to create a html file of the kmeans analysis. 
@@ -409,8 +405,8 @@ def run_kmeans_cluster_view(geojson_path, bb_folder=None, view=3):
 
 # 1. Configuration
 output_folder_path = "buildingfootprint/provo_orem_area"
-target_city = "provo_central_byu_ppa" #Replace with city, or a custom name is using a custom polygon
-view = 2 
+target_city = "provo_central_byu_pa" #Replace with city, or a custom name is using a custom polygon
+view = 3 
 
 # --- NEW: Custom Polygon Configuration ---
 use_custom_polygon = True 
@@ -422,101 +418,77 @@ use_custom_polygon = True
 # Use geojson.io polygon tool
 custom_coords = [
     
-             [
-              -111.7131144153063,
-              40.27453150941645
+           [
+              -111.68189994561082,
+              40.23196728308017
             ],
             [
-              -111.71508742139163,
-              40.274867311251654
+              -111.6767937649386,
+              40.23413912082512
             ],
             [
-              -111.71735295539513,
-              40.27503640265684
+              -111.62996440012682,
+              40.23376074390666
             ],
             [
-              -111.71465451944833,
-              40.271307739132084
+              -111.62970327597353,
+              40.245031939341914
             ],
             [
-              -111.70531664848055,
-              40.26162247666963
+              -111.64383232755016,
+              40.244826828285056
             ],
             [
-              -111.69378453425075,
-              40.25087925272925
+              -111.64363266849749,
+              40.256659800800946
             ],
             [
-              -111.68657290155708,
-              40.24113246621573
+              -111.64618592600398,
+              40.26243328933833
             ],
             [
-              -111.68474908153736,
-              40.24196769099623
+              -111.65710314569041,
+              40.262788124128065
             ],
             [
-              -111.68175685821178,
-              40.24297106428122
+              -111.664610054034,
+              40.262740301324015
             ],
             [
-              -111.67818193245014,
-              40.24397368415609
+              -111.66366255998207,
+              40.258458538372196
             ],
             [
-              -111.67438824762179,
-              40.24525506995488
+              -111.66606891251047,
+              40.25378695027504
             ],
             [
-              -111.67234574881228,
-              40.24692576809261
+              -111.66883983139391,
+              40.25250758380213
             ],
             [
-              -111.6706681727987,
-              40.24915295697036
+              -111.6699345336414,
+              40.24816796364209
             ],
             [
-              -111.6694285002074,
-              40.25260443680742
+              -111.67409236733918,
+              40.24477327067203
             ],
             [
-              -111.667021991507,
-              40.25421855649196
+              -111.67766718860129,
+              40.243715975531046
             ],
             [
-              -111.66468865917652,
-              40.25622206175174
+              -111.6838693447452,
+              40.24193482152023
             ],
             [
-              -111.66396020001342,
-              40.25922671689881
+              -111.68956021458956,
+              40.23948488053429
             ],
             [
-              -111.66746055839968,
-              40.26234222409781
-            ],
-            [
-              -111.67183546314016,
-              40.26539925764885
-            ],
-            [
-              -111.67300166333254,
-              40.26795548321414
-            ],
-            [
-              -111.67402133143304,
-              40.27217424768625
-            ],
-            [
-              -111.6793388434599,
-              40.272839102200464
-            ],
-            [
-              -111.70462652360627,
-              40.273067758308116
-            ],
-            [
-              -111.7131144153063,
-              40.27453150941645
+              -111.68189994561082,
+              40.23196728308017
             ]
 ]
 

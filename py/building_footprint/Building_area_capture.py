@@ -228,7 +228,7 @@ def sample_and_save(geojson_path, out_dir, n, buffer_ft, seed, zoom=19, crop = T
 #------------#
 if __name__ == "__main__":
 
-    geojson_path = "/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/provo_orem_area/vinyard.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
+    geojson_path = "buildingfootprint/provo_orem_area/provo_grand_lakeview_pa_kmeans_cluster.geojson" #"/Users/willicon/Desktop/dronemodeling_Logan/buildingfootprint/logan.geojson"
     out_dir = "/Users/willicon/Desktop"
 
 
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     #The seed tells what bulding to sample. Remebering the seed will allow it to be reproduced. 
     sample_and_save(geojson_path, 
                     out_dir, 
-                    n=100, 
+                    n=50, 
                     buffer_ft=50, 
                     zoom=19, 
                     seed=15,
