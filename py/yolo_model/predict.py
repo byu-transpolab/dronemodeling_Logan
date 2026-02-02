@@ -94,9 +94,9 @@ def run_yolo_prediction(model_path, source_path, project_name, conf_threshold=No
 # ---------------------------------------------------------
 if __name__ == "__main__":
     # --- CONFIGURATION ---
-    MODEL_PATH = "/Users/willicon/Desktop/dronemodeling_Logan/train16/weights/best.pt" 
-    SOURCE_PATH = "/Users/willicon/Desktop/provo_sharon_riverbottoms_seed15/images" 
-    PROJECT_NAME = "provo_sharon_riverbottoms"
+    MODEL_PATH = "/Users/willicon/Desktop/dronemodeling_Logan/train18_provo_orem/weights/best.pt" 
+    SOURCE_PATH = "/Users/willicon/Desktop/orem_windsor_seed15/images" 
+    PROJECT_NAME = "orem_windsor"
     SAVE_CSV = True 
     
     # Run the function using the hard-coded values above
