@@ -11,8 +11,8 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 
 # --- 1. PARAMETERS ---
 input_file = 'output_data/orem_caschade_orchard_seed15_2026_02_04_083646/neighbor calculations/spatial_features_k5.csv'
-model_path = 'py/random_forest_model/anno_type_orem_caschade_orchard_seed15_2026_02_04_083646_rf_model.joblib'
-name_adden = '_anno_type'
+model_path = 'py/random_forest_model/rf_models/orem_combined_rf_model.joblib'
+name_adden = 'orem_combined'
 
 #These variables should reflect the variables that the model was trained on.  'neighbor_mean_perimeter','neighbor_mean_area'
 variables = ['Area_sqm', 'Perimeter_m', 'Confidence','neighbor_mean_conf', 'neighbor_majority_class','yolo_pred' ]

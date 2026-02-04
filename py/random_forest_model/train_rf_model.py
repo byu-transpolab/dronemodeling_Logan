@@ -8,13 +8,18 @@ from sklearn.ensemble import RandomForestClassifier
 # --- 1. PARAMETERS ---
 input_files = [
     'output_data/orem_caschade_orchard_seed15_2026_02_04_083646/neighbor calculations/spatial_features_k5.csv',
+    'output_data/orem_geneva_suncrest_seed15_2026_02_04_094210/neighbor calculations/spatial_features_k5.csv',
+    'output_data/orem_sharon_riverbottoms_seed15_2026_02_04_094415/neighbor calculations/spatial_features_k5.csv',
+    'output_data/orem_timpview_seed15_2026_02_04_094301/neighbor calculations/spatial_features_k5.csv',
+    'output_data/orem_windsor_seed15_2026_02_04_094605/neighbor calculations/spatial_features_k5.csv',
+    'output_data/vinyard_seed15_2026_02_04_094507/neighbor calculations/spatial_features_k5.csv'
     # Add other file paths here
 ]
 random_state = 42 # Used to create the random string of variables when creating the random forrest.
 test_size = 0.4 # The lower the test size, the more of the buildings used in training. 
                   #Keep at 0.001 if the data used to train will not be the same data used to perdict.
 
-name_adden = 'anno_type_' #Addend to beganning of name. Use '' if none is wanted
+name = 'orem_combined' #Name for model
 
 # Variables are what the model will train itself on. Give as a list of columns.
 # Product is what column is being solved for.
@@ -27,8 +32,17 @@ except NameError:
     script_dir = os.getcwd()
 
 # --- 2. MODEL NAMING ---
-model_filename = f"{name_adden}_rf_model.joblib"
-model_output_path = os.path.join(script_dir, model_filename)
+# Define the subfolder
+subfolder = "rf_models"
+full_output_dir = os.path.join(script_dir, subfolder)
+
+# CRITICAL: Create the folder if it doesn't exist
+if not os.path.exists(full_output_dir):
+    os.makedirs(full_output_dir)
+
+# Create the full path
+model_filename = f"{name}_rf_model.joblib"
+model_output_path = os.path.join(full_output_dir, model_filename)
 
 # --- 3. LOAD, CLEAN & MERGE MULTIPLE FILES ---
 dataframes_list = []

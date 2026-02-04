@@ -144,8 +144,8 @@ def process_building_data(geojson_path, csv_path, k=5, geojson_id='id', csv_id='
 # ==========================================
 
 # 1. Define your file paths here
-geojson_file = 'buildingfootprint/provo_orem_area/orem_caschade_orchard.geojson'
-csv_file = 'output_data/orem_caschade_orchard_seed15_2026_02_04_083646/yolo_pred/yolo_output_data.csv'
+geojson_file = 'buildingfootprint/provo_orem_area/vinyard.geojson'
+csv_file = 'output_data/vinyard_seed15_2026_02_04_094507/yolo_pred/yolo_output_data.csv'
 
 # 2. Run the function with k as an input
 final_df = process_building_data(
