@@ -6,11 +6,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 # --- 1. PARAMETERS ---
-input_file = '/Users/willicon/Desktop/dronemodeling_Logan/output_data/Logan_utah_seed50_2026_01_16_124241/neighbor calculations/spatial_features_k5.csv'
+input_file = 'output_data/orem_caschade_orchard_seed15_2026_02_04_083646/neighbor calculations/spatial_features_k5.csv'
 random_state = 42 # Used to create the random string of variables when creating the random forrest.
-test_size = 0.001 # The lower the test size, the more of the buildings used in training. 
+test_size = 0.4 # The lower the test size, the more of the buildings used in training. 
                   #Keep at 0.001 if the data used to train will not be the same data used to perdict.
-name_adden = 'nn_conf_class_'
+
+name_adden = 'anno_type_' #Addend to beganning of name. Use '' if none is wanted
+
+# Variables are what the model will train itself on. Give as a list of columns.
+# Product is what column is being solved for.
+variables = ['Area_sqm', 'Perimeter_m', 'Confidence','neighbor_mean_conf', 'neighbor_majority_class','yolo_pred']
+product = 'annotation_type'
 
 # Determine script directory to save the model
 try:
@@ -26,16 +32,21 @@ model_filename = f"{name_adden}{grandparent_name}_rf_model.joblib"
 model_output_path = os.path.join(script_dir, model_filename)
 
 # --- 3. LOAD & SPLIT ---
+# 1. Read file
 df = pd.read_csv(input_file)
 
+# 2. Remove rows where the target is NaN (Empty/Null)
+initial_count = len(df)
+df = df.dropna(subset=[product])
+print(f"Removed {initial_count - len(df)} rows with missing '{product}'. Remaining: {len(df)}")
 
-#THIS DETERMINES WHAT VARIABLES ARE CONSIDERED WHEN RUNNING THE RANDOM FORREST MODEL. 
-#feature_cols = ['Area_sqm', 'Perimeter_m', 'Confidence'], 'neighbor_mean_perimeter','neighbor_mean_area'
-feature_cols = ['Area_sqm', 'Perimeter_m', 'Confidence','neighbor_mean_conf', 'neighbor_majority_class']
+# 3. Define Features
+# feature_cols = ['Area_sqm', 'Perimeter_m', 'Confidence'], 'neighbor_mean_perimeter','neighbor_mean_area'
+feature_cols = variables
 X = df[feature_cols]
 
-#THIS IS WHAT IS BEING PERDICTED BY THE feature_cols VARIABLES
-y = df['yolo_pred']
+# 4. Define Target (Now guaranteed to have no NaNs)
+y = df[product]
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=test_size, random_state=random_state
