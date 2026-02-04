@@ -10,9 +10,14 @@ import seaborn as sns
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 
 # --- 1. PARAMETERS ---
-input_file = '/Users/willicon/Desktop/dronemodeling_Logan/output_data/Logan_utah_seed87_2026_01_20_140115/neighbor calculations/spatial_features_k5.csv'
-model_path = '/Users/willicon/Desktop/dronemodeling_Logan/py/random_forest_model/nn_conf_class_Logan_utah_seed50_2026_01_16_124241_rf_model.joblib'
-name_adden = '_nn_conf_class'
+input_file = 'output_data/orem_caschade_orchard_seed15_2026_02_04_083646/neighbor calculations/spatial_features_k5.csv'
+model_path = 'py/random_forest_model/anno_type_orem_caschade_orchard_seed15_2026_02_04_083646_rf_model.joblib'
+name_adden = '_anno_type'
+
+#These variables should reflect the variables that the model was trained on.  'neighbor_mean_perimeter','neighbor_mean_area'
+variables = ['Area_sqm', 'Perimeter_m', 'Confidence','neighbor_mean_conf', 'neighbor_majority_class','yolo_pred' ]
+product = 'annotation_type'
+
 
 try:
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -49,10 +54,15 @@ rf_model = joblib.load(model_path)
 print(f"Loading data from: {input_file}")
 df = pd.read_csv(input_file)
 
+# Remove rows where the target is NaN (Empty/Null)
+initial_count = len(df)
+df = df.dropna(subset=[product])
+print(f"Removed {initial_count - len(df)} rows with missing '{product}'. Remaining: {len(df)}")
+
 #These variables should reflect the variables that the model was trained on.  'neighbor_mean_perimeter','neighbor_mean_area'
-feature_cols = ['Area_sqm', 'Perimeter_m', 'Confidence','neighbor_mean_conf', 'neighbor_majority_class']
+feature_cols = variables
 X = df[feature_cols]
-y = df['yolo_pred']
+y = df[product]
 
 # --- 4. PREDICT ON WHOLE DATASET ---
 print("Running predictions on the entire dataset...")
