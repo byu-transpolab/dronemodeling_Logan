@@ -10,7 +10,7 @@ import random
 # ------------------------------
 
 # Path to the "train" folder where building_seed folders live
-train_root = "/Users/willicon/Desktop/Annotated Photos Provo Orem Area"
+train_root = "/Users/willicon/Desktop/untitled folder 2"
 
 # Output location on Desktop
 base_output = "/Users/willicon/Desktop"

@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
-name = "orem_windsor"
-model = YOLO("/Users/willicon/Desktop/dronemodeling_Logan/train18_provo_orem/weights/best.pt") 
+name = "provo_oakhills_wasatch_seed15"
+model = YOLO("/Users/willicon/Desktop/dronemodeling_Logan/train2_provo/weights/best.pt") 
 
 results = model.val(data= "py/yolo_model/config_val.yaml" #Uses validation congfig.
                     ,name = f"{name}_validation"

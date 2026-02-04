@@ -1,5 +1,5 @@
-train: /Users/willicon/Desktop/orem_windsor_seed15/images
-val: /Users/willicon/Desktop/orem_windsor_seed15/images
+train: /Users/willicon/Desktop/provo_oakhills_wasatch_seed15/images
+val: /Users/willicon/Desktop/provo_oakhills_wasatch_seed15/images
 
 # Classes
 names:
