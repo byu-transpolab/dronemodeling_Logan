@@ -108,13 +108,13 @@ if __name__ == "__main__":
     
     config = {
         # Inputs
-        "geojson_path": PROJECT_ROOT / "buildingfootprint" / "provo_orem_area"/ "provo_sharon_riverbottoms.geojson", #update this path for different cities
-        "yolo_weights": PROJECT_ROOT / "train16" / "weights" / "best.pt",
+        "geojson_path": PROJECT_ROOT / "buildingfootprint" / "provo_orem_area"/ "orem_windsor.geojson", #update this path for different cities
+        "yolo_weights": PROJECT_ROOT / "yolo_models" / "train_orem" / "weights" / "best.pt", #update this for different YOLO models
         "output_base_dir": PROJECT_ROOT / "output_data", 
         
         # If this is None, the annotation step is skipped.
         # If this is a path to a folder of text files (YOLO format), it will match them.
-        "annotation_dir": "/Users/willicon/Desktop/provo_sharon_riverbottoms_seed15/labels"    ,  #None, # e.g., PROJECT_ROOT / "valid" / "labels",
+        "annotation_dir": "/Users/willicon/Desktop/orem_windsor_seed15/labels"    ,  #None, # e.g., PROJECT_ROOT / "valid" / "labels",
         #Seeds must match to work correclty. 
         
         # Parameters
