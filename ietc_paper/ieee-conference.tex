@@ -415,8 +415,8 @@ Trained on Aerial Imagery}
 %% ---- classic IEEETrans wide authors' list ----------------
 \IEEEauthorblockN{
 %% 
-Gregory Macfarlane, Ph.D.\IEEEauthorrefmark{1},
 Connor Williams\IEEEauthorrefmark{1},
+Gregory Macfarlane\IEEEauthorrefmark{1},
 Kaylen Turley\IEEEauthorrefmark{1}
 %%
 }
@@ -537,9 +537,10 @@ many contexts, these data are assembled from government statistical
 agencies; in the United States common sources include the US Census
 Bureau and the Bureau of Labor Statistics \autocite{nchrp}. In countries
 where statistical agencies are not reliable, travel forecasting models
-are generally not developed or have data gaps (CITATION). In countries
-where the data are available, these models are highly reliant on the
-consistent and public release of the data (CITATION).
+struggle to be developed or have data gaps
+\autocite{abueisheh_trip_2024}. In countries where the data are
+available, these models are highly reliant on the consistent and public
+release of the data \autocite{rohanna_census_2006}.
 
 Recent research has sought to find alternative methods to collect land
 use characteristics. Satellite aerial imagery has been used to analyze
@@ -567,32 +568,19 @@ susceptible to the availability of said data, which like statistical
 data may not be available across the world or could have its public
 access revoked.
 
-The rise of commercially available and affordable aerial drones has
-improved the ability for individuals and small organizations to capture
-remote sensing data and high-quality aerial imagery, with impacts felt
-across many fields
-\autocite{colomina_unmanned_2014,watts_unmanned_2012}. A primary
-advantage of aerial drones vis-à-vis satellite imagery is the ability to
-capture images from multiple angles, which can be used to create a more
-complete picture of a given area
-\autocite{berrettLargeScaleRealityModeling2021}. More recent advances in
-machine learning have led to more applications of remote sensing data,
-including tracking vehicle movement between cities
-\autocite{lehnert_proxying_2023}, or predicting population characterizes
-and locations of man-made structures across entire countries
-\autocite{fibaek_multi-sensor_2021}. Models such as Ultralytics' ``You
-Only Look Once'' (YOLO) model \autocite{Jocher_Ultralytics_YOLO_2023}
-are being used to identify buildings and extract building footprints
+More recent advances in machine learning have led to more applications
+of remote sensing data, including tracking vehicle movement between
+cities \autocite{lehnert_proxying_2023}, or predicting population
+characterizes and locations of man-made structures across entire
+countries \autocite{fibaek_multi-sensor_2021}. Models such as
+Ultralytics' ``You Only Look Once'' (YOLO) model
+\autocite{Jocher_Ultralytics_YOLO_2023} are being used to identify
+buildings and extract building footprints
 \autocite{nurkarim_building_2023,sharma_building_2023}, a particularly
 useful application for travel forecasting model inputs. It is expected
 that as travel forcast and other data sets continue to grow larger the
 use of machine learning models for analysis will become more and more
 relevant and practical.
-
-This wide adoption of drones is not without its own problems. Ethical,
-legal, privacy, and safety concerns of unmanned drone flights over
-habited areas have yet to be fully explored or appropriate regulations
-developed \autocite{hall_use_2021}.
 
 Within the context of this background and research the question arises
 as to whether and to what extent remote sensing data can be used to
@@ -948,17 +936,25 @@ To make the model more accurate in categorizing building types, there
 are several different directions future research could take. One
 approach would be to improve the current model's performance. This could
 be achieved using higher quality aerial imagery that we obtain from
-using drones. Drone acquired imagery could allow the model to
-distinguish houses on a much finer level, which could help with the
-model's transferability. This imagery could also be used to extract
-better building footprint data. While the the Microsoft Building
-footprint data set is expansive, but not exhaustive. It is several years
-old and lacks footprints for recent developments. It also features many
-notable errors in building footprint identification, such as combining
-buildings together or creating obviously incorrect footprints. Creating
-our own process to extract footprints over a small area could improve
-the accuracy of our footprints and help not just in finding building but
-also in training other models.
+using drones. The rise of commercially available and affordable aerial
+drone has improved the ability for individuals and small organizations
+to capture high-quality aerial imagery, with impacts felt across many
+fields \autocite{colomina_unmanned_2014,watts_unmanned_2012}. Drone
+acquired imagery could allow the model to distinguish houses on a much
+finer level, which could help with the model's transferability. Another
+primary advantage of aerial drones vis-à-vis satellite imagery is the
+ability to capture images from multiple angles, which can be used to
+create a more complete picture of a given area
+\autocite{berrettLargeScaleRealityModeling2021}. Part of this more
+complete picture could be extracting better building footprint data.
+While the the Microsoft Building footprint data set is expansive, but
+not exhaustive. It is several years old and lacks footprints for recent
+developments. It also features many notable errors in building footprint
+identification, such as combining buildings together or creating
+obviously incorrect footprints. Creating our own process to extract
+footprints over a small area could improve the accuracy of our
+footprints and help not just in finding building but also in training
+other models.
 
 Another direction future research could take would be to create a
 general model that would not only categorize a building but also be able
@@ -995,7 +991,7 @@ use of commercial drones could solve these problems, but they also have
 problems of their own. Collecting a whole city's worth of imagery would
 take time to plan logistics and photograph. The flights would also be
 dependent on the weather, as well as local and national regulations that
-could present challenges. here are also potential ethical problems with
+could present challenges. There are also potential ethical problems with
 this data collection, with drone collected imagery straddling the line
 between public and private information \autocite{hall_use_2021}.
 Splitting neighborhoods into subsections for data collecting and
