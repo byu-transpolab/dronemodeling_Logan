@@ -1,6 +1,6 @@
 # ISLERS: Independent Socioeconomic Land Evaluation from Remote Sensing data
 
-**Research Lab:** [BYU Transportation Policy and Planning Lab](https://github.com/byu-transpolab)  
+**Research Lab:** [BYU Transportation Lab](https://github.com/byu-transpolab)  
 
 ## Project Overview
 **ISLERS** researches whether and to what extent remote sensing data can be used to develop land use and socioeconomic data independent of traditional statistical agencies. The development of a method to synthesize such data would solve significant problems in regions without reliable statistical infrastructure and provide a high-frequency supplement to data in established areas.
