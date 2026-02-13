@@ -76,11 +76,16 @@ After calculating the area and perimeters of the individual footprint data, we r
 into distinct clusters.
 @fig-logan-clusters-map-plot shows the distribution of cluster types, with the majority of structures being small residential buildings.
 
-From each of these clusters, we obtained aerial images for a sample of 600 buildings in Logan using the Python package Contextily [@contextily_software], an open-source program that retrieves satellite images from the Bing aerial image library, using bounding boxes to obtain small areas of the image tiles. 
+From each of these clusters, we obtained aerial images for a sample of 600 buildings in Logan using the Python package Contextily [@contextily_software], an open-source program that retrieves satellite images from Esri's World Imagery tile service [@esri_world_imagery], using bounding boxes to obtain small areas of the image tiles. 
 Due to most of the building being in the smallest cluster, we oversampled 200 of the building from clusters that included only larger buildings. 
 
 ## Model Training
-![YOLO prediction example](images_figures/logan_val_batch1_pred.jpg){#fig-YOLO-example width=100%}
+::: {#fig-YOLO-example}
+![](images_figures/logan_val_batch1_pred.jpg){width=100%}
+
+YOLO prediction example.  
+Map data: Imagery © 2025 Esri and its licensors [@esri_world_imagery]
+:::
 
 
 Ultraylitics' "You Only Look Once" or YOLO model is an open-source object detection model that has become very popular within the research community due its accuracy and ease of use [@Jocher_Ultralytics_YOLO_2023].
@@ -189,7 +194,7 @@ We don't know why Saratoga Springs' residential buildings were so well identifie
 The model also struggled with simply recognizing buildings at all. 
 Each city had a significant number of buildings that were predicated as "background", meaning the model did not recognize them as buildings despite them being annotated. 
 When we checked the building images, none of them had any characteristics, such as large trees or shadows partially covering the roof, that the Logan images did not also have. 
-The quality of the images from Contextily are also likely not a factor, since they were the same across all the cities in Utah. 
+The quality of the  Esri's World Imagery tiles via Contextily are also likely not a factor, since they were the same across all the cities in Utah. 
 
 While we thought that the median income or house age could also play a significant factor in the model's ability to recognize different building types, the results of the validations did not support this. 
 The model preformed roughly the same in every city it was not trained on. 

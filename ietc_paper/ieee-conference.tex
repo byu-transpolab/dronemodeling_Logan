@@ -629,10 +629,11 @@ buildings.
 From each of these clusters, we obtained aerial images for a sample of
 600 buildings in Logan using the Python package Contextily
 \autocite{contextily_software}, an open-source program that retrieves
-satellite images from the Bing aerial image library, using bounding
-boxes to obtain small areas of the image tiles. Due to most of the
-building being in the smallest cluster, we oversampled 200 of the
-building from clusters that included only larger buildings.
+satellite images from Esri's World Imagery tile service
+\autocite{esri_world_imagery}, using bounding boxes to obtain small
+areas of the image tiles. Due to most of the building being in the
+smallest cluster, we oversampled 200 of the building from clusters that
+included only larger buildings.
 
 \subsection{Model Training}\label{model-training}
 
@@ -644,7 +645,9 @@ building from clusters that included only larger buildings.
 
 }
 
-\caption{\label{fig-YOLO-example}YOLO prediction example}
+\caption{\label{fig-YOLO-example}YOLO prediction example.\\
+Map data: Imagery © 2025 Esri and its licensors
+\autocite{esri_world_imagery}}
 
 \end{figure}%
 
@@ -899,8 +902,9 @@ city had a significant number of buildings that were predicated as
 despite them being annotated. When we checked the building images, none
 of them had any characteristics, such as large trees or shadows
 partially covering the roof, that the Logan images did not also have.
-The quality of the images from Contextily are also likely not a factor,
-since they were the same across all the cities in Utah.
+The quality of the Esri's World Imagery tiles via Contextily are also
+likely not a factor, since they were the same across all the cities in
+Utah.
 
 While we thought that the median income or house age could also play a
 significant factor in the model's ability to recognize different
