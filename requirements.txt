@@ -1,0 +1,21 @@
+# --- Machine Learning & Computer Vision ---
+ultralytics         # For YOLOv8/YOLOv11 model training and inference
+scikit-learn        # For Random Forest Classifier and data splitting
+joblib              # For saving/loading the trained Random Forest models
+scipy               # For nearest neighbor statistics and spatial calculations
+
+# --- Geospatial Data Processing ---
+geopandas           # For handling shapefiles and GeoJSON
+shapely             # For geometric operations (area, perimeter, sliver polygons)
+contextily          # For fetching basemaps and tiles
+#ee                  # Google Earth Engine API for high-res imagery
+#geemap              # Tools for interacting with Google Earth Engine
+
+# --- Data Handling & Image Processing ---
+pandas              # For tabular data manipulation (Census/LODES)
+numpy               # For numerical operations
+Pillow              # (PIL) For image masking and cropping to parcel boundaries
+matplotlib          # For visualizing model outputs and mapping
+
+# --- Utilities ---
+pathlib             # For modern path handling
