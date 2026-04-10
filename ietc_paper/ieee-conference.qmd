@@ -24,8 +24,7 @@ affiliation:
       email: gregmacfarlane@byu.edu, willicon@byu.edu, kaylentu@byu.edu
 
 abstract: |
-  Travel forecasting models rely heavily on land use data from government agencies, which can be inconsistent or unavailable in many regions. In this paper we investigate the viability of using aerial imagery and machine learning models as a first step to develop a method to obtain this statistical data separate from 
-  government statistical agencies. 
+  Travel forecasting models rely heavily on land use data from government agencies, which can be inconsistent or unavailable in many regions. In this paper we investigate the viability of using aerial imagery and machine learning models as a first step to develop a method to obtain this statistical data independently from government agencies. 
   Using Logan, Utah as a primary case study, we used the Microsoft Building Footprints dataset and aerial imagery to train a "You Only Look Once" (YOLO) model to classify building types, including residential, commercial, and apartment buildings. 
   We found that the model demonstrated high accuracy in identifying building types in the training city. 
   However, when validated against five other Utah cities selected for diversity of median income and housing ages, the model showed limited transferability, which suggests that differences between house architecture could necessitate local training. 
@@ -43,66 +42,63 @@ header-includes:
 # Introduction
 Travel forecasting models rely on land use data as a primary input. These data include the number of persons and households living in a given area, as well as other information relevant to travel behavior including the availability of motor vehicles, the income of the residents, and the presence of workers, students, and non-workers.
 In many contexts, these data are assembled from government statistical agencies; in the United States common sources include the US Census Bureau and the Bureau of Labor Statistics [@nchrp]. 
+In countries where data are available, these models are highly reliant on the consistent and public release of the data [@rohanna_census_2006]. 
+Previous studies have shown that these models suffer from a slight over-prediction bias in predicted traffic [@erhardt2020traffic].
 In countries where statistical agencies are not reliable, travel forecasting models struggle to be developed or have data gaps [@abueisheh_trip_2024]. 
-In countries where the data are available, these models are highly reliant on the consistent and public release of the data [@rohanna_census_2006].
+Standard practice has been to employ model transferability, where a model developed in one region is applied to another.
+This method works when the two regions have similar characteristics; however, is limited otherwise [@wilmot2001transferability; @bowman2017testing].
 
 Recent research has sought to find alternative methods to collect land use characteristics. 
-Satellite aerial imagery has been used to analyze the volume and density man-made structures and roads to estimate area populations, in both urban and rural settings [@allaw_population_2020; @fibaek_multi-sensor_2021]. 
-Day time imagery has also been used to track vehicle movement between major cities as an indication of economic activity [@lehnert_proxying_2023]. 
+Satellite aerial imagery has been used to analyze the volume and density of man-made structures and roads to estimate area populations, in both urban and rural settings [@allaw_population_2020; @fibaek_multi-sensor_2021]. 
+Daytime imagery has also been used to track vehicle movement between major cities as an indication of economic activity [@lehnert_proxying_2023]. 
 Such imagery has also been used to classify land use by estimating landscape patterns and building functions, identifying different surfaces, and then categorizing building types [@zhang_landscape_2020]. 
-Night time light data has also been shown to be useful as well. 
-One study correlated city light output with social economic variables such as population, GDP and eclectic power consumption [@kamarajugedda_assessing_2017], while another used the light emitted from cars at night on highways to predict vehicle travel between cities [@chang_novel_2020]. 
-Satellite imagery has also been used to produce data sets such as the Microsoft Building Footprints data set, which has been used along with LiDAR and point of interest data to inventory residential structures from census data [@microsoft_globalmlbuildingfootprints_2026;@ye_enhancing_2024]. 
-Unfortunately, processes and methods reliant on satellite data are also susceptible to the availability of said data, which like statistical data may not be available across the world or could have its public access revoked. 
+Nighttime light data has also been shown to be useful as well. 
+One study correlated city light output with socioeconomic variables such as population, GDP, and electric power consumption [@kamarajugedda_assessing_2017], while another used the light emitted from cars at night on highways to predict vehicle travel between cities [@chang_novel_2020]. 
+Satellite imagery has also been used to produce datasets such as the Microsoft Building Footprints dataset, which has been used along with LiDAR and point of interest data to inventory residential structures from census data [@microsoft_globalmlbuildingfootprints_2026;@ye_enhancing_2024]. 
+Unfortunately, processes and methods reliant on satellite data are also susceptible to the availability of said data, which, like statistical data, may not be available across the world or could have its public access revoked. 
 
-More recent advances in machine learning have led to more applications of remote sensing data, including tracking vehicle movement between cities [@lehnert_proxying_2023], or predicting population characterizes and locations of man-made structures across entire countries [@fibaek_multi-sensor_2021]. 
+More recent advances in machine learning have led to more applications of remote sensing data, including tracking vehicle movement between cities [@lehnert_proxying_2023], or predicting population characteristics and locations of man-made structures across entire countries [@fibaek_multi-sensor_2021]. 
 Models such as Ultralytics' "You Only Look Once" (YOLO) model [@Jocher_Ultralytics_YOLO_2023] are being used to identify buildings and extract building footprints [@nurkarim_building_2023; @sharma_building_2023], a particularly useful application for travel forecasting model inputs. 
-It is expected that as travel forcast and other data sets continue to grow larger the use of machine learning models for analysis will become more and more relevant and practical.
+It is expected that as travel forecast and other datasets continue to grow larger the use of machine learning models for analysis will become increasingly relevant and practical.
 
-Within the context of this background and research the question arises as to whether and to what extent remote sensing data can be used to develop land use independent from statistical agencies.
+Within the context of this background and research, the question arises as to whether and to what extent remote sensing data can be used to develop land use independently of statistical agencies.
 The development of a process or method that could synthesize such data would solve many problems in places without reliable statistical data as well as supplement data in other places. 
 
-In this paper we present initial efforts to determine building type from building footprint data and aerial images of buildings. We do this by training a deep learning model on labeled data from Logan, Utah. 
+In this paper, we present initial efforts to determine building type from building footprint data and aerial images of buildings. We do this by training a deep learning model on labeled data from Logan, Utah. 
 We then apply this model to other cities in Utah to assess its viability in predicting building categories outside of the training data. The paper closes by discussing limitations and associated future research.
 
 # Methodology
 ## Data Collection
 ![K-mean analysis for Logan, Utah](images_figures/building_footprints_logan.png){#fig-logan-clusters-map-plot width=100%}
 
-We chose the city of Logan, Utah for the initial analysis due to it being a smaller city and having a variety of building ages and types. 
-Using the latitude and longitude of the official city boundaries, all of the building footprints in the city were extracted from the Microsoft Building Footprint dataset. 
+We chose the city of Logan, Utah, for the initial analysis due to it being a smaller city and having a variety of building ages and types. 
+Using the latitude and longitude of the official city boundaries, all of the building footprints in the city were extracted from the Microsoft Building Footprints dataset. 
 We chose to use this dataset because it allowed for easy access to building footprint data for this initial study. 
 After calculating the area and perimeters of the individual footprint data, we ran a K-mean analysis to categorize differently sized buildings
 into distinct clusters.
 @fig-logan-clusters-map-plot shows the distribution of cluster types, with the majority of structures being small residential buildings.
 
-From each of these clusters, we obtained aerial images for a sample of 600 buildings in Logan using the Python package Contextily [@contextily_software], an open-source program that retrieves satellite images from Esri's World Imagery tile service [@esri_world_imagery], using bounding boxes to obtain small areas of the image tiles. 
-Due to most of the building being in the smallest cluster, we oversampled 200 of the building from clusters that included only larger buildings. 
+From each of these clusters, we obtained aerial images for a sample of 600 buildings in Logan using the Python package Contextily [@contextily_software], an open-source program that retrieves satellite images from the Bing aerial image library, using bounding boxes to obtain small areas of the image tiles. 
+Because the majority of the buildings were in the smallest cluster, we oversampled 200 buildings from clusters that included only larger buildings. 
 
 ## Model Training
-::: {#fig-YOLO-example}
-![](images_figures/logan_val_batch1_pred.jpg){width=100%}
-
-YOLO prediction example.  
-Map data: Imagery © 2025 Esri and its licensors [@esri_world_imagery]
-:::
+![YOLO prediction output example](images_figures/logan_val_batch1_pred.jpg){#fig-YOLO-example width=100%}
 
 
-Ultraylitics' "You Only Look Once" or YOLO model is an open-source object detection model that has become very popular within the research community due its accuracy and ease of use [@Jocher_Ultralytics_YOLO_2023].
-The model is trained on images that have been manually annotated with bounding boxes, to identify specific categories desired for the model to detect. 
-In preperation for training the YOLO model, we annotated the collected satellite images using the Python package Label Studio [@Label_Studio].
+Ultralytics' "You Only Look Once", or YOLO model, is an open-source object detection model that has become very popular within the research community due to its accuracy and ease of use [@Jocher_Ultralytics_YOLO_2023].
+The model is trained on images that have been manually annotated with bounding boxes to identify specific categories desired for the model to detect. 
+In preparation for training the YOLO model, we annotated the collected satellite images using the Python package Label Studio [@Label_Studio].
 Label Studio is an open-source tool that makes it easy to manually label images for use in machine learning.
-Student researchers manually labeled the images, categorizing the buildings into five categorizes: Apartment, Residential, Commercial, Church, and School.
-A random sample of 80% of the images were selected for model training, with the other 20% of the images reserved for model validation. 
-Within these image sets clusters that included larger and less common building sizes were specifically included, due to their relatively lower likelihood of appearing, to make sure the model would be trained on these less common building types. 
-Despite this, building types such as schools and church buildings were still underrepresented and only appeared a hand full of times, due to their relatively low number even within larger buildings. 
+Student researchers manually labeled the images, sorting the buildings into five categories: Apartment, Residential, Commercial, Church, and School.
+A random sample of 80% of the images was selected for model training, with the other 20% of the images reserved for model validation. 
+Within these image sets, clusters that included larger and less common building sizes were specifically included, due to their relatively lower likelihood of appearing, to make sure the model would be trained on these less common building types. 
+Despite this, building types such as schools and church buildings were still underrepresented and appeared only a few times, due to their relatively low number even within larger buildings. 
 
-The YOLO model trains itself on the training images over hundreds of iterations,
-called epochs, until it can consistently recognize the different categories in
-the pictures. 
-The YOLO model then validates itself the holdout sample of annotated images not included in the training set to ensure the accuracy of training. 
+The YOLO model is trained on the training images over hundreds of iterations,
+until it can consistently recognize the different categories in the pictures. 
+The YOLO model then validates itself on the holdout sample of annotated images not included in the training set to ensure the accuracy of training. 
 After the validation, the model is then able to predict categories in nonannotated images by bounding them in bounding boxes and displaying the probability of correct identification. 
-@fig-YOLO-example shows an example of a YOLO model prediction output for a sample of buildings in the data set.
+@fig-YOLO-example shows an example of a YOLO model prediction output for a sample of buildings in the dataset.
 The results of the validation can be seen in @fig-confusion-matrix-logan.
 
 ## Model Validation and Comparison
@@ -127,7 +123,7 @@ New Houses & Saratoga Springs    & St. George, Utah         & (None)         \\
 \end{table*}
 :::
 
-Following the same method as described above, we collected and clusted building footprint data for each city, 
+Following the same method as described above, we collected and clustered building footprint data for each city, 
 randomly selecting and labeling 200 satellite images of buildings across building clusters.
 These annotated images were then run through the model using the validation modules only.
 
@@ -141,26 +137,26 @@ These annotated images were then run through the model using the validation modu
 
 ![Normalized confusion matrix](../runs/detect/other_utah/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
 
-YOLO confusion matrixes for Logan, Utah.
+YOLO confusion matrices for Logan, Utah.
 :::
 
 The results of the Logan trained YOLO model are shown in @fig-confusion-matrix-logan.
 The desired output of the model is to have all the numbers in a diagonal line, indicating perfect prediction of the building's category in line with the annotated labels.
-The confusion matrix shows that model was able to accurately predict residential, commercial, and apartment building types almost 100% of the time. 
-However, it did underperform with schools and churches. 
+The confusion matrix shows that the model accurately predicted residential buildings 99% of the time, and all commercial and apartment buildings.
+However, it did underperform with churches (67%) due to the low number of buildings to train on. 
 
 An important aspect of the model to discuss is when it predicts different building types where there is no building. 
 This is seen on the far right of each graph, where "background" is given as the true value, but the model gave predictions from every category. 
 This error comes from two sources. 
-The first is due to the annotations we made. 
-Auxiliary building such as backyard sheds were not consistently identified and annotated, but the model still recognized them as buildings and categorized them. 
-There were also times that only a small portion of a building was present in an image, and we believed it to be too little of the building for the model to pick up, and so we did not annotate it.
+The first is due to how we made the annotations in the training of the model. 
+Auxiliary buildings, such as backyard sheds, were not consistently identified and annotated, but the model still recognized them as buildings and categorized them. 
+There were also times when only a small portion of a building was present in an image, and we believed it to be too little of the building for the model to pick up, and so we did not annotate it.
 However, the model in some cases still recognized and categorized the building at a probability level, while in other cases it did not recognize partial buildings at all. 
 
 The other source of error was from the quality of the photos used. The satellite images from Contextily were convenient and easy to access but were often low quality. 
 This resulted in the model sometimes interpreting objects of solid colors, such as roads and covered parking structures, as a type of building. 
 Between these errors, the second one could be solved using higher quality photos to help the model better distinguish between these surfaces. 
-The first error could be improved by implementing better guidelines on the annotation process to ensure consistency between data sets. 
+The first error could be improved by implementing better guidelines on the annotation process to ensure consistency between datasets. 
 However, in practice, the first error may be less relevant if only the primary building in each image matters to be identified.
 
 
@@ -178,72 +174,74 @@ However, in practice, the first error may be less relevant if only the primary b
 
 ![Price, Utah](../runs/detect/other_utah/price_validation/confusion_matrix_normalized.png){#fig-logan_cm width=100%}
 
-![Logan Utah](../runs/detect/other_utah/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
+![Logan, Utah](../runs/detect/other_utah/logan_validation/confusion_matrix_normalized.png){#fig-logan_cm_n width=100%}
 
-Normalized YOLO confusion matrixes
+Normalized YOLO confusion matrices
 :::
 
 
 When the Logan model was applied to other cities in Utah, it produced mixed results, as seen in @fig-confusion-matrix-val-cities. 
 In every city the model struggled to correctly distinguish between the different building types. 
-Most of the building images we annotated for these cities was residential housing. yet the model misidentified residential buildings at least half of the time in most cities.
-Commercial buildings displayed worse results, and practically all apartments, schools, and churches, were incorrectly identified. 
-While it seemed to do better in Saratoga Springs with residential buildings, its accuracy with other building types is still far to low to be useful. 
-We don't know why Saratoga Springs' residential buildings were so well identified, with the city sharing little with Logan in respect to median income, house age, and location. 
+Most of the building images we annotated for these cities were residential housing; however, the model categorized residential buildings incorrectly 50% of the time, if not more.
+Commercial and apartment buildings displayed worse results on average, with correct identification of 19% to 60%  and 0% to 50%,  respectively.
+Church and school buildings, if they appeared in the datasets, were misidentified 100% of the time. 
+While it seemed to do better in Saratoga Springs with residential buildings, its accuracy with other building types is still far too low to be useful. 
+It remains unclear why Saratoga Springs' residential buildings were so well identified, with the city sharing little with Logan in respect to median income, house age, and location. 
 
 The model also struggled with simply recognizing buildings at all. 
-Each city had a significant number of buildings that were predicated as "background", meaning the model did not recognize them as buildings despite them being annotated. 
+Each city had a significant number of buildings that were predicted as "background", meaning the model did not recognize them as buildings despite them being annotated. 
 When we checked the building images, none of them had any characteristics, such as large trees or shadows partially covering the roof, that the Logan images did not also have. 
-The quality of the  Esri's World Imagery tiles via Contextily are also likely not a factor, since they were the same across all the cities in Utah. 
+The quality of the images from Contextily are also likely not a factor, since they were the same across all the cities in Utah. 
 
 While we thought that the median income or house age could also play a significant factor in the model's ability to recognize different building types, the results of the validations did not support this. 
-The model preformed roughly the same in every city it was not trained on. 
-Neither house age or house median income seemed to make a difference in the model's ability to classify.
-Further research is needed to identify what factors caused the model to preform so poorly on these cities. 
+The model performed roughly the same in every city it was not trained on. 
+Neither house age nor median income made a difference in the model's ability to classify.
+Further research is needed to identify what factors caused the model to perform so poorly on these cities. 
 
-Given the results of the validations, we would conclude that a developing a process for model creation would be more useful and viable then to create a universal model to be used in a region. 
-It appears that building styles and types are unique enough between cities that a single unified model, at least one mostly dependent on identifying budling roofs, is not feasible. 
+Given the results of the validations, we would conclude that developing a process for model creation would be more useful and viable than creating a universal model to be used in a region. 
+It appears that building styles and types are unique enough between cities that a single unified model, at least one mostly dependent on identifying building roofs, is not feasible. 
 However, as we discuss more in the future research section, adding other environmental variables to the classification, such as the presence of sidewalks, swing sets, etc. could allow for a more general model to be developed. 
 
 # Conclusion and Future Research
-In this paper we presented the results of using a machine learning model to classify building types from aerial imagery. 
-We used building footprints in Logan, Utah to collect building images and annotated them to train a YOLO model. 
-That model was then tested on predicating building categories from other cities in Utah in which it was not trained on. 
+In this paper, we presented the results of using a machine learning model to classify building types from aerial imagery. 
+We used building footprints in Logan, Utah, to collect building images and annotated them to train a YOLO model. 
+That model was then tested on predicting building categories from other cities in Utah, in which it was not trained. 
 We found that the model did well in identifying buildings in the city it was trained in but performed poorly when it tried to predict buildings in other cities in Utah. 
 
 To make the model more accurate in categorizing building types, there are several different directions future research could take. 
 One approach would be to improve the current model's performance. 
 This could be achieved using higher quality aerial imagery that we obtain from using drones.
-The rise of commercially available and affordable aerial drone has improved the ability for individuals and small organizations to capture high-quality aerial imagery, with impacts felt across many fields [@colomina_unmanned_2014; @watts_unmanned_2012].
-Drone acquired imagery could allow the model to distinguish houses on a much finer level, which could help with the model's transferability. 
+The rise of commercially available and affordable aerial drones has improved the ability for individuals and small organizations to capture high-quality aerial imagery, with impacts felt across many fields [@colomina_unmanned_2014; @watts_unmanned_2012].
+Drone-acquired imagery could allow the model to distinguish houses on a much finer level, which could help with the model's transferability. 
 Another primary advantage of aerial drones vis-à-vis satellite imagery is the ability to capture images from multiple angles, which can be used to create a more complete picture of a given area [@berrettLargeScaleRealityModeling2021].
 Part of this more complete picture could be extracting better building footprint data. 
-While the the Microsoft Building footprint data set is expansive, but not exhaustive. 
+While the Microsoft Building Footprints dataset is expansive, it is not exhaustive. 
 It is several years old and lacks footprints for recent developments.
 It also features many notable errors in building footprint identification, such as combining buildings together or creating obviously incorrect footprints. 
-Creating our own process to extract footprints over a small area could improve the accuracy of our footprints and help not just in finding building but also in training other models. 
+Creating our own process to extract footprints over a small area could improve the accuracy of our footprints and help not just in finding buildings but also in training other models. 
 
 Another direction future research could take would be to create a general model that would not only categorize a building but also be able to predict socioeconomic data for the building's household. 
 This model would incorporate many variables, with the YOLO model's output being only one of them.
-Other variables could include the presence of objects that suggest socioeconomic status, such as cars, swing sets, and foliage around a house.
+Other variables could include the presence of objects that suggest socioeconomic status, such as vehicles, swing sets, and foliage around a house.
 These variables would come from other YOLO models trained specifically to identify these objects. 
 Other inputs for the model could come from other types of remote sensing data.
 Data such as thermal radiation, nighttime light data, or vegetation index data could be used to predict statistics like income calculated from the household's heat use, light use, or amount of vegetation on a property.
 This data, from heat use to the presence of cars, could also give insights on the number of people living within a household, or whether children are present. 
+There are potential ethical problems with this data collection, with drone-collected imagery challenging the boundary between public and private information [@hall_use_2021].
+More research is needed to address these potential privacy concerns  
 
-The analysis of the classification of building near each other is another variable that could be useful in a general model. 
-Similar building types are often build next to each other.
+The analysis of the classification of buildings near each other is another variable that could be useful in a general model. 
+Similar building types are often built next to each other.
 Thus, a building’s classification could be influenced by the predicted classification of the building around it. 
 This would help in situations where a building may look residential, but is surrounded by warehouses, meaning it is likely some type of commercial support building. 
-Variables based off nearby building could, however, run into issues in areas where mixed use housing is common, or where residential and commercial building are more intertwined. 
+Variables based on nearby buildings could, however, run into issues in areas where mixed-use housing is common, or where residential and commercial buildings are more intertwined. 
 
-Currently, this research is susceptible to many of the same problems as transportation models. 
+Currently, this research is susceptible to many of the same limitations as transportation models. 
 Satellite and aerial imagery are not consistent around the world, having varying availability and image quality. 
 This imagery may also be outdated, especially in fast developing areas. 
-The use of commercial drones could solve these problems, but they also have problems of their own.
+The use of commercial drones could solve these problems, but they also have challenges of their own.
 Collecting a whole city's worth of imagery would take time to plan logistics and photograph. 
 The flights would also be dependent on the weather, as well as local and national regulations that could present challenges. 
-There are also potential ethical problems with this data collection, with drone collected imagery straddling the line between public and private information [@hall_use_2021].
 Splitting neighborhoods into subsections for data collecting and analysis could help mitigate these issues, though further research into laws and regulations would need to be conducted. 
 
 \balance
