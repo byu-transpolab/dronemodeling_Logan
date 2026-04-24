@@ -1,0 +1,1010 @@
+%% template.tex
+%% from
+%% bare_conf.tex
+%% V1.4b
+%% 2015/08/26
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8b or later) with an IEEE
+%% conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/pkg/ieeetran
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE!
+%% User assumes all risk.
+%% In no event shall the IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%*************************************************************************
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. The IEEE's font choices and paper sizes can   ***
+% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+\documentclass[conference,]{IEEEtran}
+% Some Computer Society conferences also require the compsoc mode option,
+% but others use the standard conference format.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/pkg/ifpdf
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of the IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/pkg/cite
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at:
+% http://www.ctan.org/pkg/graphicx
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+\usepackage{graphicx}
+
+% *** MATH PACKAGES ***
+%
+%\usepackage{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics.
+%
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/amsmath
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/pkg/algorithms
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/pkg/algorithmicx
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/array
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a larger sans serif font
+% than the serif footnote size font used in traditional IEEE formatting
+% and thus the need to invoke different subfig.sty package options depending
+% on whether compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/pkg/subfig
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure.
+% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
+% corrections already built into the system in which case a warning will
+% be issued if an attempt is made to load fixltx2e.sty as it is no longer
+% needed.
+% The latest version and documentation can be found at:
+% http://www.ctan.org/pkg/fixltx2e
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/pkg/dblfloatfix
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/url
+% Basically, \url{my_url_here}.
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+
+%% BEGIN MY ADDITIONS %%
+
+\usepackage[citestyle=ieee,,]{biblatex}
+\addbibresource{bibliography.bib}
+
+\usepackage[unicode=true]{hyperref}
+
+\hypersetup{
+            pdftitle={Building Classification Using a YOLO Object Detection Model Trained on Aerial Imagery},
+            pdfkeywords={aerial imagery, AI, land use data, machine
+learning, transportation},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+
+% Pandoc toggle for numbering sections (defaults to be off)
+\setcounter{secnumdepth}{5}
+
+
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% From pandoc table feature
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+
+% Add imagehandling
+
+
+
+\newcommand{\pandocbounded}[1]{#1}
+\usepackage{balance}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+%% END MY ADDITIONS %%
+
+
+\hyphenation{}
+
+\begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{Building Classification Using a YOLO Object Detection Model
+Trained on Aerial Imagery}
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+
+\author{
+
+%% ---- classic IEEETrans wide authors' list ----------------
+\IEEEauthorblockN{
+%% 
+Connor Williams\IEEEauthorrefmark{1},
+Gregory Macfarlane\IEEEauthorrefmark{1},
+Kaylen Turley\IEEEauthorrefmark{1}
+%%
+}
+
+\IEEEauthorblockA{\IEEEauthorrefmark{1}
+Department of Civil and Construction Engineering\\
+Brigham Young University,
+Provo, Utah 84604
+\\ gregmacfarlane@byu.edu, willicon@byu.edu, kaylentu@byu.edu
+}
+
+%% ----------------------------------------------------------
+
+%% ---- classic IEEETrans one column per institution --------
+ %%
+%% ----------------------------------------------------------
+
+
+
+
+
+%% ---- one column per author, classic/default IEEETrans ----
+
+%% ----------------------------------------------------------
+
+}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+%
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3},
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+Travel forecasting models rely heavily on land use data from government
+agencies, which can be inconsistent or unavailable in many regions. In
+this paper we investigate the viability of using aerial imagery and
+machine learning models as a first step to develop a method to obtain
+this statistical data separate from government statistical agencies.
+Using Logan, Utah as a primary case study, we used the Microsoft
+Building Footprints dataset and aerial imagery to train a ``You Only
+Look Once'' (YOLO) model to classify building types, including
+residential, commercial, and apartment buildings. We found that the
+model demonstrated high accuracy in identifying building types in the
+training city. However, when validated against five other Utah cities
+selected for diversity of median income and housing ages, the model
+showed limited transferability, which suggests that differences between
+house architecture could necessitate local training. We analyzed these
+performance discrepancies and discuss future potential research such as
+integrating additional environmental indicators and using
+high-resolution drone imagery to create more robust models for
+estimating household statistics and land use data.
+\end{abstract}
+
+% keywords
+\begin{IEEEkeywords}
+aerial imagery; AI; land use data; machine learning; transportation
+\end{IEEEkeywords}
+
+% use for special paper notices
+
+
+
+% make the title area
+\maketitle
+
+% no keywords
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+\section{Introduction}\label{introduction}
+
+Travel forecasting models rely on land use data as a primary input.
+These data include the number of persons and households living in a
+given area, as well as other information relevant to travel behavior
+including the availability of motor vehicles, the income of the
+residents, and the presence of workers, students, and non-workers. In
+many contexts, these data are assembled from government statistical
+agencies; in the United States common sources include the US Census
+Bureau and the Bureau of Labor Statistics \autocite{nchrp}. In countries
+where statistical agencies are not reliable, travel forecasting models
+struggle to be developed or have data gaps
+\autocite{abueisheh_trip_2024}. In countries where the data are
+available, these models are highly reliant on the consistent and public
+release of the data \autocite{rohanna_census_2006}.
+
+Recent research has sought to find alternative methods to collect land
+use characteristics. Satellite aerial imagery has been used to analyze
+the volume and density man-made structures and roads to estimate area
+populations, in both urban and rural settings
+\autocite{allaw_population_2020,fibaek_multi-sensor_2021}. Day time
+imagery has also been used to track vehicle movement between major
+cities as an indication of economic activity
+\autocite{lehnert_proxying_2023}. Such imagery has also been used to
+classify land use by estimating landscape patterns and building
+functions, identifying different surfaces, and then categorizing
+building types \autocite{zhang_landscape_2020}. Night time light data
+has also been shown to be useful as well. One study correlated city
+light output with social economic variables such as population, GDP and
+eclectic power consumption \autocite{kamarajugedda_assessing_2017},
+while another used the light emitted from cars at night on highways to
+predict vehicle travel between cities \autocite{chang_novel_2020}.
+Satellite imagery has also been used to produce data sets such as the
+Microsoft Building Footprints data set, which has been used along with
+LiDAR and point of interest data to inventory residential structures
+from census data
+\autocite{microsoft_globalmlbuildingfootprints_2026,ye_enhancing_2024}.
+Unfortunately, processes and methods reliant on satellite data are also
+susceptible to the availability of said data, which like statistical
+data may not be available across the world or could have its public
+access revoked.
+
+More recent advances in machine learning have led to more applications
+of remote sensing data, including tracking vehicle movement between
+cities \autocite{lehnert_proxying_2023}, or predicting population
+characterizes and locations of man-made structures across entire
+countries \autocite{fibaek_multi-sensor_2021}. Models such as
+Ultralytics' ``You Only Look Once'' (YOLO) model
+\autocite{Jocher_Ultralytics_YOLO_2023} are being used to identify
+buildings and extract building footprints
+\autocite{nurkarim_building_2023,sharma_building_2023}, a particularly
+useful application for travel forecasting model inputs. It is expected
+that as travel forcast and other data sets continue to grow larger the
+use of machine learning models for analysis will become more and more
+relevant and practical.
+
+Within the context of this background and research the question arises
+as to whether and to what extent remote sensing data can be used to
+develop land use independent from statistical agencies. The development
+of a process or method that could synthesize such data would solve many
+problems in places without reliable statistical data as well as
+supplement data in other places.
+
+In this paper we present initial efforts to determine building type from
+building footprint data and aerial images of buildings. We do this by
+training a deep learning model on labeled data from Logan, Utah. We then
+apply this model to other cities in Utah to assess its viability in
+predicting building categories outside of the training data. The paper
+closes by discussing limitations and associated future research.
+
+\section{Methodology}\label{methodology}
+
+\subsection{Data Collection}\label{data-collection}
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images_figures/building_footprints_logan.png}
+
+}
+
+\caption{\label{fig-logan-clusters-map-plot}K-mean analysis for Logan,
+Utah}
+
+\end{figure}%
+
+We chose the city of Logan, Utah for the initial analysis due to it
+being a smaller city and having a variety of building ages and types.
+Using the latitude and longitude of the official city boundaries, all of
+the building footprints in the city were extracted from the Microsoft
+Building Footprint dataset. We chose to use this dataset because it
+allowed for easy access to building footprint data for this initial
+study. After calculating the area and perimeters of the individual
+footprint data, we ran a K-mean analysis to categorize differently sized
+buildings into distinct clusters.
+Figure~\ref{fig-logan-clusters-map-plot} shows the distribution of
+cluster types, with the majority of structures being small residential
+buildings.
+
+From each of these clusters, we obtained aerial images for a sample of
+600 buildings in Logan using the Python package Contextily
+\autocite{contextily_software}, an open-source program that retrieves
+satellite images from Esri's World Imagery tile service
+\autocite{esri_world_imagery}, using bounding boxes to obtain small
+areas of the image tiles. Due to most of the building being in the
+smallest cluster, we oversampled 200 of the building from clusters that
+included only larger buildings.
+
+\subsection{Model Training}\label{model-training}
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images_figures/logan_val_batch1_pred.jpg}
+
+}
+
+\caption{\label{fig-YOLO-example}YOLO prediction example.\\
+Map data: Imagery © 2025 Esri and its licensors
+\autocite{esri_world_imagery}}
+
+\end{figure}%
+
+Ultraylitics' ``You Only Look Once'' or YOLO model is an open-source
+object detection model that has become very popular within the research
+community due its accuracy and ease of use
+\autocite{Jocher_Ultralytics_YOLO_2023}. The model is trained on images
+that have been manually annotated with bounding boxes, to identify
+specific categories desired for the model to detect. In preperation for
+training the YOLO model, we annotated the collected satellite images
+using the Python package Label Studio \autocite{Label_Studio}. Label
+Studio is an open-source tool that makes it easy to manually label
+images for use in machine learning. Student researchers manually labeled
+the images, categorizing the buildings into five categorizes: Apartment,
+Residential, Commercial, Church, and School. A random sample of 80\% of
+the images were selected for model training, with the other 20\% of the
+images reserved for model validation. Within these image sets clusters
+that included larger and less common building sizes were specifically
+included, due to their relatively lower likelihood of appearing, to make
+sure the model would be trained on these less common building types.
+Despite this, building types such as schools and church buildings were
+still underrepresented and only appeared a hand full of times, due to
+their relatively low number even within larger buildings.
+
+The YOLO model trains itself on the training images over hundreds of
+iterations, called epochs, until it can consistently recognize the
+different categories in the pictures. The YOLO model then validates
+itself the holdout sample of annotated images not included in the
+training set to ensure the accuracy of training. After the validation,
+the model is then able to predict categories in nonannotated images by
+bounding them in bounding boxes and displaying the probability of
+correct identification. Figure~\ref{fig-YOLO-example} shows an example
+of a YOLO model prediction output for a sample of buildings in the data
+set. The results of the validation can be seen in
+Figure~\ref{fig-confusion-matrix-logan}.
+
+\subsection{Model Validation and
+Comparison}\label{model-validation-and-comparison}
+
+After this training, we tested the model's predictive capabilities on
+other cities in Utah to assess the model's viability in predicting
+building categories outside of the training sample. We chose five test
+cities based on similarities and dissimilarities in median income and
+age of housing stock as recorded American Community Survey data, shown
+in Table~\ref{tbl-val-cities}. We theorized that these factors would
+have a significant impact on the architecture of the house and therefore
+the YOLO model's ability to recognize and categorize them.
+
+\begin{table}
+
+\caption{\label{tbl-val-cities}}
+
+\centering{
+
+\subcaption{\label{tbl-val-cities}Chosen Cities by Median Income and House Age}
+
+\centering{
+
+\centering
+
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lccccc}
+\hline
+House Age & High Income & Middle Income & Low Income  \\
+\hline
+Old Houses   & Bountiful, Utah    & Ogden, Utah        & Price, Utah         \\
+New Houses & Saratoga Springs    & St. George, Utah         & (None)         \\
+\hline
+\end{tabular}
+
+}
+
+}
+
+\end{table}%
+
+Following the same method as described above, we collected and clusted
+building footprint data for each city, randomly selecting and labeling
+200 satellite images of buildings across building clusters. These
+annotated images were then run through the model using the validation
+modules only.
+
+\section{Results and Discussion}\label{results-and-discussion}
+
+\subsection{Results From Logan, Utah}\label{results-from-logan-utah}
+
+\begin{figure*}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/other_utah/logan_validation/confusion_matrix.png}
+
+}
+
+\subcaption{\label{fig-logan_cm}Confusion matrix}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/other_utah/logan_validation/confusion_matrix_normalized.png}
+
+}
+
+\subcaption{\label{fig-logan_cm_n}Normalized confusion matrix}
+
+\end{minipage}%
+
+\caption{\label{fig-confusion-matrix-logan}YOLO confusion matrixes for
+Logan, Utah.}
+
+\end{figure*}%
+
+The results of the Logan trained YOLO model are shown in
+Figure~\ref{fig-confusion-matrix-logan}. The desired output of the model
+is to have all the numbers in a diagonal line, indicating perfect
+prediction of the building's category in line with the annotated labels.
+The confusion matrix shows that model was able to accurately predict
+residential, commercial, and apartment building types almost 100\% of
+the time. However, it did underperform with schools and churches.
+
+An important aspect of the model to discuss is when it predicts
+different building types where there is no building. This is seen on the
+far right of each graph, where ``background'' is given as the true
+value, but the model gave predictions from every category. This error
+comes from two sources. The first is due to the annotations we made.
+Auxiliary building such as backyard sheds were not consistently
+identified and annotated, but the model still recognized them as
+buildings and categorized them. There were also times that only a small
+portion of a building was present in an image, and we believed it to be
+too little of the building for the model to pick up, and so we did not
+annotate it. However, the model in some cases still recognized and
+categorized the building at a probability level, while in other cases it
+did not recognize partial buildings at all.
+
+The other source of error was from the quality of the photos used. The
+satellite images from Contextily were convenient and easy to access but
+were often low quality. This resulted in the model sometimes
+interpreting objects of solid colors, such as roads and covered parking
+structures, as a type of building. Between these errors, the second one
+could be solved using higher quality photos to help the model better
+distinguish between these surfaces. The first error could be improved by
+implementing better guidelines on the annotation process to ensure
+consistency between data sets. However, in practice, the first error may
+be less relevant if only the primary building in each image matters to
+be identified.
+
+\subsection{Results From Other Utah
+Cities}\label{results-from-other-utah-cities}
+
+\begin{figure*}
+
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/other_utah/bountiful_validation/confusion_matrix_normalized.png}
+
+}
+
+\subcaption{\label{fig-logan_cm}Bountiful, Utah}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/other_utah/saratoga_springs_validation/confusion_matrix_normalized.png}
+
+}
+
+\subcaption{\label{fig-logan_cm_n}Saratoga Springs, Utah}
+
+\end{minipage}%
+\newline
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/other_utah/ogden_validation/confusion_matrix_normalized.png}
+
+}
+
+\subcaption{\label{fig-logan_cm}Ogden, Utah}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/other_utah/st_george_validation/confusion_matrix_normalized.png}
+
+}
+
+\subcaption{\label{fig-logan_cm_n}St.~George, Utah}
+
+\end{minipage}%
+\newline
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/other_utah/price_validation/confusion_matrix_normalized.png}
+
+}
+
+\subcaption{\label{fig-logan_cm}Price, Utah}
+
+\end{minipage}%
+%
+\begin{minipage}{0.50\linewidth}
+
+\centering{
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../runs/detect/other_utah/logan_validation/confusion_matrix_normalized.png}
+
+}
+
+\subcaption{\label{fig-logan_cm_n}Logan Utah}
+
+\end{minipage}%
+
+\caption{\label{fig-confusion-matrix-val-cities}Normalized YOLO
+confusion matrixes}
+
+\end{figure*}%
+
+When the Logan model was applied to other cities in Utah, it produced
+mixed results, as seen in Figure~\ref{fig-confusion-matrix-val-cities}.
+In every city the model struggled to correctly distinguish between the
+different building types. Most of the building images we annotated for
+these cities was residential housing. yet the model misidentified
+residential buildings at least half of the time in most cities.
+Commercial buildings displayed worse results, and practically all
+apartments, schools, and churches, were incorrectly identified. While it
+seemed to do better in Saratoga Springs with residential buildings, its
+accuracy with other building types is still far to low to be useful. We
+don't know why Saratoga Springs' residential buildings were so well
+identified, with the city sharing little with Logan in respect to median
+income, house age, and location.
+
+The model also struggled with simply recognizing buildings at all. Each
+city had a significant number of buildings that were predicated as
+``background'', meaning the model did not recognize them as buildings
+despite them being annotated. When we checked the building images, none
+of them had any characteristics, such as large trees or shadows
+partially covering the roof, that the Logan images did not also have.
+The quality of the Esri's World Imagery tiles via Contextily are also
+likely not a factor, since they were the same across all the cities in
+Utah.
+
+While we thought that the median income or house age could also play a
+significant factor in the model's ability to recognize different
+building types, the results of the validations did not support this. The
+model preformed roughly the same in every city it was not trained on.
+Neither house age or house median income seemed to make a difference in
+the model's ability to classify. Further research is needed to identify
+what factors caused the model to preform so poorly on these cities.
+
+Given the results of the validations, we would conclude that a
+developing a process for model creation would be more useful and viable
+then to create a universal model to be used in a region. It appears that
+building styles and types are unique enough between cities that a single
+unified model, at least one mostly dependent on identifying budling
+roofs, is not feasible. However, as we discuss more in the future
+research section, adding other environmental variables to the
+classification, such as the presence of sidewalks, swing sets, etc.
+could allow for a more general model to be developed.
+
+\section{Conclusion and Future
+Research}\label{conclusion-and-future-research}
+
+In this paper we presented the results of using a machine learning model
+to classify building types from aerial imagery. We used building
+footprints in Logan, Utah to collect building images and annotated them
+to train a YOLO model. That model was then tested on predicating
+building categories from other cities in Utah in which it was not
+trained on. We found that the model did well in identifying buildings in
+the city it was trained in but performed poorly when it tried to predict
+buildings in other cities in Utah.
+
+To make the model more accurate in categorizing building types, there
+are several different directions future research could take. One
+approach would be to improve the current model's performance. This could
+be achieved using higher quality aerial imagery that we obtain from
+using drones. The rise of commercially available and affordable aerial
+drone has improved the ability for individuals and small organizations
+to capture high-quality aerial imagery, with impacts felt across many
+fields \autocite{colomina_unmanned_2014,watts_unmanned_2012}. Drone
+acquired imagery could allow the model to distinguish houses on a much
+finer level, which could help with the model's transferability. Another
+primary advantage of aerial drones vis-à-vis satellite imagery is the
+ability to capture images from multiple angles, which can be used to
+create a more complete picture of a given area
+\autocite{berrettLargeScaleRealityModeling2021}. Part of this more
+complete picture could be extracting better building footprint data.
+While the the Microsoft Building footprint data set is expansive, but
+not exhaustive. It is several years old and lacks footprints for recent
+developments. It also features many notable errors in building footprint
+identification, such as combining buildings together or creating
+obviously incorrect footprints. Creating our own process to extract
+footprints over a small area could improve the accuracy of our
+footprints and help not just in finding building but also in training
+other models.
+
+Another direction future research could take would be to create a
+general model that would not only categorize a building but also be able
+to predict socioeconomic data for the building's household. This model
+would incorporate many variables, with the YOLO model's output being
+only one of them. Other variables could include the presence of objects
+that suggest socioeconomic status, such as cars, swing sets, and foliage
+around a house. These variables would come from other YOLO models
+trained specifically to identify these objects. Other inputs for the
+model could come from other types of remote sensing data. Data such as
+thermal radiation, nighttime light data, or vegetation index data could
+be used to predict statistics like income calculated from the
+household's heat use, light use, or amount of vegetation on a property.
+This data, from heat use to the presence of cars, could also give
+insights on the number of people living within a household, or whether
+children are present.
+
+The analysis of the classification of building near each other is
+another variable that could be useful in a general model. Similar
+building types are often build next to each other. Thus, a building's
+classification could be influenced by the predicted classification of
+the building around it. This would help in situations where a building
+may look residential, but is surrounded by warehouses, meaning it is
+likely some type of commercial support building. Variables based off
+nearby building could, however, run into issues in areas where mixed use
+housing is common, or where residential and commercial building are more
+intertwined.
+
+Currently, this research is susceptible to many of the same problems as
+transportation models. Satellite and aerial imagery are not consistent
+around the world, having varying availability and image quality. This
+imagery may also be outdated, especially in fast developing areas. The
+use of commercial drones could solve these problems, but they also have
+problems of their own. Collecting a whole city's worth of imagery would
+take time to plan logistics and photograph. The flights would also be
+dependent on the weather, as well as local and national regulations that
+could present challenges. There are also potential ethical problems with
+this data collection, with drone collected imagery straddling the line
+between public and private information \autocite{hall_use_2021}.
+Splitting neighborhoods into subsections for data collecting and
+analysis could help mitigate these issues, though further research into
+laws and regulations would need to be conducted.
+
+\balance
+
+\printbibliography[title=References]
+
+\end{document}
+
