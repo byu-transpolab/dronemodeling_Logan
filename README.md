@@ -7,7 +7,7 @@ This project researches whether and to what extent remote sensing data can be us
 
 Currently, the project utilizes a **YOLO (You Only Look Once)** object detection framework trained to identify and categorize building footprints within urban environments.
 
-This code was used to write the associated paper, and was used as launching off point for this project [point_cloud_maker](https://github.com/cojow/flight_planner).
+This code was used to write the associated paper, and was used as launching off point for this project [point_cloud_maker](https://github.com/cojow/point_cloud_maker).
 
 ---
 
