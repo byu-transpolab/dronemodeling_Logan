@@ -1,4 +1,4 @@
-# --- Machine Learning & Computer Vision ---
+# --- Machine Learning ---
 ultralytics         # For YOLOv8/YOLOv11 model training and inference
 scikit-learn        # For Random Forest Classifier and data splitting
 joblib              # For saving/loading the trained Random Forest models
@@ -8,7 +8,7 @@ scipy               # For nearest neighbor statistics and spatial calculations
 geopandas           # For handling shapefiles and GeoJSON
 shapely             # For geometric operations (area, perimeter, sliver polygons)
 contextily          # For fetching basemaps and tiles
-#ee                  # Google Earth Engine API for high-res imagery
+#ee                  # Google Earth Engine API 
 #geemap              # Tools for interacting with Google Earth Engine
 
 # --- Data Handling & Image Processing ---

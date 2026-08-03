@@ -1,11 +1,13 @@
-# ISLERS: Independent Socioeconomic Land Evaluation from Remote Sensing data
+# Building Classification Using a YOLO Object Detection Model Trained on Aerial Imagery
 
 **Research Lab:** [BYU Transportation Lab](https://github.com/byu-transpolab)  
 
 ## Project Overview
-**ISLERS** researches whether and to what extent remote sensing data can be used to develop land use and socioeconomic data independent of traditional statistical agencies. The development of a method to synthesize such data would solve significant problems in regions without reliable statistical infrastructure and provide a high-frequency supplement to data in established areas.
+This project researches whether and to what extent remote sensing data can be used to develop land use and socioeconomic data independent of traditional statistical agencies. The development of a method to synthesize such data would solve significant problems in regions without reliable statistical infrastructure and provide a high-frequency supplement to data in established areas.
 
 Currently, the project utilizes a **YOLO (You Only Look Once)** object detection framework trained to identify and categorize building footprints within urban environments.
+
+This code was used to write the associated paper, and was used as launching off point for this project [point_cloud_maker](https://github.com/cojow/flight_planner).
 
 ---
 
